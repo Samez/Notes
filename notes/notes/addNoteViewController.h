@@ -18,6 +18,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UITextView *textField;
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *privateSwitcher;
+
+
 @property(nonatomic, assign) id <NoteAddDelegate> delegate;
 
 - (void)save;

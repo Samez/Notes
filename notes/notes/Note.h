@@ -16,4 +16,6 @@
 @property (nonatomic, retain) NSString * text;
 @property (nonatomic, retain) NSNumber * isPrivate;
 
+-(void)setPrivate:(BOOL)priv;
+
 @end

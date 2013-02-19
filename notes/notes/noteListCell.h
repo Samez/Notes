@@ -12,7 +12,9 @@
 @interface noteListCell : UITableViewCell
 
 @property (nonatomic, retain) Note *note;
-@property (weak, nonatomic) IBOutlet UILabel *textField;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *img;
+
+-(void)setN:(Note*)newNote;
 
 @end

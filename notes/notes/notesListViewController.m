@@ -7,6 +7,7 @@
 //
 
 #import "notesListViewController.h"
+#import "detailViewController.h"
 
 @interface notesListViewController ()
 
@@ -21,7 +22,7 @@
 {
     [self setTitle:@"Notes list"];
     [self.tableView setRowHeight:44];
-    //self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     
     UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
@@ -37,14 +38,10 @@
 }
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
-{
-    /*
-    eventDetailViewController *detailViewController = [[eventDetailViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    detailViewController.event = event;
-    [detailViewController setManagedObjectContext:self.managedObjectContext];
-    [self.navigationController pushViewController:detailViewController animated:animated];
-     */
-    
+{    
+    detailViewController *nextController = [[detailViewController alloc] init];
+    [nextController setNote:note];
+    [self.navigationController pushViewController:nextController animated:YES];
 }
 
 
@@ -61,16 +58,13 @@
 -(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-    [cell setNote:note];
+    [cell setN:note];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-	Event *event = (Event *)[fetchedResultsController objectAtIndexPath:indexPath];
-    
-    [self showEvent:event animated:YES];
-     */
+    Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
+    [self showNote:note animated:YES];
 }
 
 -(void)NoteAddViewController:(addNoteViewController *)addNoteViewController didAddNote:(Note *)note
@@ -152,11 +146,15 @@
     
     if (MYcell == nil)
     {
+        //MYcell = [[noteListCell alloc] init];
+        
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"noteListCell" owner:self options:nil];
         MYcell = [topLevelObjects objectAtIndex:0];
+         
     }
     
     [self configureCell:MYcell atIndexPath:indexPath];
+    MYcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return MYcell;
 }

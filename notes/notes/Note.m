@@ -15,4 +15,11 @@
 @dynamic text;
 @dynamic isPrivate;
 
+-(void)setPrivate:(BOOL)priv
+{
+    if (priv)
+        self.isPrivate = [NSNumber numberWithInt:1];
+    else self.isPrivate = [NSNumber numberWithInt:0];
+}
+
 @end

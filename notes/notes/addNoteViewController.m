@@ -14,7 +14,7 @@
 
 @implementation addNoteViewController
 
-@synthesize nameField,textField;
+@synthesize nameField,textField, privateSwitcher;
 @synthesize note;
 
 - (void)viewDidLoad
@@ -45,6 +45,12 @@
     note.name = nameField.text;
     
     note.text = textField.text;
+    
+    if(privateSwitcher.selectedSegmentIndex == 1)
+    {
+        [note setPrivate:YES];
+    } else
+        [note setPrivate:NO];
     
 	NSError *error = nil;
 	if (![note.managedObjectContext save:&error]) {
@@ -78,4 +84,10 @@
     [self.delegate NoteAddViewController:self didAddNote:nil];
 }
 
+- (void)viewDidUnload {
+
+
+    [self setPrivateSwitcher:nil];
+    [super viewDidUnload];
+}
 @end

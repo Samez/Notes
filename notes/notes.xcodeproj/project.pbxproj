@@ -29,6 +29,10 @@
 		044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BF16D3B60B004CDE0A /* noteListCell.m */; };
 		044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C116D3B620004CDE0A /* noteListCell.xib */; };
 		044DE1C516D3C03F004CDE0A /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C416D3C03F004CDE0A /* lock.png */; };
+		04CF121816D3CEA5009D89E3 /* detailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CF121716D3CEA5009D89E3 /* detailViewController.m */; };
+		04CF121E16D3D881009D89E3 /* detail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04CF121D16D3D881009D89E3 /* detail.xib */; };
+		04CF122116D3E059009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF121F16D3E059009D89E3 /* gear.png */; };
+		04CF122216D3E059009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122016D3E059009D89E3 /* list.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +69,11 @@
 		044DE1BF16D3B60B004CDE0A /* noteListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = noteListCell.m; sourceTree = "<group>"; };
 		044DE1C116D3B620004CDE0A /* noteListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = noteListCell.xib; sourceTree = "<group>"; };
 		044DE1C416D3C03F004CDE0A /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = ../../Pics/lock.png; sourceTree = "<group>"; };
+		04CF121616D3CEA5009D89E3 /* detailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detailViewController.h; sourceTree = "<group>"; };
+		04CF121716D3CEA5009D89E3 /* detailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = detailViewController.m; sourceTree = "<group>"; };
+		04CF121D16D3D881009D89E3 /* detail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = detail.xib; sourceTree = "<group>"; };
+		04CF121F16D3E059009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		04CF122016D3E059009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +158,9 @@
 				044DE1A316D3AE75004CDE0A /* addNoteViewController.h */,
 				044DE1A416D3AE75004CDE0A /* addNoteViewController.m */,
 				044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */,
+				04CF121616D3CEA5009D89E3 /* detailViewController.h */,
+				04CF121716D3CEA5009D89E3 /* detailViewController.m */,
+				04CF121D16D3D881009D89E3 /* detail.xib */,
 			);
 			name = "Notes list";
 			sourceTree = "<group>";
@@ -197,6 +209,8 @@
 			isa = PBXGroup;
 			children = (
 				044DE1C416D3C03F004CDE0A /* lock.png */,
+				04CF121F16D3E059009D89E3 /* gear.png */,
+				04CF122016D3E059009D89E3 /* list.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -260,6 +274,9 @@
 				044DE1B816D3B237004CDE0A /* Window.xib in Resources */,
 				044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */,
 				044DE1C516D3C03F004CDE0A /* lock.png in Resources */,
+				04CF121E16D3D881009D89E3 /* detail.xib in Resources */,
+				04CF122116D3E059009D89E3 /* gear.png in Resources */,
+				04CF122216D3E059009D89E3 /* list.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +297,7 @@
 				044DE1B616D3B221004CDE0A /* Note.m in Sources */,
 				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
 				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
+				04CF121816D3CEA5009D89E3 /* detailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

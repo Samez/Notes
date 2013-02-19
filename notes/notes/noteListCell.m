@@ -11,15 +11,22 @@
 @implementation noteListCell
 
 @synthesize note;
-@synthesize textField;
-@synthesize imageView;
+@synthesize img;
+
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+            [self addSubview:img];
     }
+    return self;
+}
+
+-(id) init
+{
+    [self addSubview:img];
     return self;
 }
 
@@ -30,22 +37,21 @@
     // Configure the view for the selected state
 }
 
--(void) setNote:(Note *)newNote
+-(void)setN:(Note *)newNote
 {
-    if(newNote!=note)
+    note = newNote;
+
+    if (note.isPrivate == [NSNumber numberWithInt:1])
     {
-        note = newNote;
+        img.image=[UIImage imageNamed:@"lock.png"];
+        [self addSubview:img];
     }
     
-    textField.text = note.name;
-
-    if (note.isPrivate)
-    {
-        UIImage *image = nil;
-        image=[UIImage imageNamed:@"lock.png"];
-        
-        self.imageView.image = image;
-    }
+    //img.image=image;
+    
+    self.textLabel.text = note.name;
+    
 }
+
 
 @end
