@@ -7,14 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "notesListViewController.h"
+#import "OptionsViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+@property (weak, nonatomic) IBOutlet UITabBarController *tabBarController;
+
+@property (weak, nonatomic) IBOutlet notesListViewController *notesListController;
+
+@property (weak, nonatomic) IBOutlet OptionsViewController *optionsController;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

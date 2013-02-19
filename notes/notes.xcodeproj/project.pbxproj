@@ -18,6 +18,17 @@
 		0434EB1F16D3A18000BD9C2B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB1E16D3A18000BD9C2B /* Default@2x.png */; };
 		0434EB2116D3A18000BD9C2B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */; };
 		0434EB2416D3A18000BD9C2B /* notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0434EB2216D3A18000BD9C2B /* notes.xcdatamodeld */; };
+		044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE19F16D3AE54004CDE0A /* notesListViewController.m */; };
+		044DE1A616D3AE75004CDE0A /* addNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1A416D3AE75004CDE0A /* addNoteViewController.m */; };
+		044DE1A716D3AE75004CDE0A /* addNoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */; };
+		044DE1AF16D3B045004CDE0A /* passwordSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1AE16D3B045004CDE0A /* passwordSingleton.m */; };
+		044DE1B316D3B221004CDE0A /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1B216D3B221004CDE0A /* Tag.m */; };
+		044DE1B616D3B221004CDE0A /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1B516D3B221004CDE0A /* Note.m */; };
+		044DE1B816D3B237004CDE0A /* Window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1B716D3B237004CDE0A /* Window.xib */; };
+		044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */; };
+		044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BF16D3B60B004CDE0A /* noteListCell.m */; };
+		044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C116D3B620004CDE0A /* noteListCell.xib */; };
+		044DE1C516D3C03F004CDE0A /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C416D3C03F004CDE0A /* lock.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +47,24 @@
 		0434EB1E16D3A18000BD9C2B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		0434EB2316D3A18000BD9C2B /* notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = notes.xcdatamodel; sourceTree = "<group>"; };
+		044DE19E16D3AE54004CDE0A /* notesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = notesListViewController.h; sourceTree = "<group>"; };
+		044DE19F16D3AE54004CDE0A /* notesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = notesListViewController.m; sourceTree = "<group>"; };
+		044DE1A316D3AE75004CDE0A /* addNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addNoteViewController.h; sourceTree = "<group>"; };
+		044DE1A416D3AE75004CDE0A /* addNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addNoteViewController.m; sourceTree = "<group>"; };
+		044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = addNoteViewController.xib; sourceTree = "<group>"; };
+		044DE1AD16D3B045004CDE0A /* passwordSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordSingleton.h; sourceTree = "<group>"; };
+		044DE1AE16D3B045004CDE0A /* passwordSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordSingleton.m; sourceTree = "<group>"; };
+		044DE1B116D3B221004CDE0A /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
+		044DE1B216D3B221004CDE0A /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
+		044DE1B416D3B221004CDE0A /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		044DE1B516D3B221004CDE0A /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		044DE1B716D3B237004CDE0A /* Window.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Window.xib; sourceTree = "<group>"; };
+		044DE1BA16D3B4C7004CDE0A /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsViewController.h; sourceTree = "<group>"; };
+		044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsViewController.m; sourceTree = "<group>"; };
+		044DE1BE16D3B60B004CDE0A /* noteListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = noteListCell.h; sourceTree = "<group>"; };
+		044DE1BF16D3B60B004CDE0A /* noteListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = noteListCell.m; sourceTree = "<group>"; };
+		044DE1C116D3B620004CDE0A /* noteListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = noteListCell.xib; sourceTree = "<group>"; };
+		044DE1C416D3C03F004CDE0A /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = ../../Pics/lock.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +115,13 @@
 			children = (
 				0434EB1916D3A18000BD9C2B /* AppDelegate.h */,
 				0434EB1A16D3A18000BD9C2B /* AppDelegate.m */,
-				0434EB2216D3A18000BD9C2B /* notes.xcdatamodeld */,
+				044DE1B716D3B237004CDE0A /* Window.xib */,
+				044DE19C16D3AE3A004CDE0A /* Notes list */,
+				044DE1B916D3B493004CDE0A /* Options */,
+				044DE1B016D3B1C8004CDE0A /* Model */,
+				044DE1BD16D3B53D004CDE0A /* Cells */,
+				044DE1AC16D3B01E004CDE0A /* Password */,
+				044DE1C316D3C02E004CDE0A /* Icons */,
 				0434EB1116D3A18000BD9C2B /* Supporting Files */,
 			);
 			path = notes;
@@ -104,6 +139,66 @@
 				0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		044DE19C16D3AE3A004CDE0A /* Notes list */ = {
+			isa = PBXGroup;
+			children = (
+				044DE19E16D3AE54004CDE0A /* notesListViewController.h */,
+				044DE19F16D3AE54004CDE0A /* notesListViewController.m */,
+				044DE1A316D3AE75004CDE0A /* addNoteViewController.h */,
+				044DE1A416D3AE75004CDE0A /* addNoteViewController.m */,
+				044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */,
+			);
+			name = "Notes list";
+			sourceTree = "<group>";
+		};
+		044DE1AC16D3B01E004CDE0A /* Password */ = {
+			isa = PBXGroup;
+			children = (
+				044DE1AD16D3B045004CDE0A /* passwordSingleton.h */,
+				044DE1AE16D3B045004CDE0A /* passwordSingleton.m */,
+			);
+			name = Password;
+			sourceTree = "<group>";
+		};
+		044DE1B016D3B1C8004CDE0A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0434EB2216D3A18000BD9C2B /* notes.xcdatamodeld */,
+				044DE1B416D3B221004CDE0A /* Note.h */,
+				044DE1B516D3B221004CDE0A /* Note.m */,
+				044DE1B116D3B221004CDE0A /* Tag.h */,
+				044DE1B216D3B221004CDE0A /* Tag.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		044DE1B916D3B493004CDE0A /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				044DE1BA16D3B4C7004CDE0A /* OptionsViewController.h */,
+				044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */,
+			);
+			name = Options;
+			sourceTree = "<group>";
+		};
+		044DE1BD16D3B53D004CDE0A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				044DE1BE16D3B60B004CDE0A /* noteListCell.h */,
+				044DE1BF16D3B60B004CDE0A /* noteListCell.m */,
+				044DE1C116D3B620004CDE0A /* noteListCell.xib */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		044DE1C316D3C02E004CDE0A /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				044DE1C416D3C03F004CDE0A /* lock.png */,
+			);
+			name = Icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +256,10 @@
 				0434EB1D16D3A18000BD9C2B /* Default.png in Resources */,
 				0434EB1F16D3A18000BD9C2B /* Default@2x.png in Resources */,
 				0434EB2116D3A18000BD9C2B /* Default-568h@2x.png in Resources */,
+				044DE1A716D3AE75004CDE0A /* addNoteViewController.xib in Resources */,
+				044DE1B816D3B237004CDE0A /* Window.xib in Resources */,
+				044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */,
+				044DE1C516D3C03F004CDE0A /* lock.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,6 +273,13 @@
 				0434EB1716D3A18000BD9C2B /* main.m in Sources */,
 				0434EB1B16D3A18000BD9C2B /* AppDelegate.m in Sources */,
 				0434EB2416D3A18000BD9C2B /* notes.xcdatamodeld in Sources */,
+				044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */,
+				044DE1A616D3AE75004CDE0A /* addNoteViewController.m in Sources */,
+				044DE1AF16D3B045004CDE0A /* passwordSingleton.m in Sources */,
+				044DE1B316D3B221004CDE0A /* Tag.m in Sources */,
+				044DE1B616D3B221004CDE0A /* Note.m in Sources */,
+				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
+				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +319,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -234,7 +340,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -282,6 +388,7 @@
 				0434EB2916D3A18000BD9C2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
