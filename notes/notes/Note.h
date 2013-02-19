@@ -14,7 +14,9 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * text;
+@property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSNumber * isPrivate;
+@property (nonatomic, retain) NSManagedObject *tags;
 
 -(void)setPrivate:(BOOL)priv;
 

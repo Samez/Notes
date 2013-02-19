@@ -74,7 +74,7 @@
         return _managedObjectModel;
     }
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"notes" ofType:@"momd"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Model1" ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
     
@@ -88,7 +88,7 @@
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"notes.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Model1.sqlite"];
     
     NSError *error = nil;
     

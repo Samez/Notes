@@ -13,12 +13,16 @@
 
 @dynamic name;
 @dynamic text;
+@dynamic date;
 @dynamic isPrivate;
+@dynamic tags;
 
 -(void)setPrivate:(BOOL)priv
 {
     if (priv)
+    {
         self.isPrivate = [NSNumber numberWithInt:1];
+    }
     else self.isPrivate = [NSNumber numberWithInt:0];
 }
 

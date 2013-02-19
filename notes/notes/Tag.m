@@ -7,10 +7,12 @@
 //
 
 #import "Tag.h"
+#import "Note.h"
 
 
 @implementation Tag
 
 @dynamic name;
+@dynamic note;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "addNoteViewController.h"
+#import "Note.h"
 
 @interface addNoteViewController ()
 

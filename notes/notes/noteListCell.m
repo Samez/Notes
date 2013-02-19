@@ -13,22 +13,15 @@
 @synthesize note;
 @synthesize img;
 
-
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-            [self addSubview:img];
+
     }
     return self;
 }
 
--(id) init
-{
-    [self addSubview:img];
-    return self;
-}
  
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -37,28 +30,15 @@
     // Configure the view for the selected state
 }
 
--(void)setEditing:(BOOL)editing
-{
-    if(editing)
-    {
-        
-    } else
-    {
-        
-    }
-}
-
 -(void)setN:(Note *)newNote
 {
     note = newNote;
-
+    
     if (note.isPrivate == [NSNumber numberWithInt:1])
     {
         img.image=[UIImage imageNamed:@"lock.png"];
         [self addSubview:img];
     }
-    
-    //img.image=image;
     
     self.textLabel.text = note.name;
     

@@ -17,22 +17,22 @@
 		0434EB1D16D3A18000BD9C2B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB1C16D3A18000BD9C2B /* Default.png */; };
 		0434EB1F16D3A18000BD9C2B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB1E16D3A18000BD9C2B /* Default@2x.png */; };
 		0434EB2116D3A18000BD9C2B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */; };
-		0434EB2416D3A18000BD9C2B /* notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0434EB2216D3A18000BD9C2B /* notes.xcdatamodeld */; };
 		044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE19F16D3AE54004CDE0A /* notesListViewController.m */; };
 		044DE1A616D3AE75004CDE0A /* addNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1A416D3AE75004CDE0A /* addNoteViewController.m */; };
 		044DE1A716D3AE75004CDE0A /* addNoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */; };
 		044DE1AF16D3B045004CDE0A /* passwordSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1AE16D3B045004CDE0A /* passwordSingleton.m */; };
-		044DE1B316D3B221004CDE0A /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1B216D3B221004CDE0A /* Tag.m */; };
-		044DE1B616D3B221004CDE0A /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1B516D3B221004CDE0A /* Note.m */; };
 		044DE1B816D3B237004CDE0A /* Window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1B716D3B237004CDE0A /* Window.xib */; };
 		044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */; };
 		044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BF16D3B60B004CDE0A /* noteListCell.m */; };
 		044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C116D3B620004CDE0A /* noteListCell.xib */; };
-		044DE1C516D3C03F004CDE0A /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C416D3C03F004CDE0A /* lock.png */; };
 		04CF121816D3CEA5009D89E3 /* detailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CF121716D3CEA5009D89E3 /* detailViewController.m */; };
 		04CF121E16D3D881009D89E3 /* detail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04CF121D16D3D881009D89E3 /* detail.xib */; };
-		04CF122116D3E059009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF121F16D3E059009D89E3 /* gear.png */; };
-		04CF122216D3E059009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122016D3E059009D89E3 /* list.png */; };
+		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
+		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
+		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
+		04CF123916D404C8009D89E3 /* Model1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model1.xcdatamodeld */; };
+		04CF123C16D40547009D89E3 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123B16D40547009D89E3 /* Note.m */; };
+		04CF123F16D4054E009D89E3 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123E16D4054E009D89E3 /* Tag.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,7 +50,6 @@
 		0434EB1C16D3A18000BD9C2B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		0434EB1E16D3A18000BD9C2B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		0434EB2316D3A18000BD9C2B /* notes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = notes.xcdatamodel; sourceTree = "<group>"; };
 		044DE19E16D3AE54004CDE0A /* notesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = notesListViewController.h; sourceTree = "<group>"; };
 		044DE19F16D3AE54004CDE0A /* notesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = notesListViewController.m; sourceTree = "<group>"; };
 		044DE1A316D3AE75004CDE0A /* addNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addNoteViewController.h; sourceTree = "<group>"; };
@@ -58,22 +57,23 @@
 		044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = addNoteViewController.xib; sourceTree = "<group>"; };
 		044DE1AD16D3B045004CDE0A /* passwordSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordSingleton.h; sourceTree = "<group>"; };
 		044DE1AE16D3B045004CDE0A /* passwordSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordSingleton.m; sourceTree = "<group>"; };
-		044DE1B116D3B221004CDE0A /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
-		044DE1B216D3B221004CDE0A /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
-		044DE1B416D3B221004CDE0A /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
-		044DE1B516D3B221004CDE0A /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		044DE1B716D3B237004CDE0A /* Window.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Window.xib; sourceTree = "<group>"; };
 		044DE1BA16D3B4C7004CDE0A /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsViewController.h; sourceTree = "<group>"; };
 		044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsViewController.m; sourceTree = "<group>"; };
 		044DE1BE16D3B60B004CDE0A /* noteListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = noteListCell.h; sourceTree = "<group>"; };
 		044DE1BF16D3B60B004CDE0A /* noteListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = noteListCell.m; sourceTree = "<group>"; };
 		044DE1C116D3B620004CDE0A /* noteListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = noteListCell.xib; sourceTree = "<group>"; };
-		044DE1C416D3C03F004CDE0A /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = ../../Pics/lock.png; sourceTree = "<group>"; };
 		04CF121616D3CEA5009D89E3 /* detailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detailViewController.h; sourceTree = "<group>"; };
 		04CF121716D3CEA5009D89E3 /* detailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = detailViewController.m; sourceTree = "<group>"; };
 		04CF121D16D3D881009D89E3 /* detail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = detail.xib; sourceTree = "<group>"; };
-		04CF121F16D3E059009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
-		04CF122016D3E059009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
+		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
+		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
+		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
+		04CF123816D404C8009D89E3 /* Model1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model1.xcdatamodel; sourceTree = "<group>"; };
+		04CF123A16D40547009D89E3 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		04CF123B16D40547009D89E3 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		04CF123D16D4054E009D89E3 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
+		04CF123E16D4054E009D89E3 /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,11 +177,11 @@
 		044DE1B016D3B1C8004CDE0A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0434EB2216D3A18000BD9C2B /* notes.xcdatamodeld */,
-				044DE1B416D3B221004CDE0A /* Note.h */,
-				044DE1B516D3B221004CDE0A /* Note.m */,
-				044DE1B116D3B221004CDE0A /* Tag.h */,
-				044DE1B216D3B221004CDE0A /* Tag.m */,
+				04CF123716D404C8009D89E3 /* Model1.xcdatamodeld */,
+				04CF123A16D40547009D89E3 /* Note.h */,
+				04CF123B16D40547009D89E3 /* Note.m */,
+				04CF123D16D4054E009D89E3 /* Tag.h */,
+				04CF123E16D4054E009D89E3 /* Tag.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -208,9 +208,9 @@
 		044DE1C316D3C02E004CDE0A /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				044DE1C416D3C03F004CDE0A /* lock.png */,
-				04CF121F16D3E059009D89E3 /* gear.png */,
-				04CF122016D3E059009D89E3 /* list.png */,
+				04CF122516D4004B009D89E3 /* lock.png */,
+				04CF122616D4004B009D89E3 /* list.png */,
+				04CF122716D4004B009D89E3 /* gear.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -273,10 +273,10 @@
 				044DE1A716D3AE75004CDE0A /* addNoteViewController.xib in Resources */,
 				044DE1B816D3B237004CDE0A /* Window.xib in Resources */,
 				044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */,
-				044DE1C516D3C03F004CDE0A /* lock.png in Resources */,
 				04CF121E16D3D881009D89E3 /* detail.xib in Resources */,
-				04CF122116D3E059009D89E3 /* gear.png in Resources */,
-				04CF122216D3E059009D89E3 /* list.png in Resources */,
+				04CF122816D4004B009D89E3 /* lock.png in Resources */,
+				04CF122916D4004B009D89E3 /* list.png in Resources */,
+				04CF122A16D4004B009D89E3 /* gear.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,15 +289,15 @@
 			files = (
 				0434EB1716D3A18000BD9C2B /* main.m in Sources */,
 				0434EB1B16D3A18000BD9C2B /* AppDelegate.m in Sources */,
-				0434EB2416D3A18000BD9C2B /* notes.xcdatamodeld in Sources */,
 				044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */,
 				044DE1A616D3AE75004CDE0A /* addNoteViewController.m in Sources */,
 				044DE1AF16D3B045004CDE0A /* passwordSingleton.m in Sources */,
-				044DE1B316D3B221004CDE0A /* Tag.m in Sources */,
-				044DE1B616D3B221004CDE0A /* Note.m in Sources */,
 				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
 				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
 				04CF121816D3CEA5009D89E3 /* detailViewController.m in Sources */,
+				04CF123916D404C8009D89E3 /* Model1.xcdatamodeld in Sources */,
+				04CF123C16D40547009D89E3 /* Note.m in Sources */,
+				04CF123F16D4054E009D89E3 /* Tag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +371,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "notes/notes-Prefix.pch";
 				INFOPLIST_FILE = "notes/notes-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -382,6 +383,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "notes/notes-Prefix.pch";
 				INFOPLIST_FILE = "notes/notes-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -411,13 +413,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0434EB2216D3A18000BD9C2B /* notes.xcdatamodeld */ = {
+		04CF123716D404C8009D89E3 /* Model1.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0434EB2316D3A18000BD9C2B /* notes.xcdatamodel */,
+				04CF123816D404C8009D89E3 /* Model1.xcdatamodel */,
 			);
-			currentVersion = 0434EB2316D3A18000BD9C2B /* notes.xcdatamodel */;
-			path = notes.xcdatamodeld;
+			currentVersion = 04CF123816D404C8009D89E3 /* Model1.xcdatamodel */;
+			path = Model1.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
