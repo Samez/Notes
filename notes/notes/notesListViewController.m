@@ -8,6 +8,7 @@
 
 #import "notesListViewController.h"
 #import "detailViewController.h"
+#import "addNewNoteViewController.h"
 
 @interface notesListViewController ()
 
@@ -39,20 +40,9 @@
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
 {    
-    detailViewController *nextController = [[detailViewController alloc] init];
-    [nextController setNote:note];
-    [self.navigationController pushViewController:nextController animated:YES];
-}
-
-
-- (void)addNoteViewController:(addNoteViewController *)addNoteViewController didAddNote:(Note *)note
-{
-    if (note)
-    {
-        [self showNote:note animated:YES];
-    }
-    
-    [self dismissModalViewControllerAnimated:YES];
+    //detailViewController *nextController = [[detailViewController alloc] init];
+    //[nextController setNote:note];
+    //[self.navigationController pushViewController:nextController animated:YES];
 }
 
 -(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -67,7 +57,7 @@
     [self showNote:note animated:YES];
 }
 
--(void)NoteAddViewController:(addNoteViewController *)addNoteViewController didAddNote:(Note *)note
+-(void)NoteAddViewController:(addNewNoteViewController *)addNoteViewController didAddNote:(Note *)note
 {
     if (note)
     {
@@ -75,6 +65,7 @@
     }
     
     [self dismissModalViewControllerAnimated:YES];
+    
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -96,7 +87,8 @@
 
 - (void)add:(id)sender
 {
-    addNoteViewController *addController = [[addNoteViewController alloc] init];
+    //addNoteViewController *addController = [[addNoteViewController alloc] init];
+    addNewNoteViewController *addController = [[addNewNoteViewController alloc] init];
     addController.delegate = self;
     
 	Note *newNote = [NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];

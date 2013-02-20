@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Note.h"
 #import "noteListCell.h"
-#import "addNoteViewController.h"
+
+#import "addNewNoteViewController.h"
 
 @interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, NoteAddDelegate>
 {

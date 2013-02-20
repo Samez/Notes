@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041A7D7616D492B400F91496 /* enterNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D7516D492B400F91496 /* enterNameCell.m */; };
+		041A7D7816D492C900F91496 /* enterNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D7716D492C900F91496 /* enterNameCell.xib */; };
+		041A7D7D16D4945B00F91496 /* enterTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D7C16D4945B00F91496 /* enterTextCell.xib */; };
+		041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D7F16D4946F00F91496 /* enterTextCell.m */; };
+		041A7D8416D496A700F91496 /* addNewNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D8316D496A700F91496 /* addNewNoteViewController.m */; };
+		041A7D8716D496DF00F91496 /* privateSwitcherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D8616D496DF00F91496 /* privateSwitcherCell.m */; };
+		041A7D8B16D4974200F91496 /* privateSwitcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D8A16D4974200F91496 /* privateSwitcher.xib */; };
 		0434EB0916D3A18000BD9C2B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0816D3A18000BD9C2B /* UIKit.framework */; };
 		0434EB0B16D3A18000BD9C2B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0A16D3A18000BD9C2B /* Foundation.framework */; };
 		0434EB0D16D3A18000BD9C2B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0C16D3A18000BD9C2B /* CoreGraphics.framework */; };
@@ -18,15 +25,11 @@
 		0434EB1F16D3A18000BD9C2B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB1E16D3A18000BD9C2B /* Default@2x.png */; };
 		0434EB2116D3A18000BD9C2B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */; };
 		044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE19F16D3AE54004CDE0A /* notesListViewController.m */; };
-		044DE1A616D3AE75004CDE0A /* addNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1A416D3AE75004CDE0A /* addNoteViewController.m */; };
-		044DE1A716D3AE75004CDE0A /* addNoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */; };
 		044DE1AF16D3B045004CDE0A /* passwordSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1AE16D3B045004CDE0A /* passwordSingleton.m */; };
 		044DE1B816D3B237004CDE0A /* Window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1B716D3B237004CDE0A /* Window.xib */; };
 		044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */; };
 		044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BF16D3B60B004CDE0A /* noteListCell.m */; };
 		044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C116D3B620004CDE0A /* noteListCell.xib */; };
-		04CF121816D3CEA5009D89E3 /* detailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CF121716D3CEA5009D89E3 /* detailViewController.m */; };
-		04CF121E16D3D881009D89E3 /* detail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04CF121D16D3D881009D89E3 /* detail.xib */; };
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
 		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
@@ -36,6 +39,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		041A7D7416D492B400F91496 /* enterNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enterNameCell.h; sourceTree = "<group>"; };
+		041A7D7516D492B400F91496 /* enterNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = enterNameCell.m; sourceTree = "<group>"; };
+		041A7D7716D492C900F91496 /* enterNameCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = enterNameCell.xib; sourceTree = "<group>"; };
+		041A7D7C16D4945B00F91496 /* enterTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = enterTextCell.xib; sourceTree = "<group>"; };
+		041A7D7E16D4946F00F91496 /* enterTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enterTextCell.h; sourceTree = "<group>"; };
+		041A7D7F16D4946F00F91496 /* enterTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = enterTextCell.m; sourceTree = "<group>"; };
+		041A7D8216D496A700F91496 /* addNewNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addNewNoteViewController.h; sourceTree = "<group>"; };
+		041A7D8316D496A700F91496 /* addNewNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addNewNoteViewController.m; sourceTree = "<group>"; };
+		041A7D8516D496DF00F91496 /* privateSwitcherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = privateSwitcherCell.h; sourceTree = "<group>"; };
+		041A7D8616D496DF00F91496 /* privateSwitcherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = privateSwitcherCell.m; sourceTree = "<group>"; };
+		041A7D8A16D4974200F91496 /* privateSwitcher.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = privateSwitcher.xib; sourceTree = "<group>"; };
 		0434EB0416D3A18000BD9C2B /* notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0434EB0816D3A18000BD9C2B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0434EB0A16D3A18000BD9C2B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -52,9 +66,6 @@
 		0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		044DE19E16D3AE54004CDE0A /* notesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = notesListViewController.h; sourceTree = "<group>"; };
 		044DE19F16D3AE54004CDE0A /* notesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = notesListViewController.m; sourceTree = "<group>"; };
-		044DE1A316D3AE75004CDE0A /* addNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addNoteViewController.h; sourceTree = "<group>"; };
-		044DE1A416D3AE75004CDE0A /* addNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addNoteViewController.m; sourceTree = "<group>"; };
-		044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = addNoteViewController.xib; sourceTree = "<group>"; };
 		044DE1AD16D3B045004CDE0A /* passwordSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordSingleton.h; sourceTree = "<group>"; };
 		044DE1AE16D3B045004CDE0A /* passwordSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordSingleton.m; sourceTree = "<group>"; };
 		044DE1B716D3B237004CDE0A /* Window.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Window.xib; sourceTree = "<group>"; };
@@ -63,9 +74,6 @@
 		044DE1BE16D3B60B004CDE0A /* noteListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = noteListCell.h; sourceTree = "<group>"; };
 		044DE1BF16D3B60B004CDE0A /* noteListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = noteListCell.m; sourceTree = "<group>"; };
 		044DE1C116D3B620004CDE0A /* noteListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = noteListCell.xib; sourceTree = "<group>"; };
-		04CF121616D3CEA5009D89E3 /* detailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = detailViewController.h; sourceTree = "<group>"; };
-		04CF121716D3CEA5009D89E3 /* detailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = detailViewController.m; sourceTree = "<group>"; };
-		04CF121D16D3D881009D89E3 /* detail.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = detail.xib; sourceTree = "<group>"; };
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
@@ -91,6 +99,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041A7D7916D492CF00F91496 /* Enter name cell */ = {
+			isa = PBXGroup;
+			children = (
+				041A7D7416D492B400F91496 /* enterNameCell.h */,
+				041A7D7516D492B400F91496 /* enterNameCell.m */,
+				041A7D7716D492C900F91496 /* enterNameCell.xib */,
+			);
+			name = "Enter name cell";
+			sourceTree = "<group>";
+		};
+		041A7D7A16D492DF00F91496 /* Note list cell */ = {
+			isa = PBXGroup;
+			children = (
+				044DE1BE16D3B60B004CDE0A /* noteListCell.h */,
+				044DE1BF16D3B60B004CDE0A /* noteListCell.m */,
+				044DE1C116D3B620004CDE0A /* noteListCell.xib */,
+			);
+			name = "Note list cell";
+			sourceTree = "<group>";
+		};
+		041A7D7B16D4943F00F91496 /* Enter text of note cell */ = {
+			isa = PBXGroup;
+			children = (
+				041A7D7E16D4946F00F91496 /* enterTextCell.h */,
+				041A7D7F16D4946F00F91496 /* enterTextCell.m */,
+				041A7D7C16D4945B00F91496 /* enterTextCell.xib */,
+			);
+			name = "Enter text of note cell";
+			sourceTree = "<group>";
+		};
+		041A7D8116D495ED00F91496 /* Note add */ = {
+			isa = PBXGroup;
+			children = (
+				041A7D8216D496A700F91496 /* addNewNoteViewController.h */,
+				041A7D8316D496A700F91496 /* addNewNoteViewController.m */,
+			);
+			name = "Note add";
+			sourceTree = "<group>";
+		};
+		041A7D8916D4971500F91496 /* Private state switcher */ = {
+			isa = PBXGroup;
+			children = (
+				041A7D8516D496DF00F91496 /* privateSwitcherCell.h */,
+				041A7D8616D496DF00F91496 /* privateSwitcherCell.m */,
+				041A7D8A16D4974200F91496 /* privateSwitcher.xib */,
+			);
+			name = "Private state switcher";
+			sourceTree = "<group>";
+		};
 		0434EAF916D3A18000BD9C2B = {
 			isa = PBXGroup;
 			children = (
@@ -155,12 +212,7 @@
 			children = (
 				044DE19E16D3AE54004CDE0A /* notesListViewController.h */,
 				044DE19F16D3AE54004CDE0A /* notesListViewController.m */,
-				044DE1A316D3AE75004CDE0A /* addNoteViewController.h */,
-				044DE1A416D3AE75004CDE0A /* addNoteViewController.m */,
-				044DE1A516D3AE75004CDE0A /* addNoteViewController.xib */,
-				04CF121616D3CEA5009D89E3 /* detailViewController.h */,
-				04CF121716D3CEA5009D89E3 /* detailViewController.m */,
-				04CF121D16D3D881009D89E3 /* detail.xib */,
+				041A7D8116D495ED00F91496 /* Note add */,
 			);
 			name = "Notes list";
 			sourceTree = "<group>";
@@ -198,9 +250,10 @@
 		044DE1BD16D3B53D004CDE0A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				044DE1BE16D3B60B004CDE0A /* noteListCell.h */,
-				044DE1BF16D3B60B004CDE0A /* noteListCell.m */,
-				044DE1C116D3B620004CDE0A /* noteListCell.xib */,
+				041A7D8916D4971500F91496 /* Private state switcher */,
+				041A7D7B16D4943F00F91496 /* Enter text of note cell */,
+				041A7D7916D492CF00F91496 /* Enter name cell */,
+				041A7D7A16D492DF00F91496 /* Note list cell */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -270,13 +323,14 @@
 				0434EB1D16D3A18000BD9C2B /* Default.png in Resources */,
 				0434EB1F16D3A18000BD9C2B /* Default@2x.png in Resources */,
 				0434EB2116D3A18000BD9C2B /* Default-568h@2x.png in Resources */,
-				044DE1A716D3AE75004CDE0A /* addNoteViewController.xib in Resources */,
 				044DE1B816D3B237004CDE0A /* Window.xib in Resources */,
 				044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */,
-				04CF121E16D3D881009D89E3 /* detail.xib in Resources */,
 				04CF122816D4004B009D89E3 /* lock.png in Resources */,
 				04CF122916D4004B009D89E3 /* list.png in Resources */,
 				04CF122A16D4004B009D89E3 /* gear.png in Resources */,
+				041A7D7816D492C900F91496 /* enterNameCell.xib in Resources */,
+				041A7D7D16D4945B00F91496 /* enterTextCell.xib in Resources */,
+				041A7D8B16D4974200F91496 /* privateSwitcher.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,14 +344,16 @@
 				0434EB1716D3A18000BD9C2B /* main.m in Sources */,
 				0434EB1B16D3A18000BD9C2B /* AppDelegate.m in Sources */,
 				044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */,
-				044DE1A616D3AE75004CDE0A /* addNoteViewController.m in Sources */,
 				044DE1AF16D3B045004CDE0A /* passwordSingleton.m in Sources */,
 				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
 				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
-				04CF121816D3CEA5009D89E3 /* detailViewController.m in Sources */,
 				04CF123916D404C8009D89E3 /* Model1.xcdatamodeld in Sources */,
 				04CF123C16D40547009D89E3 /* Note.m in Sources */,
 				04CF123F16D4054E009D89E3 /* Tag.m in Sources */,
+				041A7D7616D492B400F91496 /* enterNameCell.m in Sources */,
+				041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */,
+				041A7D8416D496A700F91496 /* addNewNoteViewController.m in Sources */,
+				041A7D8716D496DF00F91496 /* privateSwitcherCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
