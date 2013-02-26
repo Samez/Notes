@@ -6,6 +6,10 @@
 //  Copyright (c) 2013 gg. All rights reserved.
 //
 
+#define _NAME 1
+#define _PRIVATE 0
+#define _TEXT 2
+
 #import "addNewNoteViewController.h"
 
 @interface addNewNoteViewController ()
@@ -15,6 +19,7 @@
 @implementation addNewNoteViewController
 
 @synthesize note;
+@synthesize managedObjectContext;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -43,29 +48,60 @@
 - (void)save
 {
     
-	NSError *error = nil;
-	if (![note.managedObjectContext save:&error])
+    if ([self saveName])
     {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-	}
-    
-    //[self.delegate NoteAddViewController:self didAddNote:note];
+        [self saveText];
+        
+        [self saveState];
+        
+        NSError *error = nil;
+        
+        if (![managedObjectContext save:&error])
+        {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } else
+    {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Не могу сохранить заметку" message:@"У заметки должно быть название" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    }
 }
 
 - (void)cancel
 {
 	
 	[note.managedObjectContext deleteObject:note];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)saveState
+{
+    privateSwitcherCell *getStateCell = (privateSwitcherCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_PRIVATE]];
+    [note setIsPrivate:[NSNumber numberWithBool:[getStateCell.stateSwitcher isOn]]];
+}
+
+-(BOOL)saveName
+{
+    enterNameCell * getNameCell = (enterNameCell *)[self.tableView cellForRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:_NAME]];
     
-	NSError *error = nil;
-	if (![note.managedObjectContext save:&error]) {
-        
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-	}
+    if ([[[getNameCell nameField] text] length]!=0)
+    {
+        [note setName:[[getNameCell nameField] text]];
+        return YES;
+    }
+    return NO;
+}
+
+-(void)saveText
+{
+    enterTextCell *getTextCell = (enterTextCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_TEXT]];
     
-    //[self.delegate NoteAddViewController:self didAddNote:nil];
+    [note setText:[[getTextCell textFieldView] text]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,37 +122,127 @@
     return 1;
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if ([textField tag] == _NAME)
+    {
+        [textField resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([textView tag] == _TEXT)
+    {
+        if([text isEqualToString:@"\n"])
+        {
+            [textView resignFirstResponder];
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *title = nil;
+    
+    switch (section)
+    {
+        case _NAME:
+            title = @"Name";
+            break;
+        case _PRIVATE:
+            //title = @"Repeat";
+            break;
+        case _TEXT:
+            title = @"Text";
+            break;
+    }
+    return title;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height=0.0f;
+    
+    switch (indexPath.section)
+    {
+        case _PRIVATE:
+            height = 44.0;
+            break;
+        case _TEXT:
+            height = 132.0;
+            break;
+        case _NAME:
+            height = 44.0;
+            break;
+    }
+    return height;
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //static NSString *CellIdentifier = @"Cell";
-    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    /*
+    UITableViewCell *cell = nil;//[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     switch (indexPath.section)
     {
-        case 0:
+        case _PRIVATE:
         {
-            //static NSString *CellIdentifier = @"privateSwitcherCell";
-            //privateSwitcherCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            privateSwitcherCell *cell = [[privateSwitcherCell alloc] init];
-            return cell;
+            static NSString *CellIdentifier = @"privateSwitcher";
+            
+            privateSwitcherCell *MYcell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (MYcell == nil)
+            {
+                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"privateSwitcher" owner:self options:nil];
+                MYcell = [topLevelObjects objectAtIndex:0];
+            }
+    
+            return MYcell;
+            break;
         }
-        case 1:
+        case _NAME:
         {
-            //static NSString *CellIdentifier = @"enterNameCell";
-            //enterNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            enterNameCell *cell = [[enterNameCell alloc] init];
-            return cell;
+            static NSString *CellIdentifier = @"enterNameCell";
+            enterNameCell *MYcell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (MYcell == nil)
+            {
+                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"enterNameCell" owner:self options:nil];
+                MYcell = [topLevelObjects objectAtIndex:0];
+            }
+            
+            MYcell.nameField.delegate = self;
+            MYcell.nameField.tag = _NAME;
+            MYcell.nameField.returnKeyType = UIReturnKeyDone;
+            
+            return MYcell;
         }
-        case 2:
+        case _TEXT:
         {
-            //static NSString *CellIdentifier = @"enterTextCell";
-            //enterTextCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-            enterTextCell *cell = [[enterTextCell alloc] init];
-            return cell;
+            static NSString *CellIdentifier = @"enterTextCell";
+            enterTextCell *MYcell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (MYcell == nil)
+            {
+                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"enterTextCell" owner:self options:nil];
+                MYcell = [topLevelObjects objectAtIndex:0];
+            }
+            MYcell.textFieldView.delegate = self;
+            MYcell.textFieldView.tag = _TEXT;
+            MYcell.textFieldView.returnKeyType = UIReturnKeyDone;
+            
+            return MYcell;
         }
     }
-    */
-    return [[UITableViewCell alloc] init];
+    
+    return cell;
 }
 
 

@@ -2,7 +2,7 @@
 //  Note.h
 //  notes
 //
-//  Created by Samez on 19.02.13.
+//  Created by Samez on 26.02.13.
 //  Copyright (c) 2013 gg. All rights reserved.
 //
 
@@ -12,12 +12,9 @@
 
 @interface Note : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * text;
 @property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSNumber * isPrivate;
-@property (nonatomic, retain) NSManagedObject *tags;
-
--(void)setPrivate:(BOOL)priv;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * text;
 
 @end

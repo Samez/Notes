@@ -12,18 +12,12 @@
 #import "enterNameCell.h"
 #import "enterTextCell.h"
 
-@protocol NoteAddDelegate;
 
-@interface addNewNoteViewController : UITableViewController
+
+@interface addNewNoteViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate>
 
 @property (nonatomic, retain) Note *note;
-@property(nonatomic, assign) id <NoteAddDelegate> delegate;
 
-@end
-
-
-@protocol NoteAddDelegate <NSObject>
-
-- (void)NoteAddViewController:(addNewNoteViewController *)addNoteViewController didAddNote:(Note *)note;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 @end

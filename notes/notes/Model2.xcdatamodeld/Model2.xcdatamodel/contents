@@ -5,18 +5,12 @@
         <attribute name="isPrivate" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="tags" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="note" inverseEntity="Tag" syncable="YES"/>
     </entity>
-    <entity name="Pswd" syncable="YES">
+    <entity name="Pswd" representedClassName="Pswd" syncable="YES">
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Tag" representedClassName="Tag" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="note" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="tags" inverseEntity="Note" syncable="YES"/>
-    </entity>
     <elements>
-        <element name="Note" positionX="-36" positionY="192" width="128" height="118"/>
-        <element name="Tag" positionX="160" positionY="192" width="128" height="73"/>
+        <element name="Note" positionX="-36" positionY="192" width="128" height="105"/>
         <element name="Pswd" positionX="63" positionY="234" width="128" height="58"/>
     </elements>
 </model>

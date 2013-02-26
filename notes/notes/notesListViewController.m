@@ -54,18 +54,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self showNote:note animated:YES];
-}
-
--(void)NoteAddViewController:(addNewNoteViewController *)addNoteViewController didAddNote:(Note *)note
-{
-    if (note)
-    {
-        [self showNote:note animated:YES];
-    }
-    
-    [self dismissModalViewControllerAnimated:YES];
-    
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,15 +77,13 @@
 
 - (void)add:(id)sender
 {
-    //addNoteViewController *addController = [[addNoteViewController alloc] init];
-    addNewNoteViewController *addController = [[addNewNoteViewController alloc] init];
-    addController.delegate = self;
+    addNewNoteViewController *addController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
-	Note *newNote = [NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
+	Note *newNote = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
 	addController.note = newNote;
+    addController.managedObjectContext = managedObjectContext;
     
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addController];
-    [self presentModalViewController:navigationController animated:YES];
+    [self.navigationController pushViewController:addController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,11 +126,8 @@
     
     if (MYcell == nil)
     {
-        //MYcell = [[noteListCell alloc] init];
-        
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"noteListCell" owner:self options:nil];
         MYcell = [topLevelObjects objectAtIndex:0];
-         
     }
     
     [self configureCell:MYcell atIndexPath:indexPath];
