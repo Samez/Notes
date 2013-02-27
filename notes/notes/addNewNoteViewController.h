@@ -17,6 +17,7 @@
 @interface addNewNoteViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate>
 
 @property BOOL forEditing;
+@property BOOL fromPass;
 
 @property (nonatomic, retain) Note *note;
 

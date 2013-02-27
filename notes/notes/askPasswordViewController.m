@@ -1,106 +1,78 @@
 //
-//  notesListViewController.m
+//  askPasswordViewController.m
 //  notes
 //
-//  Created by Samez on 19.02.13.
+//  Created by Samez on 27.02.13.
 //  Copyright (c) 2013 gg. All rights reserved.
 //
 
-#import "notesListViewController.h"
-#import "detailViewController.h"
-#import "addNewNoteViewController.h"
 #import "askPasswordViewController.h"
+#import "addNewNoteViewController.h"
 
-@interface notesListViewController ()
+@interface askPasswordViewController ()
 
 @end
 
-@implementation notesListViewController
+@implementation askPasswordViewController
 
 @synthesize managedObjectContext;
 @synthesize fetchedResultsController;
+@synthesize note;
+@synthesize pass;
 
-- (void)viewDidLoad
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    [self setTitle:@"Notes list"];
-    [self.tableView setRowHeight:44];
+    self = [super initWithStyle:style];
+    if (self) {
+        // Custom initialization
+        passViewController = [[passwordViewController alloc] initWithStyle:style];
+    }
+    return self;
+}
 
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-    
-    UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
-    
-    self.navigationItem.rightBarButtonItem = addButtonItem;
-    
-    NSError *error = nil;
-	if (![[self fetchedResultsController] performFetch:&error])
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField.tag == 666)
     {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-	}
+        [textField resignFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 
--(void)viewWillAppear:(BOOL)animated
+-(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [self.tableView reloadData];
-}
-
-- (void)showNote:(Note *)note animated:(BOOL)animated;
-{
-    if (![note.isPrivate boolValue])
+    passwordCell *cell = (passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    if ([cell.passwordField.text isEqualToString:pass.password])
     {
         addNewNoteViewController *nextController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
         [nextController setNote:note];
         [nextController setForEditing:YES];
         [nextController setManagedObjectContext:managedObjectContext];
+        [nextController setFromPass:YES];
         [self.navigationController pushViewController:nextController animated:YES];
     } else
     {
-        askPasswordViewController * nextController = [[askPasswordViewController alloc]initWithStyle:UITableViewStyleGrouped];
-        [nextController setNote:note];
-        [nextController setManagedObjectContext:managedObjectContext];
-        [self.navigationController pushViewController:nextController animated:YES];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Иди нахуй" message:@"неверный пароль" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
     }
 }
 
--(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)viewDidLoad
 {
-    Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-    [cell setN:note];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self showNote:note animated:YES];
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSManagedObjectContext *context = [fetchedResultsController managedObjectContext];
+    [super viewDidLoad];
     
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-		[context deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
-	}
+    NSError *error = nil;
     
-    NSError *error;
-    if (![context save:&error])
+    if (![[self fetchedResultsController] performFetch:&error])
     {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-}
-
-- (void)add:(id)sender
-{
-    addNewNoteViewController *addController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
-	Note *newNote = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
-	addController.note = newNote;
-    addController.managedObjectContext = managedObjectContext;
+    pass = (Pswd*)fetchedResultsController.fetchedObjects[0];
     
-    [self.navigationController pushViewController:addController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -113,47 +85,43 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSInteger count = [[fetchedResultsController sections] count];
-    
-	if (count == 0)
-    {
-		count = 1;
-	}
-	
-    return count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger numberOfRows = 0;
-	
-    if ([[fetchedResultsController sections] count] > 0)
-    {
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
-        numberOfRows = [sectionInfo numberOfObjects];
-    }
-    
-    return numberOfRows;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *MyCellIdentifier = @"noteListCell";
-    noteListCell *MYcell = [tableView dequeueReusableCellWithIdentifier:MyCellIdentifier];
+    static NSString *passCellIdentifier = @"pswdCell";
     
-    if (MYcell == nil)
+    passwordCell *passCell = [tableView dequeueReusableCellWithIdentifier:passCellIdentifier];
+    
+    if (passCell == nil)
     {
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"noteListCell" owner:self options:nil];
-        MYcell = [topLevelObjects objectAtIndex:0];
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"passwordCell" owner:passViewController options:nil];
+        passCell = [topLevelObjects objectAtIndex:0];
     }
     
-    [self configureCell:MYcell atIndexPath:indexPath];
-    MYcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [passCell.passwordField setPlaceholder:@"Enter password"];
     
-    return MYcell;
+    [passCell.passwordField setDelegate:self];
+    [passCell.passwordField setTag:666];
+    [passCell.passwordField setReturnKeyType:UIReturnKeyDone];
+    [passCell.passwordField setSecureTextEntry:YES];
+    
+    return passCell;
 }
 
-#define fetched result controller
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
@@ -191,7 +159,7 @@
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
-			[self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+			
 			break;
 			
 		case NSFetchedResultsChangeMove:
@@ -208,11 +176,11 @@
         // Create the fetch request for the entity.
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Note" inManagedObjectContext:managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pswd" inManagedObjectContext:managedObjectContext];
         [fetchRequest setEntity:entity];
         
         // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
         
         [fetchRequest setSortDescriptors:sortDescriptors];
@@ -227,4 +195,5 @@
 	
 	return fetchedResultsController;
 }
+
 @end

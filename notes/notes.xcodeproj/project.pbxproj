@@ -33,11 +33,14 @@
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
 		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
-		04CF123916D404C8009D89E3 /* Model2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model2.xcdatamodeld */; };
+		04CF123916D404C8009D89E3 /* Model3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model3.xcdatamodeld */; };
 		04D6D3FE16DCF72F0053C4AF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D6D3FD16DCF72F0053C4AF /* Icon.png */; };
 		04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40116DCF7980053C4AF /* passwordViewController.m */; };
 		04D6D40516DCF7FA0053C4AF /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40416DCF7FA0053C4AF /* Note.m */; };
 		04D6D40816DCF7FB0053C4AF /* Pswd.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40716DCF7FB0053C4AF /* Pswd.m */; };
+		04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40B16DDCE620053C4AF /* passwordCell.m */; };
+		04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D6D40D16DDCE740053C4AF /* passwordCell.xib */; };
+		04D6D41216DDE1290053C4AF /* askPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D41116DDE1290053C4AF /* askPasswordViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,7 +82,7 @@
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
-		04CF123816D404C8009D89E3 /* Model2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model2.xcdatamodel; sourceTree = "<group>"; };
+		04CF123816D404C8009D89E3 /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
 		04D6D3FD16DCF72F0053C4AF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		04D6D40016DCF7980053C4AF /* passwordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordViewController.h; sourceTree = "<group>"; };
 		04D6D40116DCF7980053C4AF /* passwordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordViewController.m; sourceTree = "<group>"; };
@@ -87,6 +90,11 @@
 		04D6D40416DCF7FA0053C4AF /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		04D6D40616DCF7FB0053C4AF /* Pswd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pswd.h; sourceTree = "<group>"; };
 		04D6D40716DCF7FB0053C4AF /* Pswd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pswd.m; sourceTree = "<group>"; };
+		04D6D40A16DDCE620053C4AF /* passwordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordCell.h; sourceTree = "<group>"; };
+		04D6D40B16DDCE620053C4AF /* passwordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordCell.m; sourceTree = "<group>"; };
+		04D6D40D16DDCE740053C4AF /* passwordCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = passwordCell.xib; sourceTree = "<group>"; };
+		04D6D41016DDE1290053C4AF /* askPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = askPasswordViewController.h; sourceTree = "<group>"; };
+		04D6D41116DDE1290053C4AF /* askPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = askPasswordViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +225,7 @@
 			children = (
 				044DE19E16D3AE54004CDE0A /* notesListViewController.h */,
 				044DE19F16D3AE54004CDE0A /* notesListViewController.m */,
+				04D6D40F16DDE1080053C4AF /* Ask for password */,
 				041A7D8116D495ED00F91496 /* Note add */,
 			);
 			name = "Notes list";
@@ -234,7 +243,7 @@
 		044DE1B016D3B1C8004CDE0A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04CF123716D404C8009D89E3 /* Model2.xcdatamodeld */,
+				04CF123716D404C8009D89E3 /* Model3.xcdatamodeld */,
 				04D6D40616DCF7FB0053C4AF /* Pswd.h */,
 				04D6D40716DCF7FB0053C4AF /* Pswd.m */,
 				04D6D40316DCF7FA0053C4AF /* Note.h */,
@@ -256,6 +265,7 @@
 		044DE1BD16D3B53D004CDE0A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				04D6D40916DDCE4A0053C4AF /* Password cell */,
 				041A7D8916D4971500F91496 /* Private state switcher */,
 				041A7D7B16D4943F00F91496 /* Enter text of note cell */,
 				041A7D7916D492CF00F91496 /* Enter name cell */,
@@ -282,6 +292,25 @@
 				04D6D40116DCF7980053C4AF /* passwordViewController.m */,
 			);
 			name = Password;
+			sourceTree = "<group>";
+		};
+		04D6D40916DDCE4A0053C4AF /* Password cell */ = {
+			isa = PBXGroup;
+			children = (
+				04D6D40A16DDCE620053C4AF /* passwordCell.h */,
+				04D6D40B16DDCE620053C4AF /* passwordCell.m */,
+				04D6D40D16DDCE740053C4AF /* passwordCell.xib */,
+			);
+			name = "Password cell";
+			sourceTree = "<group>";
+		};
+		04D6D40F16DDE1080053C4AF /* Ask for password */ = {
+			isa = PBXGroup;
+			children = (
+				04D6D41016DDE1290053C4AF /* askPasswordViewController.h */,
+				04D6D41116DDE1290053C4AF /* askPasswordViewController.m */,
+			);
+			name = "Ask for password";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +377,7 @@
 				041A7D7D16D4945B00F91496 /* enterTextCell.xib in Resources */,
 				041A7D8B16D4974200F91496 /* privateSwitcher.xib in Resources */,
 				04D6D3FE16DCF72F0053C4AF /* Icon.png in Resources */,
+				04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,7 +394,7 @@
 				044DE1AF16D3B045004CDE0A /* passwordSingleton.m in Sources */,
 				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
 				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
-				04CF123916D404C8009D89E3 /* Model2.xcdatamodeld in Sources */,
+				04CF123916D404C8009D89E3 /* Model3.xcdatamodeld in Sources */,
 				041A7D7616D492B400F91496 /* enterNameCell.m in Sources */,
 				041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */,
 				041A7D8416D496A700F91496 /* addNewNoteViewController.m in Sources */,
@@ -372,6 +402,8 @@
 				04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */,
 				04D6D40516DCF7FA0053C4AF /* Note.m in Sources */,
 				04D6D40816DCF7FB0053C4AF /* Pswd.m in Sources */,
+				04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */,
+				04D6D41216DDE1290053C4AF /* askPasswordViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,13 +519,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		04CF123716D404C8009D89E3 /* Model2.xcdatamodeld */ = {
+		04CF123716D404C8009D89E3 /* Model3.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				04CF123816D404C8009D89E3 /* Model2.xcdatamodel */,
+				04CF123816D404C8009D89E3 /* Model3.xcdatamodel */,
 			);
-			currentVersion = 04CF123816D404C8009D89E3 /* Model2.xcdatamodel */;
-			path = Model2.xcdatamodeld;
+			currentVersion = 04CF123816D404C8009D89E3 /* Model3.xcdatamodel */;
+			path = Model3.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

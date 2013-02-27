@@ -21,6 +21,7 @@
 @synthesize note;
 @synthesize managedObjectContext;
 
+@synthesize fromPass;
 @synthesize forEditing;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -28,6 +29,7 @@
     self = [super initWithStyle:style];
     if (self) {
         forEditing = NO;
+        fromPass = NO;
     }
     return self;
 }
@@ -66,8 +68,10 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-        
-        [self.navigationController popViewControllerAnimated:YES];
+        if (!fromPass)
+            [self.navigationController popViewControllerAnimated:YES];
+        else
+            [self.navigationController popToRootViewControllerAnimated:YES];
         
     } else
     {
@@ -81,7 +85,10 @@
 	if (!forEditing)
         [self.managedObjectContext deleteObject:note];
 
-    [self.navigationController popViewControllerAnimated:YES];
+    if (!fromPass)
+        [self.navigationController popViewControllerAnimated:YES];
+    else
+        [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)saveState

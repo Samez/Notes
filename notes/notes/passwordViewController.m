@@ -18,12 +18,14 @@
 @synthesize fetchedResultsController;
 @synthesize managedObjectContext;
 @synthesize pass;
+@synthesize pswdCell;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+
         rowsCount =  0;
     }
     return self;
@@ -32,13 +34,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
+    self.navigationItem.rightBarButtonItem = saveButton;
+    
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
+    self.navigationItem.leftBarButtonItem = cancelButton;
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     
     NSError *error = nil;
-	if (![[self fetchedResultsController] performFetch:&error])
+    
+    if (![[self fetchedResultsController] performFetch:&error])
     {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-	}
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
     
     if ([fetchedResultsController.fetchedObjects count] == 0)
     {
@@ -51,13 +61,85 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-        
         pass = newPassword;
     } else
     {
         pass = (Pswd*)fetchedResultsController.fetchedObjects[0];
     }
+}
 
+-(void)cancel
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)save
+{
+    NSString *oldPass = nil;
+    NSString *newPassOne = nil;
+    NSString *newPassTwo = nil;
+    
+    if (pass.password)
+    {
+        oldPass = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) passwordField] text];
+        newPassOne = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) passwordField] text];
+        newPassTwo = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]]) passwordField] text];
+        
+        if ([pass.password isEqualToString: oldPass])
+        {
+            if ([newPassTwo isEqualToString:newPassOne])
+            {
+                pass.password = newPassOne;
+                [self savePass];
+            } else
+            {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Не могу сохранить пароль" message:@"пароли не совпадают" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+            }
+        } else
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Не могу сохранить пароль" message:@"Вы ввели неверный старый пароль" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        }
+    } else
+    {
+        newPassOne = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) passwordField] text];
+        newPassTwo = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) passwordField] text];
+        
+        if ([newPassTwo isEqualToString:newPassOne])
+        {
+            pass.password = newPassOne;
+            [self savePass];
+        }else
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Не могу сохранить пароль" message:@"пароли не совпадают" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        }
+        
+    }
+
+}
+
+-(void)savePass
+{
+    NSError *error;
+    if (![managedObjectContext save:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if ((textField.tag == 1)||(textField.tag == 2)||(textField.tag == 3))
+    {
+        [textField resignFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,39 +152,71 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    if (pass.password)
+        return 3;
+    else
+        return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *passCellIdentifier = @"pswdCell";
     
-    if (!cell)
+    passwordCell *passCell = [tableView dequeueReusableCellWithIdentifier:passCellIdentifier];
+    
+    if (passCell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"passwordCell" owner:self options:nil];
+        passCell = [topLevelObjects objectAtIndex:0];
     }
     
     switch (indexPath.section)
     {
         case 0:
         {
-            cell.textLabel.text = @"1";
-            break;
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    if ([(Pswd*)fetchedResultsController.fetchedObjects[0] password])
+                    {
+                        [passCell.passwordField setPlaceholder:@"Enter old password"];
+                    } else
+                    {
+                        [passCell.passwordField setPlaceholder:@"Enter new password"];
+                    }
+                    
+                    passCell.passwordField.delegate = self;
+                    passCell.passwordField.tag = 3;
+                    break;
+                }
+                    
+                case 1:
+                {
+                    [passCell.passwordField setPlaceholder:@"Enter new password"];
+                    passCell.passwordField.delegate = self;
+                    passCell.passwordField.tag = 1;
+                    break;
+                }
+                case 2:
+                {
+                    [passCell.passwordField setPlaceholder:@"Repeat new password"];
+                    passCell.passwordField.delegate = self;
+                    passCell.passwordField.tag = 2;
+                    break;
+                }
+            }
         }
-        case 1:
-        {
-            cell.textLabel.text = @"2";
-            break;
-        }
+
     }
     
-    return cell;
+    [passCell.passwordField setSecureTextEntry:YES];
+    return passCell;
 }
 
 
@@ -150,7 +264,7 @@
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
-			//[self configureCell:(UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+			
 			break;
 			
 		case NSFetchedResultsChangeMove:
@@ -187,4 +301,8 @@
 	return fetchedResultsController;
 }
 
+- (void)viewDidUnload {
+    [self setPswdCell:nil];
+    [super viewDidUnload];
+}
 @end

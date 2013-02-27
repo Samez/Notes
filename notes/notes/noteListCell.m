@@ -22,6 +22,30 @@
     return self;
 }
 
+-(void)hideImg
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    [img setAlpha:0];
+    [UIView commitAnimations];
+}
+
+-(void)showImg
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    [img setAlpha:1];
+    [UIView commitAnimations];
+}
+
+-(void) setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    if(editing)
+    {
+        [self hideImg];
+    } else [self showImg];
+}
  
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -34,14 +58,13 @@
 {
     note = newNote;
     
+    [self addSubview:img];
     
     if ([note.isPrivate boolValue] == YES )
     {
         img.image=[UIImage imageNamed:@"lock.png"];
-        [self addSubview:img];
     } else
     {
-        //[img removeFromSuperview];
         img.image = nil;
     }
     
