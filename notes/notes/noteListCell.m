@@ -34,10 +34,15 @@
 {
     note = newNote;
     
-    if (note.isPrivate == [NSNumber numberWithInt:1])
+    
+    if ([note.isPrivate boolValue] == YES )
     {
         img.image=[UIImage imageNamed:@"lock.png"];
         [self addSubview:img];
+    } else
+    {
+        //[img removeFromSuperview];
+        img.image = nil;
     }
     
     self.textLabel.text = note.name;

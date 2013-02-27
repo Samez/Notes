@@ -21,11 +21,13 @@
 @synthesize note;
 @synthesize managedObjectContext;
 
+@synthesize forEditing;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-
+        forEditing = NO;
     }
     return self;
 }
@@ -34,7 +36,10 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"Add note";
+    if(forEditing)
+        self.navigationItem.title = @"Edit note";
+    else
+        self.navigationItem.title = @"Add note";
     
     UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
     self.navigationItem.leftBarButtonItem = cancelButtonItem;
@@ -56,7 +61,7 @@
         
         NSError *error = nil;
         
-        if (![managedObjectContext save:&error])
+        if (![self.managedObjectContext save:&error])
         {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
@@ -73,8 +78,8 @@
 
 - (void)cancel
 {
-	
-	[note.managedObjectContext deleteObject:note];
+	if (!forEditing)
+        [self.managedObjectContext deleteObject:note];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -156,7 +161,7 @@
             title = @"Name";
             break;
         case _PRIVATE:
-            //title = @"Repeat";
+            //title = @"";
             break;
         case _TEXT:
             title = @"Text";
@@ -187,8 +192,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = nil;//[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+    UITableViewCell *cell = nil;
     
     switch (indexPath.section)
     {
@@ -203,7 +208,12 @@
                 NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"privateSwitcher" owner:self options:nil];
                 MYcell = [topLevelObjects objectAtIndex:0];
             }
-    
+            
+            if (forEditing)
+                [MYcell.stateSwitcher setOn:[note.isPrivate boolValue]];
+            else
+                [MYcell.stateSwitcher setOn:NO];
+            
             return MYcell;
             break;
         }
@@ -217,6 +227,8 @@
                 NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"enterNameCell" owner:self options:nil];
                 MYcell = [topLevelObjects objectAtIndex:0];
             }
+            
+            [MYcell setNote:note];
             
             MYcell.nameField.delegate = self;
             MYcell.nameField.tag = _NAME;
@@ -234,6 +246,9 @@
                 NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"enterTextCell" owner:self options:nil];
                 MYcell = [topLevelObjects objectAtIndex:0];
             }
+            
+            [MYcell setNote:note];
+            
             MYcell.textFieldView.delegate = self;
             MYcell.textFieldView.tag = _TEXT;
             MYcell.textFieldView.returnKeyType = UIReturnKeyDone;
@@ -250,7 +265,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

@@ -38,11 +38,18 @@
 	}
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+}
+
 - (void)showNote:(Note *)note animated:(BOOL)animated;
 {    
-    //detailViewController *nextController = [[detailViewController alloc] init];
-    //[nextController setNote:note];
-    //[self.navigationController pushViewController:nextController animated:YES];
+    addNewNoteViewController *nextController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    [nextController setNote:note];
+    [nextController setForEditing:YES];
+    [nextController setManagedObjectContext:managedObjectContext];
+    [self.navigationController pushViewController:nextController animated:YES];
 }
 
 -(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath

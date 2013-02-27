@@ -32,6 +32,11 @@
 -(void)setNote:(Note *)newNote
 {
     note = newNote;
+    
+    if (note.name)
+    {
+        nameField.text = note.name;
+    }
 }
 
 -(NSString*)name

@@ -7,12 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Note.h"
 
 @interface privateSwitcherCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UISwitch *stateSwitcher;
-@property (nonatomic, retain) Note *note;
-
--(void)setNote:(Note *)newNote;
 
 @end

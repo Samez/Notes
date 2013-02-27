@@ -9,6 +9,7 @@
 #import "privateSwitcherCell.h"
 
 @implementation privateSwitcherCell
+@synthesize stateSwitcher;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -24,11 +25,6 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
-}
-
--(void)setNote:(Note *)newNote
-{
-    
 }
 
 @end
