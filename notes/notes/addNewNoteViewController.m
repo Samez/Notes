@@ -20,6 +20,8 @@
 
 @synthesize note;
 @synthesize managedObjectContext;
+@synthesize fetchedResultsController;
+@synthesize needFooterTitle;
 
 @synthesize fromPass;
 @synthesize forEditing;
@@ -30,6 +32,7 @@
     if (self) {
         forEditing = NO;
         fromPass = NO;
+        needFooterTitle = NO;
     }
     return self;
 }
@@ -50,6 +53,14 @@
     self.navigationItem.rightBarButtonItem = saveButtonItem;
     
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    
+    NSError *error = nil;
+    
+    if (![[self fetchedResultsController] performFetch:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
 }
 
 - (void)save
@@ -75,7 +86,7 @@
         
     } else
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Не могу сохранить заметку" message:@"У заметки должно быть название" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"I can't save the note" message:@"You have not entered the name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
 }
@@ -197,6 +208,38 @@
     
 }
 
+-(void)stateWasChanged:(id)sender
+{
+    privateSwitcherCell *cell = (privateSwitcherCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_PRIVATE]];
+    
+    [self setNeedFooterTitle:[cell.stateSwitcher isOn]];
+    
+    [self saveState];
+    
+    [self.tableView reloadSections: [NSIndexSet indexSetWithIndex: _PRIVATE] withRowAnimation: UITableViewRowAnimationNone];
+
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    NSString *title = nil;
+    
+    switch (section)
+    {
+        case _PRIVATE:
+            if ([self needFooterTitle])
+            {
+                if ([((Pswd*)fetchedResultsController.fetchedObjects[0]).password isEqualToString:@"Password"])
+                    title = @"The record will be protected by default password - 'Password'. To change the password, go to options.";
+                else
+                    title = @"The record will be protected by your password";
+            }
+            break;
+    }
+        
+    return title;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
@@ -216,10 +259,10 @@
                 MYcell = [topLevelObjects objectAtIndex:0];
             }
             
-            if (forEditing)
+            //if (note.isPrivate!=nil)
                 [MYcell.stateSwitcher setOn:[note.isPrivate boolValue]];
-            else
-                [MYcell.stateSwitcher setOn:NO];
+
+            [MYcell.stateSwitcher addTarget: self action: @selector(stateWasChanged:) forControlEvents:UIControlEventValueChanged];
             
             return MYcell;
             break;
@@ -273,6 +316,33 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    // Set up the fetched results controller if needed.
+    if (fetchedResultsController == nil) {
+        // Create the fetch request for the entity.
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pswd" inManagedObjectContext:managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        // Edit the section name key path and cache name if appropriate.
+        // nil for section name key path means "no sections".
+        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+        aFetchedResultsController.delegate = self;
+        self.fetchedResultsController = aFetchedResultsController;
+        
+    }
+	
+	return fetchedResultsController;
 }
 
 @end

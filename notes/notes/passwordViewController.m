@@ -53,6 +53,7 @@
     if ([fetchedResultsController.fetchedObjects count] == 0)
     {
         Pswd* newPassword = (Pswd*)[NSEntityDescription insertNewObjectForEntityForName:@"Pswd" inManagedObjectContext:self.managedObjectContext];
+        newPassword.password = @"Password";
         
         NSError *error = nil;
         
@@ -93,12 +94,12 @@
                 [self savePass];
             } else
             {
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Не могу сохранить пароль" message:@"пароли не совпадают" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"I can't save the password" message:@"Passwords are not equal" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alert show];
             }
         } else
         {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Не могу сохранить пароль" message:@"Вы ввели неверный старый пароль" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"I can't save the password" message:@"Incorrect old password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
         }
     } else
@@ -112,12 +113,29 @@
             [self savePass];
         }else
         {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Не могу сохранить пароль" message:@"пароли не совпадают" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"I can't save the password" message:@"Passwords are not equal " delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
         }
         
     }
 
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    NSString *title = nil;
+    
+    if ([pass.password isEqualToString:@"Password"])
+    {
+        switch (section)
+        {
+            case 0:
+                title = @"You are using the default password - 'Password'. For the safety come up and enter a new password that is at least 8 characters.";
+                break;
+        }
+    }
+    
+    return title;
 }
 
 -(void)savePass

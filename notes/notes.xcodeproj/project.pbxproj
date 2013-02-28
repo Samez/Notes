@@ -195,6 +195,7 @@
 				0434EB1916D3A18000BD9C2B /* AppDelegate.h */,
 				0434EB1A16D3A18000BD9C2B /* AppDelegate.m */,
 				044DE1B716D3B237004CDE0A /* Window.xib */,
+				04D6D41316DEBEDA0053C4AF /* Get first password */,
 				044DE19C16D3AE3A004CDE0A /* Notes list */,
 				044DE1B916D3B493004CDE0A /* Options */,
 				044DE1B016D3B1C8004CDE0A /* Model */,
@@ -311,6 +312,13 @@
 				04D6D41116DDE1290053C4AF /* askPasswordViewController.m */,
 			);
 			name = "Ask for password";
+			sourceTree = "<group>";
+		};
+		04D6D41316DEBEDA0053C4AF /* Get first password */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Get first password";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
