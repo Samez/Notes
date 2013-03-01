@@ -21,9 +21,9 @@
 @synthesize note;
 @synthesize managedObjectContext;
 @synthesize fetchedResultsController;
-@synthesize needFooterTitle;
+@synthesize needFooterTitleForNameSection;
+@synthesize needFooterTitleForPrivateSection;
 
-@synthesize fromPass;
 @synthesize forEditing;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -31,8 +31,8 @@
     self = [super initWithStyle:style];
     if (self) {
         forEditing = NO;
-        fromPass = NO;
-        needFooterTitle = NO;
+        needFooterTitleForPrivateSection = NO;
+        needFooterTitleForNameSection = NO;
     }
     return self;
 }
@@ -61,6 +61,8 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    
+    self.tableView.allowsSelection = NO;
 }
 
 - (void)save
@@ -72,6 +74,8 @@
         
         [self saveState];
         
+        [note setDate:[NSDate date]];
+        
         NSError *error = nil;
         
         if (![self.managedObjectContext save:&error])
@@ -79,15 +83,14 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-        if (!fromPass)
-            [self.navigationController popViewControllerAnimated:YES];
-        else
-            [self.navigationController popToRootViewControllerAnimated:YES];
+
+        [self.navigationController popToRootViewControllerAnimated:YES];
         
     } else
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"I can't save the note" message:@"You have not entered the name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
+        needFooterTitleForNameSection = YES;
+        [self.tableView reloadSections: [NSIndexSet indexSetWithIndex: 1] withRowAnimation: UITableViewRowAnimationNone];
+
     }
 }
 
@@ -96,10 +99,7 @@
 	if (!forEditing)
         [self.managedObjectContext deleteObject:note];
 
-    if (!fromPass)
-        [self.navigationController popViewControllerAnimated:YES];
-    else
-        [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)saveState
@@ -212,7 +212,7 @@
 {
     privateSwitcherCell *cell = (privateSwitcherCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:_PRIVATE]];
     
-    [self setNeedFooterTitle:[cell.stateSwitcher isOn]];
+    [self setNeedFooterTitleForPrivateSection:[cell.stateSwitcher isOn]];
     
     [self saveState];
     
@@ -227,7 +227,7 @@
     switch (section)
     {
         case _PRIVATE:
-            if ([self needFooterTitle])
+            if ([self needFooterTitleForPrivateSection])
             {
                 if ([((Pswd*)fetchedResultsController.fetchedObjects[0]).password isEqualToString:@"Password"])
                     title = @"The record will be protected by default password - 'Password'. To change the password, go to options.";
@@ -235,8 +235,11 @@
                     title = @"The record will be protected by your password";
             }
             break;
+        case _NAME:
+            if(needFooterTitleForNameSection)
+                title = @"You must enter the name of the note";
     }
-        
+    
     return title;
 }
 

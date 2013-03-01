@@ -19,11 +19,36 @@
 @synthesize optionsController;
 @synthesize window;
 
+@synthesize fetchedResultsController;
+
 -(void) applicationDidFinishLaunching:(UIApplication *)application
 {
     notesListController.managedObjectContext = self.managedObjectContext;
     optionsController.managedObjectContext = self.managedObjectContext;
     window.rootViewController=self.tabBarController;
+    
+    
+    NSError *error = nil;
+    
+    if (![[self fetchedResultsController] performFetch:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    if ([fetchedResultsController.fetchedObjects count] == 0)
+    {
+        Pswd* newPassword = (Pswd*)[NSEntityDescription insertNewObjectForEntityForName:@"Pswd" inManagedObjectContext:self.managedObjectContext];
+        newPassword.password = @"Password";
+        
+        NSError *error = nil;
+        
+        if (![_managedObjectContext save:&error])
+        {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
 
     [self.window makeKeyAndVisible];
 }
@@ -109,6 +134,34 @@
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    // Set up the fetched results controller if needed.
+    if (fetchedResultsController == nil) {
+        // Create the fetch request for the entity.
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pswd" inManagedObjectContext:_managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        // Edit the section name key path and cache name if appropriate.
+        // nil for section name key path means "no sections".
+        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+        aFetchedResultsController.delegate = self;
+        self.fetchedResultsController = aFetchedResultsController;
+        
+    }
+	
+	return fetchedResultsController;
+}
+
 
 
 @end

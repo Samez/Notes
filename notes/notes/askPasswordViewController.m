@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 gg. All rights reserved.
 //
 
+#define _INCORRECT_PSWD @"Incorrect password!"
+
 #import "askPasswordViewController.h"
 #import "addNewNoteViewController.h"
 
@@ -26,6 +28,7 @@
     if (self) {
         // Custom initialization
         passViewController = [[passwordViewController alloc] initWithStyle:style];
+        bottomTitle = nil;
     }
     return self;
 }
@@ -42,6 +45,11 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
+    [self tryToEnter];
+}
+
+-(void)tryToEnter
+{
     passwordCell *cell = (passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
     if ([cell.passwordField.text isEqualToString:pass.password])
@@ -50,13 +58,30 @@
         [nextController setNote:note];
         [nextController setForEditing:YES];
         [nextController setManagedObjectContext:managedObjectContext];
-        [nextController setFromPass:YES];
+        
+        [self showBottomTitle:nil];
+        
         [self.navigationController pushViewController:nextController animated:YES];
+        
     } else
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Иди нахуй" message:@"неверный пароль" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
+        [self showBottomTitle:_INCORRECT_PSWD];
     }
+    
+}
+
+-(void)showBottomTitle:(NSString*)title
+{
+    if (title)
+    {
+        bottomTitle = title;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationFade];
+    } else
+    {
+        bottomTitle = nil;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
+    }
+    
 }
 
 - (void)viewDidLoad
@@ -73,6 +98,32 @@
     
     pass = (Pswd*)fetchedResultsController.fetchedObjects[0];
     
+    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    self.navigationItem.leftBarButtonItem = cancelButtonItem;
+    
+    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Show" style:UIBarButtonItemStylePlain target:self action:@selector(tryToEnter)];
+    self.navigationItem.rightBarButtonItem = saveButtonItem;
+    
+    self.tableView.allowsSelection = NO;
+}
+
+-(void)cancel
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    NSString *title = nil;
+    
+    switch (section)
+    {
+        case 0:
+            title = bottomTitle;
+            break;
+    }
+    
+    return title;
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,11 +168,6 @@
 
 
 #pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
-}
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {

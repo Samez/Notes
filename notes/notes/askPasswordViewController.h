@@ -14,6 +14,7 @@
 @interface askPasswordViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate>
 {
     passwordViewController *passViewController;
+    NSString *bottomTitle;
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;

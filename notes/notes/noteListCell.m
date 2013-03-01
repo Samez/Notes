@@ -12,6 +12,8 @@
 
 @synthesize note;
 @synthesize img;
+@synthesize timeLabel;
+@synthesize noteNameLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -67,9 +69,17 @@
     {
         img.image = nil;
     }
+
+    UIFont *mainFont = [UIFont fontWithName:@"Helvetica-Bold" size:17];
+    [noteNameLabel setFont:mainFont];
     
-    self.textLabel.text = note.name;
+    noteNameLabel.text = note.name;
     
+    NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
+    [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
+    NSString * timeString = [date_format stringFromDate: note.date];
+    
+    timeLabel.text = timeString;
 }
 
 

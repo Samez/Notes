@@ -16,13 +16,10 @@
 
 
 @interface addNewNoteViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, NSFetchedResultsControllerDelegate>
-{
-    BOOL needFooterTitle;
-}
 
 @property BOOL forEditing;
-@property BOOL fromPass;
-@property BOOL needFooterTitle;
+@property BOOL needFooterTitleForPrivateSection;
+@property BOOL needFooterTitleForNameSection;
 
 @property (nonatomic, retain) Note *note;
 

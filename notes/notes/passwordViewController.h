@@ -13,6 +13,8 @@
 @interface passwordViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate>
 {
     int rowsCount;
+    NSString *bottomTitle;
+    NSString *forOldPassword;
 }
 
 @property (nonatomic,retain) Pswd *pass;

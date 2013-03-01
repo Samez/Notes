@@ -13,7 +13,9 @@
 
 @property (nonatomic, retain) Note *note;
 
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *img;
+@property (weak, nonatomic) IBOutlet UILabel *noteNameLabel;
 
 -(void)setN:(Note*)newNote;
 
