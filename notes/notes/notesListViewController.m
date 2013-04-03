@@ -67,6 +67,7 @@
         askPasswordViewController * nextController = [[askPasswordViewController alloc]initWithStyle:UITableViewStyleGrouped];
         [nextController setNote:note];
         [nextController setManagedObjectContext:managedObjectContext];
+        [nextController setNotesCount:[[fetchedResultsController fetchedObjects] count]];
         [self.navigationController pushViewController:nextController animated:YES];
     }
 }

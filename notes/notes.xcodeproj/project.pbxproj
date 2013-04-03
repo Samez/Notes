@@ -41,7 +41,6 @@
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
 		04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A2170C7BF100CC268D /* woodenBackground.png */; };
-		04D539A5170C8C9700CC268D /* newNoteBackground5.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A4170C8C9700CC268D /* newNoteBackground5.png */; };
 		04D539AA170C977600CC268D /* oneNoteBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A6170C977500CC268D /* oneNoteBackground.png */; };
 		04D539AB170C977600CC268D /* twoNotesBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A7170C977600CC268D /* twoNotesBackground.png */; };
 		04D539AC170C977600CC268D /* threeNotesBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A8170C977600CC268D /* threeNotesBackground.png */; };
@@ -105,7 +104,6 @@
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
 		04D539A2170C7BF100CC268D /* woodenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackground.png; path = Pics/woodenBackground.png; sourceTree = SOURCE_ROOT; };
-		04D539A4170C8C9700CC268D /* newNoteBackground5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteBackground5.png; path = Pics/newNoteBackground5.png; sourceTree = SOURCE_ROOT; };
 		04D539A6170C977500CC268D /* oneNoteBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = oneNoteBackground.png; path = Pics/oneNoteBackground.png; sourceTree = SOURCE_ROOT; };
 		04D539A7170C977600CC268D /* twoNotesBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twoNotesBackground.png; path = Pics/twoNotesBackground.png; sourceTree = SOURCE_ROOT; };
 		04D539A8170C977600CC268D /* threeNotesBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = threeNotesBackground.png; path = Pics/threeNotesBackground.png; sourceTree = SOURCE_ROOT; };
@@ -317,7 +315,6 @@
 				04D53A10170C9E8100CC268D /* trash.png */,
 				04D5399B170C686400CC268D /* locked.png */,
 				04D53A0E170C97C200CC268D /* fourNotesBackground.png */,
-				04D539A4170C8C9700CC268D /* newNoteBackground5.png */,
 				04D539A2170C7BF100CC268D /* woodenBackground.png */,
 				04CF122716D4004B009D89E3 /* gear.png */,
 			);
@@ -428,7 +425,6 @@
 				04D5399C170C686400CC268D /* unlocked.png in Resources */,
 				04D5399D170C686400CC268D /* locked.png in Resources */,
 				04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */,
-				04D539A5170C8C9700CC268D /* newNoteBackground5.png in Resources */,
 				04D539AA170C977600CC268D /* oneNoteBackground.png in Resources */,
 				04D539AB170C977600CC268D /* twoNotesBackground.png in Resources */,
 				04D539AC170C977600CC268D /* threeNotesBackground.png in Resources */,

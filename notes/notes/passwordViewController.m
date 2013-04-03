@@ -90,6 +90,8 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
     self.tableView.backgroundView=backgroundImageView;
     
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
 }
 
 -(void)showBottomTitle:(NSString*)title

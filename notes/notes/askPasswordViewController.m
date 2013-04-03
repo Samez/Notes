@@ -22,6 +22,7 @@
 @synthesize fetchedResultsController;
 @synthesize note;
 @synthesize pass;
+@synthesize notesCount;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -59,7 +60,7 @@
         [nextC setNote:note];
         [nextC setForEditing:YES];
         [nextC setManagedObjectContext:managedObjectContext];
-        nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
+        nextC.notesCount = notesCount;
         [self.navigationController pushViewController:nextC animated:YES];
         
     } else
@@ -109,6 +110,8 @@
     UIImage *backgroundImage = [UIImage imageNamed:@"woodenBackground.png"];
     UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
     self.tableView.backgroundView=backgroundImageView;
+    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
 -(void)cancel

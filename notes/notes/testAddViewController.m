@@ -42,6 +42,70 @@
 {
     [super viewDidLoad];
     
+    if(forEditing)
+        self.navigationItem.title = @"Edit note";
+    else
+        self.navigationItem.title = @"New note";
+    
+    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    self.navigationItem.leftBarButtonItem = cancelButtonItem;
+    
+    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
+    self.navigationItem.rightBarButtonItem = saveButtonItem;
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    
+    NSError *error = nil;
+    
+    if (![[self fetchedResultsController] performFetch:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    if (forEditing)
+    {
+        [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
+        
+    }
+    
+    myTextView.delegate = self;
+    [myTextView setScrollEnabled:NO];
+    myTextView.returnKeyType = UIReturnKeyNext;
+    
+    myNameField.delegate = self;
+    
+    if (!forEditing)
+    {
+        [timeText setHidden:YES];
+    } else
+    {
+        [timeText setHidden:NO];
+        NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
+        [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
+        NSString * timeString = [date_format stringFromDate: note.date];
+        
+        [timeText setText:timeString];
+        
+        [myTextView setText:[note text]];
+        [myNameField setText:[note name]];
+        
+        [trashButton setImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
+    }
+    
+    if (forEditing)
+    {
+        if ([[note isPrivate] boolValue])
+            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
+        else
+            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
+    } else
+        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
+
+    [alertLabel setHidden:YES];
+    
+    if (forEditing)
+        oldNote = note;
     
     if (forEditing)
         notesCount--;
@@ -65,70 +129,6 @@
             break;
     }
     
-    if(forEditing)
-        self.navigationItem.title = @"Edit note";
-    else
-        self.navigationItem.title = @"New note";
-    
-    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
-    self.navigationItem.leftBarButtonItem = cancelButtonItem;
-    
-    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
-    self.navigationItem.rightBarButtonItem = saveButtonItem;
-    
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-    
-    NSError *error = nil;
-    
-    if (![[self fetchedResultsController] performFetch:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    myTextView.delegate = self;
-    [myTextView setScrollEnabled:NO];
-    myTextView.returnKeyType = UIReturnKeyNext;
-    
-    myNameField.delegate = self;
-    
-    if (!forEditing)
-    {
-        [timeText setHidden:YES];
-    } else
-    {
-        [timeText setHidden:NO];
-        NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
-        [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
-        NSString * timeString = [date_format stringFromDate: note.date];
-        
-        [timeText setText:timeString];
-        
-        [myTextView setText:[note text]];
-        [myNameField setText:[note name]];
-    }
-    
-    if (forEditing)
-    {
-        [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
-        
-    }
-
-
-    if (forEditing)
-    {
-        if ([[note isPrivate] boolValue])
-            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
-        else
-            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
-    } else
-        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
-
-    [alertLabel setHidden:YES];
-    
-    if (forEditing)
-        oldNote = note;
-    
 }
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -151,7 +151,7 @@
 
     
     if (![[note isPrivate] boolValue])
-        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
+        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
     else
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
 }
@@ -170,7 +170,6 @@
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
 
 - (void)cancel
 {

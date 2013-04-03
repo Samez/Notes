@@ -23,4 +23,6 @@
 @property (nonatomic,retain) Note *note;
 @property (nonatomic,retain) Pswd *pass;
 
+@property int notesCount;
+
 @end
