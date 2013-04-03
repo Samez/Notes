@@ -18,6 +18,8 @@
     NSManagedObjectContext *managedObjectContext;
 }
 
+@property (strong, nonatomic) IBOutlet noteListCell *noteCell;
+
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 

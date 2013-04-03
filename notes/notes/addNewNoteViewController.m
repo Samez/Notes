@@ -33,6 +33,7 @@
         forEditing = NO;
         needFooterTitleForPrivateSection = NO;
         needFooterTitleForNameSection = NO;
+        tempImageView = [[UIImageView alloc] init];
     }
     return self;
 }
@@ -63,6 +64,7 @@
     }
     
     self.tableView.allowsSelection = NO;
+
 }
 
 - (void)save
@@ -74,7 +76,8 @@
         
         [self saveState];
         
-        [note setDate:[NSDate date]];
+        if(!forEditing)
+            [note setDate:[NSDate date]];
         
         NSError *error = nil;
         
@@ -247,6 +250,7 @@
 {
 
     UITableViewCell *cell = nil;
+    
     
     switch (indexPath.section)
     {

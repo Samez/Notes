@@ -10,6 +10,7 @@
 #import "detailViewController.h"
 #import "addNewNoteViewController.h"
 #import "askPasswordViewController.h"
+#import "testAddViewController.h"
 
 @interface notesListViewController ()
 
@@ -19,10 +20,11 @@
 
 @synthesize managedObjectContext;
 @synthesize fetchedResultsController;
+@synthesize noteCell;
 
 - (void)viewDidLoad
 {
-    [self setTitle:@"Notes list"];
+    [self setTitle:@"Notes"];
     [self.tableView setRowHeight:44];
 
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
@@ -52,12 +54,12 @@
 - (void)showNote:(Note *)note animated:(BOOL)animated;
 {
     if (![note.isPrivate boolValue])
-    {
-        addNewNoteViewController *nextController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
-        [nextController setNote:note];
-        [nextController setForEditing:YES];
-        [nextController setManagedObjectContext:managedObjectContext];
-        [self.navigationController pushViewController:nextController animated:YES];
+    {        
+        testAddViewController *nextC = [[testAddViewController alloc] init];
+        [nextC setNote:note];
+        [nextC setForEditing:YES];
+        [nextC setManagedObjectContext:managedObjectContext];
+        [self.navigationController pushViewController:nextC animated:YES];
     } else
     {
         askPasswordViewController * nextController = [[askPasswordViewController alloc]initWithStyle:UITableViewStyleGrouped];
@@ -99,13 +101,20 @@
 
 - (void)add:(id)sender
 {
-    addNewNoteViewController *addController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    testAddViewController *nextC = [[testAddViewController alloc] init];
+    
+    //addNewNoteViewController *addController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
 	Note *newNote = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
-	addController.note = newNote;
-    addController.managedObjectContext = managedObjectContext;
+	//addController.note = newNote;
     
-    [self.navigationController pushViewController:addController animated:YES];
+    nextC.note = newNote;
+    nextC.managedObjectContext = managedObjectContext;
+    
+    [self.navigationController pushViewController:nextC animated:YES];
+    //addController.managedObjectContext = managedObjectContext;
+    
+    //[self.navigationController pushViewController:addController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -148,8 +157,9 @@
     
     if (MYcell == nil)
     {
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"noteListCell" owner:self options:nil];
-        MYcell = [topLevelObjects objectAtIndex:0];
+        [[NSBundle mainBundle] loadNibNamed:@"noteListCell" owner:self options:nil];
+        MYcell = noteCell;
+        noteCell = nil;
     }
     
     [self configureCell:MYcell atIndexPath:indexPath];
@@ -231,5 +241,9 @@
     }
 	
 	return fetchedResultsController;
+}
+- (void)viewDidUnload {
+    [self setNoteCell:nil];
+    [super viewDidUnload];
 }
 @end

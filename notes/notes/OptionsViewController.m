@@ -32,8 +32,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    [self setTitle:@"Options"];
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    
+    self.tableView.backgroundColor=[UIColor clearColor];
+    UIImage *backgroundImage = [UIImage imageNamed:@"woodenBackground.png"];
+    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
+    self.tableView.backgroundView=backgroundImageView;
+    
+
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,6 +86,9 @@
     }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+    
     return cell;
 }
 

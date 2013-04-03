@@ -10,6 +10,7 @@
 
 #import "askPasswordViewController.h"
 #import "addNewNoteViewController.h"
+#import "testAddViewController.h"
 
 @interface askPasswordViewController ()
 
@@ -54,6 +55,7 @@
     
     if ([cell.passwordField.text isEqualToString:pass.password])
     {
+        /*
         addNewNoteViewController *nextController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
         [nextController setNote:note];
         [nextController setForEditing:YES];
@@ -62,6 +64,12 @@
         [self showBottomTitle:nil];
         
         [self.navigationController pushViewController:nextController animated:YES];
+         */
+        testAddViewController *nextC = [[testAddViewController alloc] init];
+        [nextC setNote:note];
+        [nextC setForEditing:YES];
+        [nextC setManagedObjectContext:managedObjectContext];
+        [self.navigationController pushViewController:nextC animated:YES];
         
     } else
     {
@@ -105,6 +113,11 @@
     self.navigationItem.rightBarButtonItem = saveButtonItem;
     
     self.tableView.allowsSelection = NO;
+    
+    self.tableView.backgroundColor=[UIColor clearColor];
+    UIImage *backgroundImage = [UIImage imageNamed:@"woodenBackground.png"];
+    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
+    self.tableView.backgroundView=backgroundImageView;
 }
 
 -(void)cancel

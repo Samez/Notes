@@ -9,14 +9,15 @@
 #define _OLD 100
 #define _NEW1 101
 #define _NEW2 102
+#define _PASSWORD_MIN_LENGTH 4
 
 NSString * const  _INCORRECT_OLD_PASSWORD = @"Incorrect old password";
 
 NSString * const _PASSWORDS_ARE_NOT_EQUAL = @"Passwords are not equal";
 
-NSString * const _PASSWORD_IS_TOO_SHORT = @"You have entered is too short password. Please, come up with a new password of sufficient length. The password can not be shorter than 8 characters";
+NSString * const _PASSWORD_IS_TOO_SHORT = @"You have entered is too short password. Please, come up with a new password of sufficient length. The password can not be shorter than 4 characters";
 
-NSString * const _DEFAULT_PASSWORD_WARNING=  @"You are using the default password - 'Password'. For the safety come up and enter a new password that is at least 8 characters";
+NSString * const _DEFAULT_PASSWORD_WARNING=  @"You are using the default password - 'Password'. For the safety come up and enter a new password that is at least 4 characters";
 
 NSString * const _CANT_SAVE = @"I can't save the password";
 
@@ -83,6 +84,12 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     }
     
     self.tableView.allowsSelection = NO;
+    
+    self.tableView.backgroundColor=[UIColor clearColor];
+    UIImage *backgroundImage = [UIImage imageNamed:@"woodenBackground.png"];
+    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
+    self.tableView.backgroundView=backgroundImageView;
+    
 }
 
 -(void)showBottomTitle:(NSString*)title
@@ -102,7 +109,7 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     
     if ([passwordOne isEqualToString:passwordTwo])
     {
-        if ([passwordOne length]>=8)
+        if ([passwordOne length]>=_PASSWORD_MIN_LENGTH)
         {
             [self showBottomTitle:_PASSWORD_DID_CHANGE];
             flag = YES;
@@ -169,8 +176,6 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
             [self savePass];
         }
     }
-    
-    //[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
