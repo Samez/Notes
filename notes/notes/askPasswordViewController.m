@@ -55,20 +55,11 @@
     
     if ([cell.passwordField.text isEqualToString:pass.password])
     {
-        /*
-        addNewNoteViewController *nextController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
-        [nextController setNote:note];
-        [nextController setForEditing:YES];
-        [nextController setManagedObjectContext:managedObjectContext];
-        
-        [self showBottomTitle:nil];
-        
-        [self.navigationController pushViewController:nextController animated:YES];
-         */
         testAddViewController *nextC = [[testAddViewController alloc] init];
         [nextC setNote:note];
         [nextC setForEditing:YES];
         [nextC setManagedObjectContext:managedObjectContext];
+        nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
         [self.navigationController pushViewController:nextC animated:YES];
         
     } else

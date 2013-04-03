@@ -39,6 +39,7 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
 	}
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -59,6 +60,7 @@
         [nextC setNote:note];
         [nextC setForEditing:YES];
         [nextC setManagedObjectContext:managedObjectContext];
+        nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
         [self.navigationController pushViewController:nextC animated:YES];
     } else
     {
@@ -99,6 +101,17 @@
     }
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Detemine if it's in editing mode
+    if (self.editing)
+    {
+        return UITableViewCellEditingStyleDelete;
+    }
+    
+    return UITableViewCellEditingStyleNone;
+}
+
 - (void)add:(id)sender
 {
     testAddViewController *nextC = [[testAddViewController alloc] init];
@@ -110,6 +123,7 @@
     
     nextC.note = newNote;
     nextC.managedObjectContext = managedObjectContext;
+    nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
     
     [self.navigationController pushViewController:nextC animated:YES];
     //addController.managedObjectContext = managedObjectContext;

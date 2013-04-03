@@ -24,9 +24,6 @@
 		0434EB1D16D3A18000BD9C2B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB1C16D3A18000BD9C2B /* Default.png */; };
 		0434EB1F16D3A18000BD9C2B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB1E16D3A18000BD9C2B /* Default@2x.png */; };
 		0434EB2116D3A18000BD9C2B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */; };
-		044315B4170A07A800AAB35E /* newNoteBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 044315B3170A07A800AAB35E /* newNoteBackground.png */; };
-		044315B6170A114000AAB35E /* backgroundColor.png in Resources */ = {isa = PBXBuildFile; fileRef = 044315B5170A114000AAB35E /* backgroundColor.png */; };
-		044315B8170A122300AAB35E /* textCellBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 044315B7170A122300AAB35E /* textCellBackground.png */; };
 		044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE19F16D3AE54004CDE0A /* notesListViewController.m */; };
 		044DE1AF16D3B045004CDE0A /* passwordSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1AE16D3B045004CDE0A /* passwordSingleton.m */; };
 		044DE1B816D3B237004CDE0A /* Window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1B716D3B237004CDE0A /* Window.xib */; };
@@ -37,19 +34,20 @@
 		0462F17616E30E5200BE6806 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 0462F17516E30E5200BE6806 /* Note.m */; };
 		04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACDBEE170B55F9003A74F4 /* testAddViewController.m */; };
 		04ACDBF1170B55F9003A74F4 /* testAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */; };
-		04ACDBF3170B5B20003A74F4 /* newNoteBackground2.png in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBF2170B5B20003A74F4 /* newNoteBackground2.png */; };
-		04ACDBF5170B7163003A74F4 /* textBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBF4170B7163003A74F4 /* textBackground.png */; };
-		04ACDBFD170C20CA003A74F4 /* lockOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBFC170C20CA003A74F4 /* lockOn.png */; };
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
 		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
 		04CF123916D404C8009D89E3 /* Model8.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model8.xcdatamodeld */; };
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
-		04D5399F170C6BB900CC268D /* newNoteBackground3.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399E170C6BB900CC268D /* newNoteBackground3.png */; };
-		04D539A1170C77D300CC268D /* newNoteBackground4.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A0170C77D300CC268D /* newNoteBackground4.png */; };
 		04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A2170C7BF100CC268D /* woodenBackground.png */; };
 		04D539A5170C8C9700CC268D /* newNoteBackground5.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A4170C8C9700CC268D /* newNoteBackground5.png */; };
+		04D539AA170C977600CC268D /* oneNoteBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A6170C977500CC268D /* oneNoteBackground.png */; };
+		04D539AB170C977600CC268D /* twoNotesBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A7170C977600CC268D /* twoNotesBackground.png */; };
+		04D539AC170C977600CC268D /* threeNotesBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A8170C977600CC268D /* threeNotesBackground.png */; };
+		04D53A0F170C97C200CC268D /* fourNotesBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D53A0E170C97C200CC268D /* fourNotesBackground.png */; };
+		04D53A11170C9E8100CC268D /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D53A10170C9E8100CC268D /* trash.png */; };
+		04D53A13170CA28900CC268D /* trash2.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D53A12170CA28900CC268D /* trash2.png */; };
 		04D6D3FE16DCF72F0053C4AF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D6D3FD16DCF72F0053C4AF /* Icon.png */; };
 		04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40116DCF7980053C4AF /* passwordViewController.m */; };
 		04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40B16DDCE620053C4AF /* passwordCell.m */; };
@@ -83,9 +81,6 @@
 		0434EB1C16D3A18000BD9C2B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		0434EB1E16D3A18000BD9C2B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		044315B3170A07A800AAB35E /* newNoteBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteBackground.png; path = Pics/newNoteBackground.png; sourceTree = SOURCE_ROOT; };
-		044315B5170A114000AAB35E /* backgroundColor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = backgroundColor.png; path = Pics/backgroundColor.png; sourceTree = SOURCE_ROOT; };
-		044315B7170A122300AAB35E /* textCellBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textCellBackground.png; path = Pics/textCellBackground.png; sourceTree = SOURCE_ROOT; };
 		044DE19E16D3AE54004CDE0A /* notesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = notesListViewController.h; sourceTree = "<group>"; };
 		044DE19F16D3AE54004CDE0A /* notesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = notesListViewController.m; sourceTree = "<group>"; };
 		044DE1AD16D3B045004CDE0A /* passwordSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordSingleton.h; sourceTree = "<group>"; };
@@ -103,19 +98,20 @@
 		04ACDBED170B55F9003A74F4 /* testAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testAddViewController.h; sourceTree = "<group>"; };
 		04ACDBEE170B55F9003A74F4 /* testAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testAddViewController.m; sourceTree = "<group>"; };
 		04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = testAddViewController.xib; sourceTree = "<group>"; };
-		04ACDBF2170B5B20003A74F4 /* newNoteBackground2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteBackground2.png; path = Pics/newNoteBackground2.png; sourceTree = SOURCE_ROOT; };
-		04ACDBF4170B7163003A74F4 /* textBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textBackground.png; path = Pics/textBackground.png; sourceTree = SOURCE_ROOT; };
-		04ACDBFC170C20CA003A74F4 /* lockOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lockOn.png; path = Pics/lockOn.png; sourceTree = SOURCE_ROOT; };
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
 		04CF123816D404C8009D89E3 /* Model8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model8.xcdatamodel; sourceTree = "<group>"; };
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
-		04D5399E170C6BB900CC268D /* newNoteBackground3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteBackground3.png; path = Pics/newNoteBackground3.png; sourceTree = SOURCE_ROOT; };
-		04D539A0170C77D300CC268D /* newNoteBackground4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteBackground4.png; path = Pics/newNoteBackground4.png; sourceTree = SOURCE_ROOT; };
 		04D539A2170C7BF100CC268D /* woodenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackground.png; path = Pics/woodenBackground.png; sourceTree = SOURCE_ROOT; };
 		04D539A4170C8C9700CC268D /* newNoteBackground5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = newNoteBackground5.png; path = Pics/newNoteBackground5.png; sourceTree = SOURCE_ROOT; };
+		04D539A6170C977500CC268D /* oneNoteBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = oneNoteBackground.png; path = Pics/oneNoteBackground.png; sourceTree = SOURCE_ROOT; };
+		04D539A7170C977600CC268D /* twoNotesBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twoNotesBackground.png; path = Pics/twoNotesBackground.png; sourceTree = SOURCE_ROOT; };
+		04D539A8170C977600CC268D /* threeNotesBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = threeNotesBackground.png; path = Pics/threeNotesBackground.png; sourceTree = SOURCE_ROOT; };
+		04D53A0E170C97C200CC268D /* fourNotesBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fourNotesBackground.png; path = Pics/fourNotesBackground.png; sourceTree = SOURCE_ROOT; };
+		04D53A10170C9E8100CC268D /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trash.png; path = Pics/trash.png; sourceTree = SOURCE_ROOT; };
+		04D53A12170CA28900CC268D /* trash2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trash2.png; path = Pics/trash2.png; sourceTree = SOURCE_ROOT; };
 		04D6D3FD16DCF72F0053C4AF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		04D6D40016DCF7980053C4AF /* passwordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordViewController.h; sourceTree = "<group>"; };
 		04D6D40116DCF7980053C4AF /* passwordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordViewController.m; sourceTree = "<group>"; };
@@ -311,19 +307,17 @@
 			isa = PBXGroup;
 			children = (
 				04CF122516D4004B009D89E3 /* lock.png */,
-				044315B3170A07A800AAB35E /* newNoteBackground.png */,
 				04CF122616D4004B009D89E3 /* list.png */,
-				044315B7170A122300AAB35E /* textCellBackground.png */,
-				04ACDBFC170C20CA003A74F4 /* lockOn.png */,
 				04D6D3FD16DCF72F0053C4AF /* Icon.png */,
 				04D5399A170C686400CC268D /* unlocked.png */,
-				04D5399E170C6BB900CC268D /* newNoteBackground3.png */,
+				04D539A6170C977500CC268D /* oneNoteBackground.png */,
+				04D539A7170C977600CC268D /* twoNotesBackground.png */,
+				04D539A8170C977600CC268D /* threeNotesBackground.png */,
+				04D53A12170CA28900CC268D /* trash2.png */,
+				04D53A10170C9E8100CC268D /* trash.png */,
 				04D5399B170C686400CC268D /* locked.png */,
+				04D53A0E170C97C200CC268D /* fourNotesBackground.png */,
 				04D539A4170C8C9700CC268D /* newNoteBackground5.png */,
-				04D539A0170C77D300CC268D /* newNoteBackground4.png */,
-				04ACDBF4170B7163003A74F4 /* textBackground.png */,
-				044315B5170A114000AAB35E /* backgroundColor.png */,
-				04ACDBF2170B5B20003A74F4 /* newNoteBackground2.png */,
 				04D539A2170C7BF100CC268D /* woodenBackground.png */,
 				04CF122716D4004B009D89E3 /* gear.png */,
 			);
@@ -430,19 +424,17 @@
 				041A7D8B16D4974200F91496 /* privateSwitcher.xib in Resources */,
 				04D6D3FE16DCF72F0053C4AF /* Icon.png in Resources */,
 				04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */,
-				044315B4170A07A800AAB35E /* newNoteBackground.png in Resources */,
-				044315B6170A114000AAB35E /* backgroundColor.png in Resources */,
-				044315B8170A122300AAB35E /* textCellBackground.png in Resources */,
 				04ACDBF1170B55F9003A74F4 /* testAddViewController.xib in Resources */,
-				04ACDBF3170B5B20003A74F4 /* newNoteBackground2.png in Resources */,
-				04ACDBF5170B7163003A74F4 /* textBackground.png in Resources */,
-				04ACDBFD170C20CA003A74F4 /* lockOn.png in Resources */,
 				04D5399C170C686400CC268D /* unlocked.png in Resources */,
 				04D5399D170C686400CC268D /* locked.png in Resources */,
-				04D5399F170C6BB900CC268D /* newNoteBackground3.png in Resources */,
-				04D539A1170C77D300CC268D /* newNoteBackground4.png in Resources */,
 				04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */,
 				04D539A5170C8C9700CC268D /* newNoteBackground5.png in Resources */,
+				04D539AA170C977600CC268D /* oneNoteBackground.png in Resources */,
+				04D539AB170C977600CC268D /* twoNotesBackground.png in Resources */,
+				04D539AC170C977600CC268D /* threeNotesBackground.png in Resources */,
+				04D53A0F170C97C200CC268D /* fourNotesBackground.png in Resources */,
+				04D53A11170C9E8100CC268D /* trash.png in Resources */,
+				04D53A13170CA28900CC268D /* trash2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,10 +20,11 @@
 @synthesize myNameField;
 @synthesize managedObjectContext,fetchedResultsController;
 @synthesize note;
-
+@synthesize timeText;
 @synthesize lockButton;
-
 @synthesize alertLabel;
+@synthesize notesCount;
+@synthesize trashButton;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -32,6 +33,7 @@
     if (self)
     {
         nameSymbolCount = 0;
+        oldNote = nil;
     }
     return self;
 }
@@ -40,7 +42,28 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"newNoteBackground5.png"]];
+    
+    if (forEditing)
+        notesCount--;
+    
+    switch (notesCount)
+    {
+        case 0:
+            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]];
+            break;
+        case 1:
+            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"twoNotesBackground.png"]];
+            break;
+        case 2:
+            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"threeNotesBackground.png"]];
+            break;
+        case 3:
+            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]];
+            break;
+        default:
+            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]];
+            break;
+    }
     
     if(forEditing)
         self.navigationItem.title = @"Edit note";
@@ -68,11 +91,27 @@
     myTextView.returnKeyType = UIReturnKeyNext;
     
     myNameField.delegate = self;
-
-    if(forEditing)
+    
+    if (!forEditing)
     {
+        [timeText setHidden:YES];
+    } else
+    {
+        [timeText setHidden:NO];
+        NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
+        [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
+        NSString * timeString = [date_format stringFromDate: note.date];
+        
+        [timeText setText:timeString];
+        
         [myTextView setText:[note text]];
         [myNameField setText:[note name]];
+    }
+    
+    if (forEditing)
+    {
+        [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
+        
     }
 
 
@@ -86,6 +125,10 @@
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
 
     [alertLabel setHidden:YES];
+    
+    if (forEditing)
+        oldNote = note;
+    
 }
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -113,11 +156,28 @@
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
 }
 
+- (IBAction)clickTrashButton:(id)sender
+{
+    [managedObjectContext deleteObject:note];
+    
+    NSError *error = nil;
+    
+    if (![self.managedObjectContext save:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 
 - (void)cancel
 {
 	if (!forEditing)
         [self.managedObjectContext deleteObject:note];
+    else
+        note = oldNote;
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -221,11 +281,12 @@
 }
 
 - (void)viewDidUnload {
-    //[self setMyTextView:nil];
     [self setMyNameField:nil];
+    [self setTimeText:nil];
     [self setLockButton:nil];
 
     [self setAlertLabel:nil];
+    [self setTrashButton:nil];
     [super viewDidUnload];
 }
 
