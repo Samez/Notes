@@ -9,7 +9,7 @@
 #define _INCORRECT_PSWD @"Incorrect password!"
 
 #import "askPasswordViewController.h"
-#import "addNewNoteViewController.h"
+
 #import "testAddViewController.h"
 
 @interface askPasswordViewController ()
@@ -40,14 +40,10 @@
     if (textField.tag == 666)
     {
         [textField resignFirstResponder];
+        [self tryToEnter];
         return NO;
     }
     return YES;
-}
-
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [self tryToEnter];
 }
 
 -(void)tryToEnter
@@ -81,6 +77,8 @@
         bottomTitle = nil;
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
     }
+    [[[self.tableView footerViewForSection:0] textLabel] setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+    [[[self.tableView footerViewForSection:0] textLabel] setShadowColor:[UIColor clearColor]];
     
 }
 
@@ -112,6 +110,7 @@
     self.tableView.backgroundView=backgroundImageView;
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
 }
 
 -(void)cancel

@@ -91,13 +91,16 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     self.tableView.backgroundView=backgroundImageView;
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
+
 }
 
 -(void)showBottomTitle:(NSString*)title
 {
     bottomTitle = title;
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationFade];
+    
+    [[[self.tableView footerViewForSection:0] textLabel] setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+    [[[self.tableView footerViewForSection:0] textLabel] setShadowColor:[UIColor clearColor]];
 }
 
 -(void)cancel
