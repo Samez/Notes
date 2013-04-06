@@ -8,6 +8,7 @@
 
 #import "testAddViewController.h"
 
+
 #define MAXLENGTH 25
 
 @interface testAddViewController ()
@@ -34,13 +35,60 @@
     {
         nameSymbolCount = 0;
         oldNote = nil;
+        wasSaved = NO;
     }
     return self;
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    //[self showTabBar:self.tabBarController];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self hideTabBar:self.tabBarController];
+    [self showTrashButtonWithDuration:0.6];
+}
+
+-(void)showTrashButtonWithDuration:(CGFloat)duration
+{
+    [UIView animateWithDuration:duration
+                          delay:0.25
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         trashButton.alpha = 1.0;
+                     } 
+                     completion:^(BOOL finished){
+                         [trashButton setEnabled:YES];
+                     }];
+}
+
+-(void)showAlertMessageWithDuration:(CGFloat)duration
+{
+    [UIView animateWithDuration:duration delay:0.1 options:UIViewAnimationCurveEaseInOut
+                     animations:^{
+                         [alertLabel setAlpha:1.0];
+                     } completion:^(BOOL finished) {
+                         
+                     }];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+//    [self hideTabBar:self.tabBarController];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [alertLabel setAlpha:0.0];
+    
+    if (note)
+        forEditing = YES;
+    else
+    note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
     
     if(forEditing)
         self.navigationItem.title = @"Edit note";
@@ -63,12 +111,6 @@
         abort();
     }
     
-    if (forEditing)
-    {
-        [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
-        
-    }
-    
     myTextView.delegate = self;
     [myTextView setScrollEnabled:NO];
     myTextView.returnKeyType = UIReturnKeyNext;
@@ -78,37 +120,37 @@
     if (!forEditing)
     {
         [timeText setHidden:YES];
+        [trashButton setHidden:YES];
+        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
+
     } else
     {
-        [timeText setHidden:NO];
+        oldNote = note;
+        notesCount--;
+        
+        if ([[note isPrivate] boolValue])
+            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
+        else
+            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
+        
+        [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
+        trashButton.alpha = 0.0;
+        [trashButton setEnabled:NO];
+        
+
+        
         NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
         [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
         NSString * timeString = [date_format stringFromDate: note.date];
         
         [timeText setText:timeString];
+        [timeText setHidden:NO];
         
         [myTextView setText:[note text]];
         [myNameField setText:[note name]];
         
         [trashButton setImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
     }
-    
-    if (forEditing)
-    {
-        if ([[note isPrivate] boolValue])
-            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
-        else
-            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
-    } else
-        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
-
-    [alertLabel setHidden:YES];
-    
-    if (forEditing)
-        oldNote = note;
-    
-    if (forEditing)
-        notesCount--;
     
     switch (notesCount)
     {
@@ -131,7 +173,18 @@
     
 }
 
-- (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+-(void)saveText
+{
+    [note setText:[myTextView text]];
+}
+
+-(void)saveName
+{
+    [note setName:[myNameField text]];
+}
+
+- (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
     
     NSUInteger oldLength = [textField.text length];
     NSUInteger replacementLength = [string length];
@@ -188,7 +241,7 @@
         if ([[myNameField text] length] == 0)
         {
             [alertLabel setText:@"Enter name for private note"];
-            [alertLabel setHidden:NO];
+            [self showAlertMessageWithDuration:0.5];
             return;
         } 
     } else
@@ -197,7 +250,7 @@
             if ([[myTextView text] length] == 0)
             {
                 [alertLabel setText:@"Enter name or text for open note"];
-                [alertLabel setHidden:NO];
+                [self showAlertMessageWithDuration:0.5];
                 return;
             }
     }
@@ -216,8 +269,13 @@
         abort();
     }
     
+    wasSaved = YES;
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
+    
 }
+
+
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString*)aText
 {
@@ -279,6 +337,26 @@
 	return fetchedResultsController;
 }
 
+- (void)hideTabBar:(UITabBarController *) tabbarcontroller
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    
+    for(UIView *view in tabbarcontroller.view.subviews)
+    {
+        if([view isKindOfClass:[UITabBar class]])
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, 570, view.frame.size.width, view.frame.size.height)];
+        }
+        else
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, 570)];
+        }
+    }
+    
+    [UIView commitAnimations];
+}
+
 - (void)viewDidUnload {
     [self setMyNameField:nil];
     [self setTimeText:nil];
@@ -286,6 +364,7 @@
 
     [self setAlertLabel:nil];
     [self setTrashButton:nil];
+    
     [super viewDidUnload];
 }
 

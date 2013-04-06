@@ -77,11 +77,7 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
 
     pass = (Pswd*)fetchedResultsController.fetchedObjects[0];
     
-    if([pass.password isEqualToString:@"Password"])
-    {
-        [self showBottomTitle:_DEFAULT_PASSWORD_WARNING];
-        forOldPassword = pass.password;
-    }
+
     
     self.tableView.allowsSelection = NO;
     
@@ -92,6 +88,18 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if([pass.password isEqualToString:@"Password"])
+    {
+        forOldPassword = pass.password;
+        [self showBottomTitle:_DEFAULT_PASSWORD_WARNING];
+    }
+    
 }
 
 -(void)showBottomTitle:(NSString*)title

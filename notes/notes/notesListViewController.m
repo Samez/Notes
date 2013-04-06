@@ -12,6 +12,7 @@
 #import "askPasswordViewController.h"
 #import "testAddViewController.h"
 
+
 @interface notesListViewController ()
 
 @end
@@ -40,11 +41,40 @@
 		abort();
 	}
     
+
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self showTabBar:self.tabBarController];
+}
+
+- (void)showTabBar:(UITabBarController *) tabbarcontroller
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    for(UIView *view in tabbarcontroller.view.subviews)
+    {
+        
+        if([view isKindOfClass:[UITabBar class]])
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, 521, view.frame.size.width, view.frame.size.height)];
+            
+        }
+        else
+        {
+            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, 521)];
+        }
+    }
+    
+    [UIView commitAnimations];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -61,6 +91,7 @@
         [nextC setForEditing:YES];
         [nextC setManagedObjectContext:managedObjectContext];
         nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
+        //nextC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:nextC animated:YES];
     } else
     {
@@ -117,19 +148,11 @@
 {
     testAddViewController *nextC = [[testAddViewController alloc] init];
     
-    //addNewNoteViewController *addController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    
-	Note *newNote = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
-	//addController.note = newNote;
-    
-    nextC.note = newNote;
     nextC.managedObjectContext = managedObjectContext;
     nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
-    
+    [nextC setNote:nil];
     [self.navigationController pushViewController:nextC animated:YES];
-    //addController.managedObjectContext = managedObjectContext;
-    
-    //[self.navigationController pushViewController:addController animated:YES];
+
 }
 
 - (void)didReceiveMemoryWarning

@@ -54,7 +54,6 @@
     {
         testAddViewController *nextC = [[testAddViewController alloc] init];
         [nextC setNote:note];
-        [nextC setForEditing:YES];
         [nextC setManagedObjectContext:managedObjectContext];
         nextC.notesCount = notesCount;
         [self.navigationController pushViewController:nextC animated:YES];
