@@ -34,15 +34,9 @@
     if (self)
     {
         nameSymbolCount = 0;
-        oldNote = nil;
-        wasSaved = NO;
+        isPrivate = NO;
     }
     return self;
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    //[self showTabBar:self.tabBarController];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -74,11 +68,6 @@
                      }];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-//    [self hideTabBar:self.tabBarController];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -86,7 +75,11 @@
     [alertLabel setAlpha:0.0];
     
     if (note)
+    {
         forEditing = YES;
+        bufNote = note;
+        isPrivate = note.isPrivate;
+    }
     else
     note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
     
@@ -125,7 +118,6 @@
 
     } else
     {
-        oldNote = note;
         notesCount--;
         
         if ([[note isPrivate] boolValue])
@@ -136,9 +128,7 @@
         [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
         trashButton.alpha = 0.0;
         [trashButton setEnabled:NO];
-        
-
-        
+    
         NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
         [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
         NSString * timeString = [date_format stringFromDate: note.date];
@@ -173,16 +163,6 @@
     
 }
 
--(void)saveText
-{
-    [note setText:[myTextView text]];
-}
-
--(void)saveName
-{
-    [note setName:[myNameField text]];
-}
-
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     
@@ -200,10 +180,10 @@
 
 -(void)clickLockButton:(id)sender
 {
-    [note setIsPrivate:[NSNumber numberWithBool:![[note isPrivate] boolValue]]];
+    isPrivate = !isPrivate;
 
     
-    if (![[note isPrivate] boolValue])
+    if (!isPrivate)
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
     else
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
@@ -228,54 +208,40 @@
 {
 	if (!forEditing)
         [self.managedObjectContext deleteObject:note];
-    else
-        note = oldNote;
     
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(void)save
 {
-    if ([[note isPrivate] boolValue])
+    
+    if ([[myNameField text] length] == 0)
     {
-        if ([[myNameField text] length] == 0)
-        {
-            [alertLabel setText:@"Enter name for private note"];
-            [self showAlertMessageWithDuration:0.5];
-            return;
-        } 
+        [alertLabel setText:@"Enter name of note"];
+        [self showAlertMessageWithDuration:0.5];
+        return;
     } else
     {
-        if ([[myNameField text] length] == 0)
-            if ([[myTextView text] length] == 0)
-            {
-                [alertLabel setText:@"Enter name or text for open note"];
-                [self showAlertMessageWithDuration:0.5];
-                return;
-            }
+        [note setText:[myTextView text]];
+        [note setName:[myNameField text]];
+        [note setIsPrivate:[NSNumber numberWithBool:isPrivate]];
+        
+        if(!forEditing)
+            [note setDate:[NSDate date]];
+        
+        NSError *error = nil;
+        
+        note = bufNote;
+        
+        if (![self.managedObjectContext save:&error])
+        {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+        
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    
-    [note setName:[myNameField text]];
-    [note setText:[myTextView text]];
-    
-    if(!forEditing)
-        [note setDate:[NSDate date]];
-    
-    NSError *error = nil;
-    
-    if (![self.managedObjectContext save:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    wasSaved = YES;
-    
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    
 }
-
-
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString*)aText
 {

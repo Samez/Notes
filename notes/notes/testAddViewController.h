@@ -19,8 +19,8 @@
 {
     UIImageView *tempImageView;
     int nameSymbolCount;
-    Note *oldNote;
-    BOOL wasSaved;
+    Note *bufNote;
+    BOOL isPrivate;
 }
 
 @property (weak, nonatomic) IBOutlet UITextView *myTextView;
