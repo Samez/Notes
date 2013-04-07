@@ -17,8 +17,10 @@
 {
     UIImageView *tempImageView;
     int nameSymbolCount;
-    Note *bufNote;
     BOOL isPrivate;
+    BOOL alertIsVisible;
+    BOOL alerting;
+    BOOL hidining;
 }
 
 @property (weak, nonatomic) IBOutlet UITextView *myTextView;

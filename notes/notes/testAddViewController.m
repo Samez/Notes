@@ -33,6 +33,9 @@
     {
         nameSymbolCount = 0;
         isPrivate = NO;
+        alertIsVisible = NO;
+        alerting = NO;
+        hidining = NO;
     }
     return self;
 }
@@ -59,34 +62,85 @@
 
 -(void)showAlertMessageWithDuration:(CGFloat)duration
 {
-    [UIView animateWithDuration:duration delay:0.1 options:UIViewAnimationCurveEaseInOut
-                     animations:^{
-                         [alertLabel setAlpha:1.0];
-                     } completion:^(BOOL finished) {
-                         
-                     }];
+    if (alertIsVisible)
+    {
+        [self hideAlertMessageWithDuration:duration needReshow:YES];
+        return;
+    }
+    
+    if (!alerting)
+    {
+        alerting = YES;
+        
+        [UIView animateWithDuration:duration delay:0.1 options:UIViewAnimationCurveEaseInOut
+                         animations:^{
+                             [alertLabel setAlpha:1.0];
+                         } completion:^(BOOL finished) {
+                             alerting = NO;
+                             alertIsVisible = YES;
+                         }];
+    }
+}
+
+-(void)hideAlertMessageWithDuration:(CGFloat)duration needReshow:(BOOL)need
+{
+
+    if (!alerting)
+    {
+        alerting = YES;
+        
+        [UIView animateWithDuration:duration delay:0.1 options:UIViewAnimationCurveEaseInOut
+                         animations:^{
+                             [alertLabel setAlpha:0.0];
+                         } completion:^(BOOL finished) {
+                             alerting = NO;
+                             alertIsVisible = NO;
+                             if (need)
+                                 [self showAlertMessageWithDuration:duration];
+                         }];
+    }
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self hideAlertMessageWithDuration:0.5 needReshow:NO];
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self hideAlertMessageWithDuration:0.5 needReshow:NO];
+}
+
+-(void)dismissKeyboard
+{
+    [myTextView resignFirstResponder];
+    [myNameField resignFirstResponder];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
+    
     [alertLabel setAlpha:0.0];
     
-    if (note)
+    if (note != nil)
     {
         forEditing = YES;
-        bufNote = note;
-        isPrivate = [note isPrivate];
+        isPrivate = [[note isPrivate] boolValue];
+        
+        [[self navigationItem] setTitle:@"Edit note"];
     }
     else
+    {
         note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:[self managedObjectContext]];
-    
-    if(forEditing)
-        [[self navigationItem] setTitle:@"Edit note"];
-    else
+        
         [[self navigationItem] setTitle:@"New note"];
-    
+    }
+
     UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
     
     [[self navigationItem] setLeftBarButtonItem:cancelButtonItem];
@@ -115,7 +169,7 @@
     {
         [timeText setHidden:YES];
         [trashButton setHidden:YES];
-        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
+        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
 
     } else
     {
@@ -124,7 +178,7 @@
         if ([[note isPrivate] boolValue])
             [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
         else
-            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
+            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
         
         [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
         [trashButton setAlpha:0.0];
@@ -181,8 +235,10 @@
 {
     isPrivate = !isPrivate;
     
+    [self hideAlertMessageWithDuration:0.5 needReshow:NO];
+    
     if (!isPrivate)
-        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
+        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
     else
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
 }
@@ -213,32 +269,48 @@
 -(void)save
 {
     
-    if ([[myNameField text] length] == 0)
+    [myTextView resignFirstResponder];
+    [myNameField resignFirstResponder];
+    
+    if (isPrivate)
     {
-        [alertLabel setText:@"Enter name of note"];
-        [self showAlertMessageWithDuration:0.5];
-        return;
+        if (([[myNameField text] length] == 0) || ([[myTextView text] length] == 0))
+        {
+            [alertLabel setText:@"Enter name and text of private note"];
+            [self showAlertMessageWithDuration:0.6];
+            return;
+        }
     } else
     {
-        [note setText:[myTextView text]];
-        [note setName:[myNameField text]];
-        [note setIsPrivate:[NSNumber numberWithBool:isPrivate]];
-        
-        if(!forEditing)
-            [note setDate:[NSDate date]];
-        
-        NSError *error = nil;
-        
-        note = bufNote;
-        
-        if (![[self managedObjectContext] save:&error])
+        if (([[myNameField text]length] == 0) && ([[myTextView text] length] == 0))
         {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
+            [alertLabel setText:@"Enter name or text of public note"];
+            [self showAlertMessageWithDuration:0.6];
+            return;
         }
-        
-        [[self navigationController] popToRootViewControllerAnimated:YES];
     }
+    
+    [note setIsPrivate:[NSNumber numberWithBool:isPrivate]];
+    
+    [note setText:[myTextView text]];
+    
+    if ([[myNameField text] length] != 0)
+        [note setName:[myNameField text]];
+    else
+        [note setName:nil];
+    
+    if(!forEditing)
+        [note setDate:[NSDate date]];
+    
+    NSError *error = nil;
+    
+    if (![[self managedObjectContext] save:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString*)aText
