@@ -40,9 +40,7 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
 	}
-    
-
-    
+        
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -165,14 +163,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSInteger count = [[fetchedResultsController sections] count];
-    
-	if (count == 0)
-    {
-		count = 1;
-	}
-	
-    return count;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
