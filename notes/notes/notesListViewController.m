@@ -26,15 +26,16 @@
 - (void)viewDidLoad
 {
     [self setTitle:@"Notes"];
-    [self.tableView setRowHeight:44];
+    [[self tableView] setRowHeight:44];
 
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
     UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
     
-    self.navigationItem.rightBarButtonItem = addButtonItem;
+    [[self navigationItem] setRightBarButtonItem:addButtonItem];
     
     NSError *error = nil;
+    
 	if (![[self fetchedResultsController] performFetch:&error])
     {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -45,20 +46,21 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tableView reloadData];
+    [[self tableView] reloadData];
     
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self showTabBar:self.tabBarController];
+    [self showTabBar:[self tabBarController]];
 }
 
 - (void)showTabBar:(UITabBarController *) tabbarcontroller
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.2];
-    for(UIView *view in tabbarcontroller.view.subviews)
+    
+    for(UIView *view in [[tabbarcontroller view] subviews])
     {
         
         if([view isKindOfClass:[UITabBar class]])
@@ -82,22 +84,23 @@
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
 {
-    if (![note.isPrivate boolValue])
+    if (![[note isPrivate] boolValue])
     {        
         testAddViewController *nextC = [[testAddViewController alloc] init];
         [nextC setNote:note];
         [nextC setForEditing:YES];
         [nextC setManagedObjectContext:managedObjectContext];
-        nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
-        //nextC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:nextC animated:YES];
+        [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
+        
+        [[self navigationController] pushViewController:nextC animated:YES];
     } else
     {
         askPasswordViewController * nextController = [[askPasswordViewController alloc]initWithStyle:UITableViewStyleGrouped];
         [nextController setNote:note];
         [nextController setManagedObjectContext:managedObjectContext];
         [nextController setNotesCount:[[fetchedResultsController fetchedObjects] count]];
-        [self.navigationController pushViewController:nextController animated:YES];
+        
+        [[self navigationController] pushViewController:nextController animated:YES];
     }
 }
 
@@ -110,7 +113,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
+    
     [self showNote:note animated:YES];
 }
 
@@ -133,8 +138,7 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Detemine if it's in editing mode
-    if (self.editing)
+    if ([self isEditing])
     {
         return UITableViewCellEditingStyleDelete;
     }
@@ -146,11 +150,11 @@
 {
     testAddViewController *nextC = [[testAddViewController alloc] init];
     
-    nextC.managedObjectContext = managedObjectContext;
-    nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
+    [nextC setManagedObjectContext:managedObjectContext];
+    [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
     [nextC setNote:nil];
-    [self.navigationController pushViewController:nextC animated:YES];
-
+    
+    [[self navigationController] pushViewController:nextC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -182,9 +186,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyCellIdentifier = @"noteListCell";
+    
     noteListCell *MYcell = [tableView dequeueReusableCellWithIdentifier:MyCellIdentifier];
     
-    if (MYcell == nil)
+    if (!MYcell)
     {
         [[NSBundle mainBundle] loadNibNamed:@"noteListCell" owner:self options:nil];
         MYcell = noteCell;
@@ -192,7 +197,8 @@
     }
     
     [self configureCell:MYcell atIndexPath:indexPath];
-    MYcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    [MYcell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return MYcell;
 }
@@ -201,12 +207,12 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	[self.tableView endUpdates];
+	[[self tableView] endUpdates];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-	[self.tableView beginUpdates];
+	[[self tableView] beginUpdates];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {

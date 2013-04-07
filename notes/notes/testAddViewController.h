@@ -13,8 +13,6 @@
 #import "enterNameCell.h"
 #import "enterTextCell.h"
 
-
-
 @interface testAddViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate, NSFetchedResultsControllerDelegate>
 {
     UIImageView *tempImageView;

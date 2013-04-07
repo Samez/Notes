@@ -33,15 +33,15 @@
 {
     note = newNote;
     
-    if (note.name)
+    if ([note name])
     {
-        nameField.text = note.name;
+        [nameField setText:[note name]];
     }
 }
 
 -(NSString*)name
 {
-    return note.name;
+    return [note name];
 }
 
 @end

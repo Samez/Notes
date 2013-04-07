@@ -20,6 +20,7 @@
 @property (nonatomic,retain) Pswd *pass;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+
 @property (strong, nonatomic) IBOutlet passwordCell *pswdCell;
 
 @end

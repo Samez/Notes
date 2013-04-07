@@ -40,9 +40,8 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-
+    if (self)
+    {
         rowsCount =  0;
         bottomTitle = nil;
         forOldPassword = nil;
@@ -53,19 +52,23 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
 -(void)viewWillDisappear:(BOOL)animated
 {
     forOldPassword = nil;
+    
     [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
-    self.navigationItem.rightBarButtonItem = saveButton;
+    
+    [[self navigationItem] setRightBarButtonItem:saveButton];
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-    self.navigationItem.leftBarButtonItem = cancelButton;
+
+    [[self navigationItem] setLeftBarButtonItem:cancelButton];
     
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
     NSError *error = nil;
     
@@ -75,28 +78,27 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
         abort();
     }
 
-    pass = (Pswd*)fetchedResultsController.fetchedObjects[0];
-    
+    pass = (Pswd*)[fetchedResultsController fetchedObjects][0];
 
+    [[self tableView] setAllowsSelection:NO];
     
-    self.tableView.allowsSelection = NO;
+    [[self tableView] setBackgroundColor:[UIColor clearColor]];
     
-    self.tableView.backgroundColor=[UIColor clearColor];
-    UIImage *backgroundImage = [UIImage imageNamed:@"woodenBackground.png"];
-    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
-    self.tableView.backgroundView=backgroundImageView;
+    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"woodenBackground.png"]];
     
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-
+    [[self tableView] setBackgroundView:backgroundImageView];
+    
+    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    if([pass.password isEqualToString:@"Password"])
+    if([[pass password] isEqualToString:@"Password"])
     {
-        forOldPassword = pass.password;
+        forOldPassword = [pass password];
+        
         [self showBottomTitle:_DEFAULT_PASSWORD_WARNING];
     }
     
@@ -105,15 +107,16 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
 -(void)showBottomTitle:(NSString*)title
 {
     bottomTitle = title;
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationFade];
     
-    [[[self.tableView footerViewForSection:0] textLabel] setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-    [[[self.tableView footerViewForSection:0] textLabel] setShadowColor:[UIColor clearColor]];
+    [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationFade];
+    
+    [[[[self tableView] footerViewForSection:0] textLabel] setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+    [[[[self tableView] footerViewForSection:0] textLabel] setShadowColor:[UIColor clearColor]];
 }
 
 -(void)cancel
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 -(BOOL)compareNewPasswordOne:(NSString*)passwordOne andNewPasswordTwo:(NSString*)passwordTwo
@@ -164,28 +167,28 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     NSString *newPassOne = nil;
     NSString *newPassTwo = nil;
     
-    if (pass.password)
+    if ([pass password])
     {
-        oldPass = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) passwordField] text];
-        newPassOne = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) passwordField] text];
-        newPassTwo = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]]) passwordField] text];
+        oldPass = [[((passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) passwordField] text];
+        newPassOne = [[((passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) passwordField] text];
+        newPassTwo = [[((passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]]) passwordField] text];
         
-        if ([self compareOldPassword:pass.password andNewPassword:oldPass])
+        if ([self compareOldPassword:[pass password] andNewPassword:oldPass])
         {
             if ([self compareNewPasswordOne:newPassOne andNewPasswordTwo:newPassTwo])
             {
-                pass.password = newPassOne;
+                [pass setPassword:newPassOne];
                 [self savePass];
             }
         }
     } else
     {
-        newPassOne = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) passwordField] text];
-        newPassTwo = [[((passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) passwordField] text];
+        newPassOne = [[((passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) passwordField] text];
+        newPassTwo = [[((passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) passwordField] text];
         
         if ([self compareNewPasswordOne:newPassOne andNewPasswordTwo:newPassTwo])
         {
-            pass.password = newPassOne;
+            [pass setPassword:newPassOne];
             [self savePass];
         }
     }
@@ -214,16 +217,18 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
         abort();
     }
     
-    [self.navigationController popViewControllerAnimated:YES];
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if ((textField.tag == _OLD)||(textField.tag == _NEW1)||(textField.tag == _NEW2))
+    if (([textField tag] == _OLD)||([textField tag] == _NEW1)||([textField tag] == _NEW2))
     {
         [textField resignFirstResponder];
+        
         return NO;
     }
+    
     return YES;
 }
 
@@ -242,7 +247,7 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (pass.password)
+    if ([pass password])
         return 3;
     else
         return 2;
@@ -260,42 +265,45 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
         passCell = [topLevelObjects objectAtIndex:0];
     }
     
-    switch (indexPath.section)
+    switch ([indexPath section])
     {
         case 0:
         {
-            switch (indexPath.row)
+            switch ([indexPath row])
             {
                 case 0:
                 {
-                    if ([(Pswd*)fetchedResultsController.fetchedObjects[0] password])
+                    if ([(Pswd*)[fetchedResultsController fetchedObjects][0] password])
                     {
-                        [passCell.passwordField setPlaceholder:@"Enter old password"];
+                        [[passCell passwordField] setPlaceholder:@"Enter old password"];
                     } else
                     {
-                        [passCell.passwordField setPlaceholder:@"Enter new password"];
+                        [[passCell passwordField] setPlaceholder:@"Enter new password"];
                     }
                     
                     if (forOldPassword)
-                        passCell.passwordField.text = forOldPassword;
+                        [[passCell passwordField] setText:forOldPassword];
                     
-                    passCell.passwordField.delegate = self;
-                    passCell.passwordField.tag = _OLD;
+                    [[passCell passwordField] setDelegate:self];
+                    [[passCell passwordField] setTag:_OLD];
+                    
                     break;
                 }
                     
                 case 1:
                 {
-                    [passCell.passwordField setPlaceholder:@"Enter new password"];
-                    passCell.passwordField.delegate = self;
-                    passCell.passwordField.tag = _NEW1;
+                    [[passCell passwordField] setPlaceholder:@"Enter new password"];
+                    [[passCell passwordField] setDelegate:self];
+                    [[passCell passwordField] setTag:_NEW1];
+                    
                     break;
                 }
                 case 2:
                 {
-                    [passCell.passwordField setPlaceholder:@"Repeat new password"];
-                    passCell.passwordField.delegate = self;
-                    passCell.passwordField.tag = _NEW2;
+                    [[passCell passwordField] setPlaceholder:@"Repeat new password"];
+                    [[passCell passwordField] setDelegate:self];
+                    [[passCell passwordField] setTag:_NEW2];
+
                     break;
                 }
             }
@@ -303,44 +311,44 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
 
     }
     
-    [passCell.passwordField setSecureTextEntry:YES];
+    [[passCell passwordField] setSecureTextEntry:YES];
+    
     return passCell;
 }
-
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	[self.tableView endUpdates];
+	[[self tableView] endUpdates];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-	[self.tableView beginUpdates];
+	[[self tableView] beginUpdates];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
 	switch(type) {
 		case NSFetchedResultsChangeInsert:
-			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			[[self tableView] insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+			[[self tableView] deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
 			break;
 	}
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
-	UITableView *tableView = self.tableView;
+	UITableView *tableView = [self tableView];
 	
 	switch(type) {
 		case NSFetchedResultsChangeInsert:

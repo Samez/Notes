@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface passwordCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 
 @end

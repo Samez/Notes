@@ -8,7 +8,6 @@
 
 #import "testAddViewController.h"
 
-
 #define MAXLENGTH 25
 
 @interface testAddViewController ()
@@ -27,7 +26,6 @@
 @synthesize notesCount;
 @synthesize trashButton;
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -41,7 +39,8 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self hideTabBar:self.tabBarController];
+    [self hideTabBar:[self tabBarController]];
+    
     [self showTrashButtonWithDuration:0.6];
 }
 
@@ -51,7 +50,7 @@
                           delay:0.25
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         trashButton.alpha = 1.0;
+                         [trashButton setAlpha:1.0];
                      } 
                      completion:^(BOOL finished){
                          [trashButton setEnabled:YES];
@@ -78,23 +77,25 @@
     {
         forEditing = YES;
         bufNote = note;
-        isPrivate = note.isPrivate;
+        isPrivate = [note isPrivate];
     }
     else
-    note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
+        note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:[self managedObjectContext]];
     
     if(forEditing)
-        self.navigationItem.title = @"Edit note";
+        [[self navigationItem] setTitle:@"Edit note"];
     else
-        self.navigationItem.title = @"New note";
+        [[self navigationItem] setTitle:@"New note"];
     
     UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
-    self.navigationItem.leftBarButtonItem = cancelButtonItem;
+    
+    [[self navigationItem] setLeftBarButtonItem:cancelButtonItem];
     
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
-    self.navigationItem.rightBarButtonItem = saveButtonItem;
+
+    [[self navigationItem] setRightBarButtonItem:saveButtonItem];
     
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
     NSError *error = nil;
     
@@ -104,11 +105,11 @@
         abort();
     }
     
-    myTextView.delegate = self;
+    [myTextView setDelegate:self];
     [myTextView setScrollEnabled:NO];
-    myTextView.returnKeyType = UIReturnKeyNext;
+    [myTextView setReturnKeyType:UIReturnKeyNext];
     
-    myNameField.delegate = self;
+    [myNameField setDelegate:self];
     
     if (!forEditing)
     {
@@ -126,17 +127,18 @@
             [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
         
         [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
-        trashButton.alpha = 0.0;
+        [trashButton setAlpha:0.0];
         [trashButton setEnabled:NO];
     
         NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
         [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
-        NSString * timeString = [date_format stringFromDate: note.date];
+        NSString * timeString = [date_format stringFromDate: [note date]];
         
         [timeText setText:timeString];
         [timeText setHidden:NO];
         
         [myTextView setText:[note text]];
+        
         [myNameField setText:[note name]];
         
         [trashButton setImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
@@ -145,31 +147,29 @@
     switch (notesCount)
     {
         case 0:
-            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]];
+            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
             break;
         case 1:
-            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"twoNotesBackground.png"]];
+            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"twoNotesBackground.png"]]];
             break;
         case 2:
-            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"threeNotesBackground.png"]];
+            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"threeNotesBackground.png"]]];
             break;
         case 3:
-            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]];
+            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]]];
             break;
         default:
-            self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]];
+            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]]];
             break;
     }
-    
 }
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     
-    NSUInteger oldLength = [textField.text length];
+    NSUInteger oldLength = [[textField text] length];
     NSUInteger replacementLength = [string length];
     NSUInteger rangeLength = range.length;
-    
     NSUInteger newLength = oldLength - rangeLength + replacementLength;
     
     BOOL returnKey = [string rangeOfString: @"\n"].location != NSNotFound;
@@ -177,11 +177,9 @@
     return newLength <= MAXLENGTH || returnKey;
 }
 
-
 -(void)clickLockButton:(id)sender
 {
     isPrivate = !isPrivate;
-
     
     if (!isPrivate)
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"lock.png"]]];
@@ -195,21 +193,21 @@
     
     NSError *error = nil;
     
-    if (![self.managedObjectContext save:&error])
+    if (![[self managedObjectContext] save:&error])
     {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 - (void)cancel
 {
 	if (!forEditing)
-        [self.managedObjectContext deleteObject:note];
+        [[self managedObjectContext] deleteObject:note];
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 -(void)save
@@ -233,32 +231,30 @@
         
         note = bufNote;
         
-        if (![self.managedObjectContext save:&error])
+        if (![[self managedObjectContext] save:&error])
         {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
         
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [[self navigationController] popToRootViewControllerAnimated:YES];
     }
 }
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString*)aText
 {
-    NSString* newText = [aTextView.text stringByReplacingCharactersInRange:aRange withString:aText];
+    NSString* newText = [[aTextView text] stringByReplacingCharactersInRange:aRange withString:aText];
 
     CGSize tallerSize = CGSizeMake(aTextView.frame.size.width-15,aTextView.frame.size.height*2);
     CGSize newSize = [newText sizeWithFont:aTextView.font constrainedToSize:tallerSize lineBreakMode:UILineBreakModeWordWrap];
     
     if (newSize.height > aTextView.frame.size.height)
     {
-        //aTextView.returnKeyType = UIReturnKeyDone;
         [aTextView resignFirstResponder];
         return NO;
     }
     else
     {
-        //aTextView.returnKeyType = UIReturnKeyNext;
         return YES;
     }
 }

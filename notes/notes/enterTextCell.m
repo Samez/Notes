@@ -33,15 +33,15 @@
 {
     note = newNote;
     
-    if (note.text)
+    if ([note text])
     {
-        textFieldView.text = note.text;
+        [textFieldView setText:[note text]];
     }
 }
 
 -(NSString*) NoteText
 {
-    return note.name;
+    return [note name];
 }
 
 @end

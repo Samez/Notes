@@ -18,7 +18,8 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+    if (self)
+    {
 
     }
     return self;
@@ -62,24 +63,27 @@
     
     [self addSubview:img];
     
-    if ([note.isPrivate boolValue] == YES )
+    if ([[note isPrivate] boolValue] == YES )
     {
-        img.image=[UIImage imageNamed:@"lock.png"];
+        [img setImage:[UIImage imageNamed:@"lock.png"]];
     } else
     {
-        img.image = nil;
+        [img setImage:nil];
     }
 
     UIFont *mainFont = [UIFont fontWithName:@"Helvetica-Bold" size:17];
+    
     [noteNameLabel setFont:mainFont];
     
-    noteNameLabel.text = note.name;
+    [noteNameLabel setText:[note name]];
     
     NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
+    
     [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
+    
     NSString * timeString = [date_format stringFromDate: note.date];
     
-    timeLabel.text = timeString;
+    [timeLabel setText:timeString];
 }
 
 

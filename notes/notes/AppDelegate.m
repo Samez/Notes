@@ -23,10 +23,9 @@
 
 -(void) applicationDidFinishLaunching:(UIApplication *)application
 {
-    notesListController.managedObjectContext = self.managedObjectContext;
-    optionsController.managedObjectContext = self.managedObjectContext;
-    window.rootViewController=self.tabBarController;
-    
+    [notesListController setManagedObjectContext:[self managedObjectContext]];
+    [optionsController setManagedObjectContext:[self managedObjectContext]];
+    [window setRootViewController:[self tabBarController]];
     
     NSError *error = nil;
     
@@ -36,10 +35,10 @@
         abort();
     }
     
-    if ([fetchedResultsController.fetchedObjects count] == 0)
+    if ([[fetchedResultsController fetchedObjects] count] == 0)
     {
-        Pswd* newPassword = (Pswd*)[NSEntityDescription insertNewObjectForEntityForName:@"Pswd" inManagedObjectContext:self.managedObjectContext];
-        newPassword.password = @"Password";
+        Pswd* newPassword = (Pswd*)[NSEntityDescription insertNewObjectForEntityForName:@"Pswd" inManagedObjectContext:[self managedObjectContext]];
+        [newPassword setPassword:@"Password"];
         
         NSError *error = nil;
         
@@ -50,7 +49,7 @@
         }
     }
 
-    [self.window makeKeyAndVisible];
+    [[self window] makeKeyAndVisible];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -61,7 +60,7 @@
 - (void)saveContext
 {
     NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
     
     if (managedObjectContext != nil)
     {

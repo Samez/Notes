@@ -37,7 +37,7 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField.tag == 666)
+    if ([textField tag] == 666)
     {
         [textField resignFirstResponder];
         [self tryToEnter];
@@ -48,15 +48,17 @@
 
 -(void)tryToEnter
 {
-    passwordCell *cell = (passwordCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    passwordCell *cell = (passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     
-    if ([cell.passwordField.text isEqualToString:pass.password])
+    if ([[[cell passwordField] text] isEqualToString:[pass password]])
     {
         testAddViewController *nextC = [[testAddViewController alloc] init];
-        [nextC setNote:note];
+        
         [nextC setManagedObjectContext:managedObjectContext];
-        nextC.notesCount = notesCount;
-        [self.navigationController pushViewController:nextC animated:YES];
+        [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
+        [nextC setNote:note];
+
+        [[self navigationController] pushViewController:nextC animated:YES];
         
     } else
     {
@@ -70,15 +72,17 @@
     if (title)
     {
         bottomTitle = title;
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationFade];
+        
+        [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationFade];
     } else
     {
         bottomTitle = nil;
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
+        
+        [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
     }
-    [[[self.tableView footerViewForSection:0] textLabel] setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-    [[[self.tableView footerViewForSection:0] textLabel] setShadowColor:[UIColor clearColor]];
     
+    [[[[self tableView] footerViewForSection:0] textLabel] setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+    [[[[self tableView] footerViewForSection:0] textLabel] setShadowColor:[UIColor clearColor]];
 }
 
 - (void)viewDidLoad
@@ -93,28 +97,30 @@
         abort();
     }
     
-    pass = (Pswd*)fetchedResultsController.fetchedObjects[0];
+    pass = (Pswd*)[fetchedResultsController fetchedObjects][0];
     
     UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
-    self.navigationItem.leftBarButtonItem = cancelButtonItem;
+    
+    [[self navigationItem] setLeftBarButtonItem:cancelButtonItem];
     
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Show" style:UIBarButtonItemStylePlain target:self action:@selector(tryToEnter)];
-    self.navigationItem.rightBarButtonItem = saveButtonItem;
     
-    self.tableView.allowsSelection = NO;
+    [[self navigationItem] setRightBarButtonItem:saveButtonItem];
     
-    self.tableView.backgroundColor=[UIColor clearColor];
-    UIImage *backgroundImage = [UIImage imageNamed:@"woodenBackground.png"];
-    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
-    self.tableView.backgroundView=backgroundImageView;
+    [[self tableView] setAllowsSelection:NO];
     
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [[self tableView] setBackgroundColor:[UIColor clearColor]];
     
+    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"woodenBackground.png"]];
+    
+    [[self tableView] setBackgroundView:backgroundImageView];
+    
+    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
 -(void)cancel
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
@@ -161,12 +167,11 @@
         passCell = [topLevelObjects objectAtIndex:0];
     }
     
-    [passCell.passwordField setPlaceholder:@"Enter password"];
-    
-    [passCell.passwordField setDelegate:self];
-    [passCell.passwordField setTag:666];
-    [passCell.passwordField setReturnKeyType:UIReturnKeyDone];
-    [passCell.passwordField setSecureTextEntry:YES];
+    [[passCell passwordField ] setPlaceholder:@"Enter password"];
+    [[passCell passwordField ] setDelegate:self];
+    [[passCell passwordField ] setTag:666];
+    [[passCell passwordField ] setReturnKeyType:UIReturnKeyDone];
+    [[passCell passwordField ] setSecureTextEntry:YES];
     
     return passCell;
 }
@@ -176,12 +181,12 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	[self.tableView endUpdates];
+	[[self tableView] endUpdates];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-	[self.tableView beginUpdates];
+	[[self tableView] beginUpdates];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {

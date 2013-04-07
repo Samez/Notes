@@ -32,43 +32,39 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self setTitle:@"Options"];
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     
-    self.tableView.backgroundColor=[UIColor clearColor];
-    UIImage *backgroundImage = [UIImage imageNamed:@"woodenBackground.png"];
-    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
-    self.tableView.backgroundView=backgroundImageView;
+    [[[self navigationController]navigationBar] setBarStyle:UIBarStyleBlack];
     
-
-
+    [[self tableView] setBackgroundColor:[UIColor clearColor]];
+    
+    UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"woodenBackground.png"]];
+    
+    [[self tableView] setBackgroundView:backgroundImageView];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
-    // Return the number of rows in the section.
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell)
@@ -76,16 +72,16 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    switch (indexPath.section)
+    switch ([indexPath section])
     {
         case _PSWD:
         {
-            cell.textLabel.text = @"Change password";
+            [[cell textLabel] setText:@"Change password"];
             break;
         }
     }
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     
@@ -97,15 +93,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
     
     UIViewController *nextViewController = nil;
 
-    switch (indexPath.section)
+    switch ([indexPath section])
     {
         case _PSWD:
         {
             nextViewController = [[passwordViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            
             [((passwordViewController*)nextViewController) setManagedObjectContext:managedObjectContext];
             [((passwordViewController*)nextViewController) setFetchedResultsController:fetchedResultsController];
         }
@@ -113,7 +110,7 @@
     
     if (nextViewController)
     {
-        [self.navigationController pushViewController:nextViewController animated:YES];
+        [[self navigationController] pushViewController:nextViewController animated:YES];
     }
 }
 
