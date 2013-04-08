@@ -16,6 +16,7 @@
 {
     NSFetchedResultsController *fetchedResultsController;
     NSManagedObjectContext *managedObjectContext;
+    NSIndexPath *iP;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;

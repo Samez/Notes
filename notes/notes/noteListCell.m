@@ -14,22 +14,71 @@
 @synthesize img;
 @synthesize timeLabel;
 @synthesize noteNameLabel;
+@synthesize passwordField;
+@synthesize button;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-
+        [passwordField setDelegate:self];
     }
     return self;
 }
- 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+-(void)hideButton
+{
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         [button setAlpha:0.0];
+                     }
+                     completion:^(BOOL finished){
+
+                     }];
+}
+
+-(void)showButton
+{
+    [UIView animateWithDuration:0.6
+                          delay:0.2
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         [button setAlpha:1.0];
+                     }
+                     completion:^(BOOL finished){
+
+                     }];
+}
+
+-(void)hidePasswordField
+{
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         [passwordField setAlpha:0.0];
+                     }
+                     completion:^(BOOL finished){
+                         [passwordField resignFirstResponder];
+                     }];
+}
+
+-(void)showPasswordField
+{
+    [passwordField becomeFirstResponder];
+    
+    [UIView animateWithDuration:0.6
+                          delay:0.2
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         [passwordField setAlpha:1.0];
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
 }
 
 -(void)setN:(Note *)newNote
@@ -67,7 +116,9 @@
     NSString * timeString = [date_format stringFromDate: note.date];
     
     [timeLabel setText:timeString];
+    
+    if ([[note isPrivate] boolValue])
+        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 }
-
 
 @end

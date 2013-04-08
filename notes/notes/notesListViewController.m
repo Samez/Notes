@@ -12,7 +12,6 @@
 #import "askPasswordViewController.h"
 #import "testAddViewController.h"
 
-
 @interface notesListViewController ()
 
 @end
@@ -25,8 +24,7 @@
 
 - (void)viewDidLoad
 {
-    [self setTitle:@"Notes"];
-    [[self tableView] setRowHeight:44];
+    [self setTitle:NSLocalizedString(@"AA", nil)];
 
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
@@ -41,13 +39,15 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
 	}
-        
+    
+    [self tableView].tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    iP = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [[self tableView] reloadData];
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -79,7 +79,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50.0;
+    if ([iP isEqual:indexPath])
+        return 85;
+    else
+        return 50;
 }
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
@@ -95,12 +98,14 @@
         [[self navigationController] pushViewController:nextC animated:YES];
     } else
     {
+        /*
         askPasswordViewController * nextController = [[askPasswordViewController alloc]initWithStyle:UITableViewStyleGrouped];
         [nextController setNote:note];
         [nextController setManagedObjectContext:managedObjectContext];
         [nextController setNotesCount:[[fetchedResultsController fetchedObjects] count]];
         
         [[self navigationController] pushViewController:nextController animated:YES];
+         */
     }
 }
 
@@ -116,7 +121,37 @@
     
     [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
     
-    [self showNote:note animated:YES];
+    if ([[note isPrivate] boolValue])
+    {
+        if (iP == nil)
+        {
+            iP = indexPath;
+            [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] showPasswordField];
+            [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] showButton];
+
+        }
+        else
+        {
+            if (![iP isEqual:indexPath])
+            {
+                [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
+                [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hideButton];
+                iP = indexPath;
+                [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] showPasswordField];
+                [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] showButton];
+            } else
+            {
+                iP = nil;
+                [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] hidePasswordField];
+                [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] hideButton];
+            }
+        }
+        
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+        
+    } else
+        [self showNote:note animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -195,6 +230,9 @@
         MYcell = noteCell;
         noteCell = nil;
     }
+    
+    [[MYcell passwordField] setAlpha:0.0];
+    [[MYcell button] setAlpha:0.0];
     
     [self configureCell:MYcell atIndexPath:indexPath];
     
