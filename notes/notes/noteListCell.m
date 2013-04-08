@@ -48,13 +48,7 @@
         [self hideImg];
     } else [self showImg];
 }
- 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
-}
 
 -(void)setN:(Note *)newNote
 {
@@ -81,6 +75,10 @@
     
     timeLabel.text = timeString;
 }
-
+-(void) setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    
+    [super setHighlighted:highlighted animated:animated];
+}
 
 @end

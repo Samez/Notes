@@ -39,7 +39,7 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
 	}
-    
+    [self tableView].tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -49,7 +49,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50.0;
+    if ([[self.tableView indexPathForSelectedRow] isEqual:indexPath]){
+        return 70;
+    }
+    return 50;
 }
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
@@ -68,7 +71,7 @@
         [nextController setNote:note];
         [nextController setManagedObjectContext:managedObjectContext];
         [nextController setNotesCount:[[fetchedResultsController fetchedObjects] count]];
-        [self.navigationController pushViewController:nextController animated:YES];
+        //[self.navigationController pushViewController:nextController animated:YES];
     }
 }
 
@@ -81,8 +84,24 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
     [self showNote:note animated:YES];
+}
+
+
+-(NSIndexPath*) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if ([[self.tableView indexPathForSelectedRow] isEqual:indexPath])
+    {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+        return nil;
+    }
+    return indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -175,6 +194,9 @@
         [[NSBundle mainBundle] loadNibNamed:@"noteListCell" owner:self options:nil];
         MYcell = noteCell;
         noteCell = nil;
+        CGRect t=MYcell.frame;
+        t.size.height=50;
+        MYcell.frame=t;
     }
     
     [self configureCell:MYcell atIndexPath:indexPath];

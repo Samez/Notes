@@ -242,6 +242,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    NSLog(@"Return pressed\n");
     return NO;
 }
 
