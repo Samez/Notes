@@ -36,7 +36,7 @@
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
 		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
-		04CF123916D404C8009D89E3 /* Model8.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model8.xcdatamodeld */; };
+		04CF123916D404C8009D89E3 /* Model3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model3.xcdatamodeld */; };
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
 		04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A2170C7BF100CC268D /* woodenBackground.png */; };
@@ -97,7 +97,7 @@
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
-		04CF123816D404C8009D89E3 /* Model8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model8.xcdatamodel; sourceTree = "<group>"; };
+		04CF123816D404C8009D89E3 /* Model3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model3.xcdatamodel; sourceTree = "<group>"; };
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
 		04D539A2170C7BF100CC268D /* woodenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackground.png; path = Pics/woodenBackground.png; sourceTree = SOURCE_ROOT; };
@@ -257,7 +257,7 @@
 		044DE1B016D3B1C8004CDE0A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04CF123716D404C8009D89E3 /* Model8.xcdatamodeld */,
+				04CF123716D404C8009D89E3 /* Model3.xcdatamodeld */,
 				0462F17416E30E5200BE6806 /* Note.h */,
 				0462F17516E30E5200BE6806 /* Note.m */,
 				0462F17116E30E5200BE6806 /* Pswd.h */,
@@ -433,7 +433,7 @@
 				044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */,
 				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
 				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
-				04CF123916D404C8009D89E3 /* Model8.xcdatamodeld in Sources */,
+				04CF123916D404C8009D89E3 /* Model3.xcdatamodeld in Sources */,
 				041A7D7616D492B400F91496 /* enterNameCell.m in Sources */,
 				041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */,
 				041A7D8416D496A700F91496 /* addNewNoteViewController.m in Sources */,
@@ -573,13 +573,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		04CF123716D404C8009D89E3 /* Model8.xcdatamodeld */ = {
+		04CF123716D404C8009D89E3 /* Model3.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				04CF123816D404C8009D89E3 /* Model8.xcdatamodel */,
+				04CF123816D404C8009D89E3 /* Model3.xcdatamodel */,
 			);
-			currentVersion = 04CF123816D404C8009D89E3 /* Model8.xcdatamodel */;
-			path = Model8.xcdatamodeld;
+			currentVersion = 04CF123816D404C8009D89E3 /* Model3.xcdatamodel */;
+			path = Model3.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

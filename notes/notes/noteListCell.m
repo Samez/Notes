@@ -78,7 +78,7 @@
 
 -(CGFloat)heightForTableView
 {
-    if (note.isPrivate)
+    if ([note.isPrivate boolValue])
     {
         return 90.0;
     }else return 50.0;
@@ -92,7 +92,7 @@
 
 -(IBAction)tryOpen:(id)sender
 {
-    if (note.isPrivate)
+    if ([note.isPrivate boolValue])
     {
         [self.passwordField becomeFirstResponder];
         if (![self.passwordField.text isEqual:@"1234"]) return;

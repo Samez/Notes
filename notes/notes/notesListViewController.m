@@ -41,6 +41,8 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
 	}
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [self tableView].tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
@@ -304,5 +306,26 @@
     [nextC setManagedObjectContext:managedObjectContext];
     nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
     [self.navigationController pushViewController:nextC animated:YES];
+}
+
+-(void) keyboardWillShow:(NSNotification*) notification
+{
+    //NSLog(@"%@",[notification userInfo]);
+    NSDictionary* dict=[notification userInfo];
+    CGFloat keyboardTop=[(NSValue*)[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
+    CGRect t=self.tableView.frame;
+
+    //NSLog(@"%f",t.size.height);
+    self.tableView.frame=t;
+}
+
+-(void) keyboardWillHide:(NSNotification*) notification
+{
+    //NSLog(@"%@",[notification userInfo]);
+    NSDictionary* dict=[notification userInfo];
+    CGRect t=self.tableView.frame;
+    
+    //NSLog(@"%f",t.size.height);
+    self.tableView.frame=t;
 }
 @end
