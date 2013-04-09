@@ -10,19 +10,22 @@
 #import "Note.h"
 
 @interface noteListCell : UITableViewCell <UITextFieldDelegate>
+{
+    BOOL alert;
+}
 
+@property BOOL alert;
 @property (nonatomic, retain) Note *note;
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *img;
 @property (weak, nonatomic) IBOutlet UILabel *noteNameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
-@property (weak, nonatomic) IBOutlet UIButton *button;
 
 -(void)setN:(Note*)newNote;
 -(void)hidePasswordField;
 -(void)showPasswordField;
--(void)showButton;
--(void)hideButton;
+-(void)setAlertImage;
+-(void)setNormalImage;
 
 @end

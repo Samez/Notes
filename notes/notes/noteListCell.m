@@ -15,7 +15,7 @@
 @synthesize timeLabel;
 @synthesize noteNameLabel;
 @synthesize passwordField;
-@synthesize button;
+@synthesize alert;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -23,34 +23,39 @@
     if (self)
     {
         [passwordField setDelegate:self];
+        alert = NO;
     }
     return self;
 }
 
--(void)hideButton
+-(void)setAlertImage
 {
-    [UIView animateWithDuration:0.2
+    if (alert)
+        [self setNormalImage];
+    
+    [passwordField becomeFirstResponder];
+    
+    [passwordField setText:nil];
+    
+    [img setAlpha:0];
+    [img setImage:[UIImage imageNamed:@"alert.png"]];
+    
+    [UIView animateWithDuration:0.5
                           delay:0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         [button setAlpha:0.0];
+                         [img setAlpha:1];
                      }
                      completion:^(BOOL finished){
-
+                         alert = YES;
                      }];
 }
 
--(void)showButton
+-(void)setNormalImage
 {
-    [UIView animateWithDuration:0.6
-                          delay:0.2
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{
-                         [button setAlpha:1.0];
-                     }
-                     completion:^(BOOL finished){
-
-                     }];
+    [img setImage:[UIImage imageNamed:@"lock.png"]];
+    
+    alert = NO;
 }
 
 -(void)hidePasswordField
@@ -68,6 +73,7 @@
 
 -(void)showPasswordField
 {
+    //[passwordField setText:nil];
     [passwordField becomeFirstResponder];
     
     [UIView animateWithDuration:0.6

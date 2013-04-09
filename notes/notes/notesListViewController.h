@@ -12,9 +12,10 @@
 
 #import "addNewNoteViewController.h"
 
-@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate>
 {
     NSFetchedResultsController *fetchedResultsController;
+    NSFetchedResultsController *passwordFetchedResultsController;
     NSManagedObjectContext *managedObjectContext;
     NSIndexPath *iP;
 }
@@ -24,7 +25,10 @@
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
+@property (nonatomic, retain) NSFetchedResultsController *passwordFetchedResultsController;
+
 - (void)showNote:(Note *)note animated:(BOOL)animated;
 - (void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+-(void)tryEnter;
 
 @end

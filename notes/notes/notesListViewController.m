@@ -11,6 +11,7 @@
 #import "addNewNoteViewController.h"
 #import "askPasswordViewController.h"
 #import "testAddViewController.h"
+#import "Pswd.h"
 
 @interface notesListViewController ()
 
@@ -21,6 +22,7 @@
 @synthesize managedObjectContext;
 @synthesize fetchedResultsController;
 @synthesize noteCell;
+@synthesize passwordFetchedResultsController;
 
 - (void)viewDidLoad
 {
@@ -40,6 +42,14 @@
 		abort();
 	}
     
+    NSError *err = nil;
+    
+    if (![[self passwordFetchedResultsController] performFetch:&err])
+    {
+		NSLog(@"Unresolved error %@, %@", err, [err userInfo]);
+		abort();
+	}
+    
     [self tableView].tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     iP = nil;
@@ -47,6 +57,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self setTitle:[(Pswd*)[passwordFetchedResultsController fetchedObjects][0] password]];
+    
     [[self tableView] reloadData];
 }
 
@@ -54,6 +66,7 @@
 {
     [self showTabBar:[self tabBarController]];
 }
+
 
 - (void)showTabBar:(UITabBarController *) tabbarcontroller
 {
@@ -115,6 +128,27 @@
     [cell setN:note];
 }
 
+-(void)tryEnter
+{
+    noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:iP];
+    //Pswd *pass = (Pswd*)[passwordFetchedResultsController fetchedObjects][0];
+    
+    if ([[[cell passwordField] text] isEqualToString:@"pass"])
+    {
+        testAddViewController *nextC = [[testAddViewController alloc] init];
+        
+        [nextC setManagedObjectContext:managedObjectContext];
+        [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
+        [nextC setNote:[[fetchedResultsController fetchedObjects] objectAtIndex:iP.row]];
+        iP = nil;
+        [[self navigationController] pushViewController:nextC animated:YES];
+        
+    } else
+    {
+        [cell setAlertImage];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
@@ -126,24 +160,36 @@
         if (iP == nil)
         {
             iP = indexPath;
-            [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] showPasswordField];
-            [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] showButton];
-
+            
+            [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:666];
+            
+            [(noteListCell*)[tableView cellForRowAtIndexPath:iP] showPasswordField];
         }
         else
         {
             if (![iP isEqual:indexPath])
             {
                 [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
-                [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hideButton];
+                
+                if ([(noteListCell*)[tableView cellForRowAtIndexPath:iP] alert])
+                    [(noteListCell*)[tableView cellForRowAtIndexPath:iP] setNormalImage];
+                
                 iP = indexPath;
-                [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] showPasswordField];
-                [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] showButton];
+                
+                [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:666];
+                
+                [(noteListCell*)[tableView cellForRowAtIndexPath:iP] showPasswordField];
+
             } else
             {
+                [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
+                
+                [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:nil];
+                
+                if ([(noteListCell*)[tableView cellForRowAtIndexPath:iP] alert])
+                    [(noteListCell*)[tableView cellForRowAtIndexPath:iP] setNormalImage];
+                 
                 iP = nil;
-                [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] hidePasswordField];
-                [(noteListCell*)[tableView cellForRowAtIndexPath:indexPath] hideButton];
             }
         }
         
@@ -151,7 +197,20 @@
         [self.tableView endUpdates];
         
     } else
+    {
+        if (iP != nil)
+        {
+            [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
+            [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:nil];
+            iP = nil;
+        }
         [self showNote:note animated:YES];
+    }
+    
+    
+    Pswd *pass = (Pswd*)[passwordFetchedResultsController fetchedObjects][0];
+    [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setText:[pass password]];
+    
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,6 +242,12 @@
 
 - (void)add:(id)sender
 {
+    if (iP != nil)
+    {
+        [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
+        iP = nil;
+    }
+    
     testAddViewController *nextC = [[testAddViewController alloc] init];
     
     [nextC setManagedObjectContext:managedObjectContext];
@@ -218,6 +283,17 @@
     return numberOfRows;
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if ([textField tag] == 666)
+    {
+        [textField resignFirstResponder];
+        [self tryEnter];
+        return NO;
+    }
+    return YES;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyCellIdentifier = @"noteListCell";
@@ -232,12 +308,16 @@
     }
     
     [[MYcell passwordField] setAlpha:0.0];
-    [[MYcell button] setAlpha:0.0];
     
     [self configureCell:MYcell atIndexPath:indexPath];
     
     [MYcell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
+    [[MYcell passwordField]  setReturnKeyType:UIReturnKeyDone];
+    [[MYcell passwordField]  setSecureTextEntry:YES];
+
+    [[MYcell passwordField] setDelegate:self];
+
     return MYcell;
 }
 
@@ -253,7 +333,8 @@
 	[[self tableView] beginUpdates];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
 	switch(type) {
 		case NSFetchedResultsChangeInsert:
 			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
@@ -289,6 +370,33 @@
 	}
 }
 
+- (NSFetchedResultsController *)passwordFetchedResultsController
+{
+    // Set up the fetched results controller if needed.
+    if (passwordFetchedResultsController == nil) {
+        // Create the fetch request for the entity.
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pswd" inManagedObjectContext:managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:NO];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        // Edit the section name key path and cache name if appropriate.
+        // nil for section name key path means "no sections".
+        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+        aFetchedResultsController.delegate = self;
+        self.passwordFetchedResultsController = aFetchedResultsController;
+        
+    }
+	
+	return fetchedResultsController;
+}
+
 - (NSFetchedResultsController *)fetchedResultsController
 {
     // Set up the fetched results controller if needed.
@@ -315,6 +423,7 @@
 	
 	return fetchedResultsController;
 }
+
 - (void)viewDidUnload {
     [self setNoteCell:nil];
     [super viewDidUnload];

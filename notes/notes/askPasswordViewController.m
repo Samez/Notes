@@ -176,7 +176,6 @@
     return passCell;
 }
 
-
 #pragma mark - Table view delegate
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller

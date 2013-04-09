@@ -30,6 +30,7 @@
 		044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C116D3B620004CDE0A /* noteListCell.xib */; };
 		0462F17316E30E5200BE6806 /* Pswd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0462F17216E30E5200BE6806 /* Pswd.m */; };
 		0462F17616E30E5200BE6806 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 0462F17516E30E5200BE6806 /* Note.m */; };
+		04702F6C17142D9400DCA0C9 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 04702F6B17142D9400DCA0C9 /* alert.png */; };
 		04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACDBEE170B55F9003A74F4 /* testAddViewController.m */; };
 		04ACDBF1170B55F9003A74F4 /* testAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */; };
 		04CA1FCF1713591500F7488F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04CA1FD11713591500F7488F /* Localizable.strings */; };
@@ -89,12 +90,13 @@
 		0462F17216E30E5200BE6806 /* Pswd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pswd.m; sourceTree = "<group>"; };
 		0462F17416E30E5200BE6806 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
 		0462F17516E30E5200BE6806 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		04702F6B17142D9400DCA0C9 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = alert.png; path = Pics/alert.png; sourceTree = SOURCE_ROOT; };
 		04ACDBED170B55F9003A74F4 /* testAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testAddViewController.h; sourceTree = "<group>"; };
 		04ACDBEE170B55F9003A74F4 /* testAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testAddViewController.m; sourceTree = "<group>"; };
 		04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = testAddViewController.xib; sourceTree = "<group>"; };
 		04CA1FCE171358FB00F7488F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		04CA1FD01713591500F7488F /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		04CA1FD21713591800F7488F /* ru */ = {isa = PBXFileReference; lastKnownFileType = file; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		04CA1FD01713591500F7488F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		04CA1FD21713591800F7488F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
@@ -297,6 +299,7 @@
 				04D5399A170C686400CC268D /* unlocked.png */,
 				04D539A6170C977500CC268D /* oneNoteBackground.png */,
 				04D539A7170C977600CC268D /* twoNotesBackground.png */,
+				04702F6B17142D9400DCA0C9 /* alert.png */,
 				04D539A8170C977600CC268D /* threeNotesBackground.png */,
 				04D53A12170CA28900CC268D /* trash2.png */,
 				04D53A10170C9E8100CC268D /* trash.png */,
@@ -420,6 +423,7 @@
 				04D53A11170C9E8100CC268D /* trash.png in Resources */,
 				04D53A13170CA28900CC268D /* trash2.png in Resources */,
 				04CA1FCF1713591500F7488F /* Localizable.strings in Resources */,
+				04702F6C17142D9400DCA0C9 /* alert.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
