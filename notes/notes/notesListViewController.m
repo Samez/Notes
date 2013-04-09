@@ -26,6 +26,8 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
     [self setTitle:NSLocalizedString(@"AA", nil)];
 
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
@@ -50,9 +52,16 @@
 		abort();
 	}
     
+    PSWD = [passwordFetchedResultsController fetchedObjects][0];
+
     [self tableView].tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     iP = nil;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self showTabBar:[self tabBarController]];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -60,11 +69,6 @@
     [self setTitle:[(Pswd*)[passwordFetchedResultsController fetchedObjects][0] password]];
     
     [[self tableView] reloadData];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [self showTabBar:[self tabBarController]];
 }
 
 
@@ -99,9 +103,7 @@
 }
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
-{
-    if (![[note isPrivate] boolValue])
-    {        
+{  
         testAddViewController *nextC = [[testAddViewController alloc] init];
         [nextC setNote:note];
         [nextC setForEditing:YES];
@@ -109,17 +111,6 @@
         [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
         
         [[self navigationController] pushViewController:nextC animated:YES];
-    } else
-    {
-        /*
-        askPasswordViewController * nextController = [[askPasswordViewController alloc]initWithStyle:UITableViewStyleGrouped];
-        [nextController setNote:note];
-        [nextController setManagedObjectContext:managedObjectContext];
-        [nextController setNotesCount:[[fetchedResultsController fetchedObjects] count]];
-        
-        [[self navigationController] pushViewController:nextController animated:YES];
-         */
-    }
 }
 
 -(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -131,9 +122,9 @@
 -(void)tryEnter
 {
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:iP];
-    //Pswd *pass = (Pswd*)[passwordFetchedResultsController fetchedObjects][0];
+
     
-    if ([[[cell passwordField] text] isEqualToString:@"pass"])
+    if ([[[cell passwordField] text] isEqualToString:[PSWD password]])
     {
         testAddViewController *nextC = [[testAddViewController alloc] init];
         
@@ -206,11 +197,6 @@
         }
         [self showNote:note animated:YES];
     }
-    
-    
-    Pswd *pass = (Pswd*)[passwordFetchedResultsController fetchedObjects][0];
-    [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setText:[pass password]];
-    
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -361,6 +347,7 @@
 			
 		case NSFetchedResultsChangeUpdate:
 			[self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            PSWD = [passwordFetchedResultsController fetchedObjects][0];
 			break;
 			
 		case NSFetchedResultsChangeMove:
@@ -381,7 +368,7 @@
         [fetchRequest setEntity:entity];
         
         // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:NO];
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
         
         [fetchRequest setSortDescriptors:sortDescriptors];
@@ -394,7 +381,7 @@
         
     }
 	
-	return fetchedResultsController;
+	return passwordFetchedResultsController;
 }
 
 - (NSFetchedResultsController *)fetchedResultsController

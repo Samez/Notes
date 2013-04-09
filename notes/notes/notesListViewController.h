@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Note.h"
 #import "noteListCell.h"
-
+#import "Pswd.h"
 #import "addNewNoteViewController.h"
 
 @interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate>
@@ -18,6 +18,7 @@
     NSFetchedResultsController *passwordFetchedResultsController;
     NSManagedObjectContext *managedObjectContext;
     NSIndexPath *iP;
+    Pswd *PSWD;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;

@@ -73,7 +73,7 @@
 
 -(void)showPasswordField
 {
-    //[passwordField setText:nil];
+    [passwordField setText:nil];
     [passwordField becomeFirstResponder];
     
     [UIView animateWithDuration:0.6
