@@ -19,6 +19,7 @@
     NSManagedObjectContext *managedObjectContext;
     NSIndexPath *iP;
     Pswd *PSWD;
+    BOOL keyboardIsActive;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;

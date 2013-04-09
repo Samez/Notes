@@ -54,9 +54,10 @@
     
     PSWD = [passwordFetchedResultsController fetchedObjects][0];
 
-    [self tableView].tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    //[self tableView].tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     iP = nil;
+    keyboardIsActive = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -66,11 +67,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self setTitle:[(Pswd*)[passwordFetchedResultsController fetchedObjects][0] password]];
-    
     [[self tableView] reloadData];
 }
-
 
 - (void)showTabBar:(UITabBarController *) tabbarcontroller
 {
@@ -140,10 +138,11 @@
     }
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-    
+        
     [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
     
     if ([[note isPrivate] boolValue])
@@ -155,6 +154,21 @@
             [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:666];
             
             [(noteListCell*)[tableView cellForRowAtIndexPath:iP] showPasswordField];
+            
+            [self.tableView beginUpdates];
+            [self.tableView endUpdates];
+            
+            [UIView animateWithDuration:0.25
+                                  delay:0
+                                options: UIViewAnimationCurveEaseOut
+                             animations:^{
+                                 self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height - 170);
+                             }
+                             completion:^(BOOL finished){
+                             }];
+            if (iP.row > 5)
+                [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+
         }
         else
         {
@@ -179,7 +193,16 @@
                 
                 if ([(noteListCell*)[tableView cellForRowAtIndexPath:iP] alert])
                     [(noteListCell*)[tableView cellForRowAtIndexPath:iP] setNormalImage];
-                 
+                
+                [UIView animateWithDuration:0.25
+                                      delay:0
+                                    options: UIViewAnimationCurveEaseOut
+                                 animations:^{
+                                     self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + 170);
+                                 }
+                                 completion:^(BOOL finished){
+                                 }];
+
                 iP = nil;
             }
         }
