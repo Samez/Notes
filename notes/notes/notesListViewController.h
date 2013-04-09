@@ -12,7 +12,7 @@
 
 #import "addNewNoteViewController.h"
 
-@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate,OpenNote>
 {
     NSFetchedResultsController *fetchedResultsController;
     NSManagedObjectContext *managedObjectContext;

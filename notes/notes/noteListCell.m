@@ -14,6 +14,7 @@
 @synthesize img;
 @synthesize timeLabel;
 @synthesize noteNameLabel;
+@synthesize delegate;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -49,7 +50,6 @@
     } else [self showImg];
 }
 
-
 -(void)setN:(Note *)newNote
 {
     note = newNote;
@@ -75,10 +75,31 @@
     
     timeLabel.text = timeString;
 }
--(void) setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+
+-(CGFloat)heightForTableView
 {
-    
-    [super setHighlighted:highlighted animated:animated];
+    if (note.isPrivate)
+    {
+        return 90.0;
+    }else return 50.0;
+}
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    [self tryOpen:nil];
+    return YES;
+}
+
+-(IBAction)tryOpen:(id)sender
+{
+    if (note.isPrivate)
+    {
+        [self.passwordField becomeFirstResponder];
+        if (![self.passwordField.text isEqual:@"1234"]) return;
+        self.passwordField.text=@"";
+    }
+    [self.passwordField resignFirstResponder];
+    [delegate openNote:self.note];
 }
 
 @end

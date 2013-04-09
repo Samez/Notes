@@ -14,6 +14,8 @@
 
 @interface notesListViewController ()
 
+@property (nonatomic)noteListCell* selectedCell;
+
 @end
 
 @implementation notesListViewController
@@ -21,11 +23,11 @@
 @synthesize managedObjectContext;
 @synthesize fetchedResultsController;
 @synthesize noteCell;
+@synthesize selectedCell;
 
 - (void)viewDidLoad
 {
     [self setTitle:@"Notes"];
-    [self.tableView setRowHeight:44];
 
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     
@@ -45,19 +47,21 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[self.tableView indexPathForSelectedRow] isEqual:indexPath]){
-        return 70;
+        return [selectedCell heightForTableView];
     }
     return 50;
 }
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
 {
-    if (![note.isPrivate boolValue])
+    /*if (![note.isPrivate boolValue])
     {        
         testAddViewController *nextC = [[testAddViewController alloc] init];
         [nextC setNote:note];
@@ -72,7 +76,8 @@
         [nextController setManagedObjectContext:managedObjectContext];
         [nextController setNotesCount:[[fetchedResultsController fetchedObjects] count]];
         //[self.navigationController pushViewController:nextController animated:YES];
-    }
+    }*/
+    
 }
 
 -(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -83,13 +88,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-    //[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
+    selectedCell=(noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    [selectedCell tryOpen:self];
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
-    [self showNote:note animated:YES];
+    //[self showNote:note animated:YES];
 }
 
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [selectedCell.passwordField resignFirstResponder];
+    selectedCell=nil;
+    //[super tableView:tableView didDeselectRowAtIndexPath:indexPath];
+}
 
 -(NSIndexPath*) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -97,6 +109,7 @@
     if ([[self.tableView indexPathForSelectedRow] isEqual:indexPath])
     {
         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+        [selectedCell.passwordField resignFirstResponder];
         [self.tableView beginUpdates];
         [self.tableView endUpdates];
         return nil;
@@ -194,13 +207,11 @@
         [[NSBundle mainBundle] loadNibNamed:@"noteListCell" owner:self options:nil];
         MYcell = noteCell;
         noteCell = nil;
-        CGRect t=MYcell.frame;
-        t.size.height=50;
-        MYcell.frame=t;
     }
     
     [self configureCell:MYcell atIndexPath:indexPath];
     MYcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    MYcell.delegate=self;
     
     return MYcell;
 }
@@ -279,8 +290,19 @@
 	
 	return fetchedResultsController;
 }
+
 - (void)viewDidUnload {
     [self setNoteCell:nil];
     [super viewDidUnload];
+}
+
+-(void) openNote:(Note *)note
+{
+    testAddViewController *nextC = [[testAddViewController alloc] init];
+    [nextC setNote:note];
+    [nextC setForEditing:YES];
+    [nextC setManagedObjectContext:managedObjectContext];
+    nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
+    [self.navigationController pushViewController:nextC animated:YES];
 }
 @end
