@@ -8,6 +8,7 @@
 
 #import "testAddViewController.h"
 #import "res.h"
+#import "AdaptiveBackground.h"
 
 #define MAXLENGTH 25
 
@@ -26,6 +27,7 @@
 @synthesize alertLabel;
 @synthesize notesCount;
 @synthesize trashButton;
+@synthesize backgroundFRC;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -160,6 +162,12 @@
         abort();
     }
     
+    if (![[self backgroundFRC] performFetch:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
     [myTextView setDelegate:self];
     [myTextView setScrollEnabled:NO];
     [myTextView setReturnKeyType:UIReturnKeyNext];
@@ -199,24 +207,35 @@
         [trashButton setImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
     }
     
-    switch (notesCount)
+    [self updateBackground];
+}
+
+-(void)updateBackground
+{
+    backgroundIsAdaptive = [[(AdaptiveBackground*)[backgroundFRC fetchedObjects][0] backgroundIsAdaptive] boolValue];
+    
+    if (backgroundIsAdaptive)
     {
-        case 0:
-            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
-            break;
-        case 1:
-            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"twoNotesBackground.png"]]];
-            break;
-        case 2:
-            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"threeNotesBackground.png"]]];
-            break;
-        case 3:
-            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]]];
-            break;
-        default:
-            [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]]];
-            break;
-    }
+        switch (notesCount)
+        {
+            case 0:
+                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
+                break;
+            case 1:
+                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"twoNotesBackground.png"]]];
+                break;
+            case 2:
+                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"threeNotesBackground.png"]]];
+                break;
+            case 3:
+                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]]];
+                break;
+            default:
+                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]]];
+                break;
+        }
+    } else
+        [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
 }
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -285,7 +304,7 @@
     {
         if (([[myNameField text]length] == 0) && ([[myTextView text] length] == 0))
         {
-            [alertLabel setText:NSLocalizedString(@"PublicNoteTequirements", nil)];
+            [alertLabel setText:NSLocalizedString(@"PublicNoteRequirements", nil)];
             [self showAlertMessageWithDuration:0.6];
             return;
         }
@@ -345,6 +364,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+	
+	switch(type) {
+		case NSFetchedResultsChangeInsert:
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			break;
+			
+		case NSFetchedResultsChangeUpdate:
+        {
+            if ([[backgroundFRC fetchedObjects] count] > 0)
+                [self updateBackground];
+			break;
+        }
+		case NSFetchedResultsChangeMove:
+            break;
+	}
+}
+
 - (NSFetchedResultsController *)fetchedResultsController
 {
     // Set up the fetched results controller if needed.
@@ -390,6 +430,33 @@
     }
     
     [UIView commitAnimations];
+}
+
+- (NSFetchedResultsController *)backgroundFRC
+{
+    // Set up the fetched results controller if needed.
+    if (backgroundFRC == nil) {
+        // Create the fetch request for the entity.
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"AdaptiveBackground" inManagedObjectContext:managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"backgroundIsAdaptive" ascending:NO];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        // Edit the section name key path and cache name if appropriate.
+        // nil for section name key path means "no sections".
+        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+        aFetchedResultsController.delegate = self;
+        self.backgroundFRC = aFetchedResultsController;
+        
+    }
+	
+	return backgroundFRC;
 }
 
 - (void)viewDidUnload {

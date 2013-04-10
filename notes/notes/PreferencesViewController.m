@@ -39,11 +39,28 @@
     [self.tableView reloadData];
 }
 
+-(void)backgroundstyleWasChanged
+{
+    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_ADAPTIVE_BACKGROUND inSection:0]];
+    
+    backgroundIsAdaptive = [[cell stateSwitcher] isOn];
+    
+    if ([[backgroundFRC fetchedObjects] count] > 0)
+        [(AdaptiveBackground*)[backgroundFRC fetchedObjects][0] setBackgroundIsAdaptive: [NSNumber numberWithBool:[[cell stateSwitcher] isOn]]];
+    NSError *error;
+    
+    if (![managedObjectContext save:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
 -(void) tabBarStyleWasChanged
 {
     CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_SIMPLE_TABBAR inSection:0]];
     
-    simplyStyle = [NSNumber numberWithBool:[[cell stateSwitcher] isOn]];
+    simplyStyle = [[cell stateSwitcher] isOn];
     
     if ([[tabBarStyleFRC fetchedObjects] count] >0)
         [(TabBarStyle*)[tabBarStyleFRC fetchedObjects][0] setSimplyStyle: [NSNumber numberWithBool:[[cell stateSwitcher] isOn]]];
@@ -162,6 +179,8 @@
         case _ADAPTIVE_BACKGROUND:
         {
             [[MYcell myTextLabel] setText:NSLocalizedString(@"AdaptiveBackgroundCell", nil)];
+            [MYcell.stateSwitcher addTarget:self action:@selector(backgroundstyleWasChanged) forControlEvents:UIControlEventValueChanged];
+            [[MYcell stateSwitcher] setOn:backgroundIsAdaptive];
             break;
         }
         

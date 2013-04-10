@@ -12,6 +12,7 @@
 @interface PreferencesViewController : UITableViewController<NSFetchedResultsControllerDelegate>
 {
     BOOL simplyStyle;
+    BOOL backgroundIsAdaptive;
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *tabBarStyleFRC;

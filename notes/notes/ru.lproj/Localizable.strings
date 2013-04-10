@@ -11,8 +11,8 @@
 "NewNote" = "Новая";
 "CancelButton" = "Отмена";
 "SaveButton" = "Сохранить";
-"PrivateNoteRequirements" = "Введите название и текст приватной заметки";
-"PublicNoteRequirements" = "Введите название или текст для открытой заметки";
+"PrivateNoteRequirements" = "Введите название и текст";
+"PublicNoteRequirements" = "Введите название или текст";
 "OptionsTitle" = "Опции";
 "ChangePasswordCell" = "Изменить пароль";
 "IncorrectOldPasswordWarning" = "Старый пароль введен неверно!";
