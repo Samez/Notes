@@ -20,12 +20,14 @@
     NSIndexPath *iP;
     Pswd *PSWD;
     BOOL keyboardIsActive;
+    BOOL simpleTabBar;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSFetchedResultsController *tabBarStyleFRC;
 
 @property (nonatomic, retain) NSFetchedResultsController *passwordFetchedResultsController;
 

@@ -7,6 +7,7 @@
 //
 
 #import "testAddViewController.h"
+#import "res.h"
 
 #define MAXLENGTH 25
 
@@ -132,20 +133,20 @@
         forEditing = YES;
         isPrivate = [[note isPrivate] boolValue];
         
-        [[self navigationItem] setTitle:@"Edit note"];
+        [[self navigationItem] setTitle:NSLocalizedString(@"EditNote", nil)];
     }
     else
     {
         note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:[self managedObjectContext]];
         
-        [[self navigationItem] setTitle:@"New note"];
+        [[self navigationItem] setTitle:NSLocalizedString(@"NewNote", nil)];
     }
 
-    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelButton",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
     
     [[self navigationItem] setLeftBarButtonItem:cancelButtonItem];
     
-    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
+    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveButton",nil) style:UIBarButtonItemStyleDone target:self action:@selector(save)];
 
     [[self navigationItem] setRightBarButtonItem:saveButtonItem];
     
@@ -276,7 +277,7 @@
     {
         if (([[myNameField text] length] == 0) || ([[myTextView text] length] == 0))
         {
-            [alertLabel setText:@"Enter name and text of private note"];
+            [alertLabel setText:NSLocalizedString(@"PrivateNoteRequirements", nil)];
             [self showAlertMessageWithDuration:0.6];
             return;
         }
@@ -284,7 +285,7 @@
     {
         if (([[myNameField text]length] == 0) && ([[myTextView text] length] == 0))
         {
-            [alertLabel setText:@"Enter name or text of public note"];
+            [alertLabel setText:NSLocalizedString(@"PublicNoteTequirements", nil)];
             [self showAlertMessageWithDuration:0.6];
             return;
         }
@@ -380,11 +381,11 @@
     {
         if([view isKindOfClass:[UITabBar class]])
         {
-            [view setFrame:CGRectMake(view.frame.origin.x, 570, view.frame.size.width, view.frame.size.height)];
+            [view setFrame:CGRectMake(view.frame.origin.x, _HIDDEN_TABBAR_HEIGHT, view.frame.size.width, view.frame.size.height)];
         }
         else
         {
-            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, 570)];
+            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, _HIDDEN_TABBAR_HEIGHT)];
         }
     }
     

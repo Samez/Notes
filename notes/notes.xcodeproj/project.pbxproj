@@ -11,8 +11,8 @@
 		041A7D7816D492C900F91496 /* enterNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D7716D492C900F91496 /* enterNameCell.xib */; };
 		041A7D7D16D4945B00F91496 /* enterTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D7C16D4945B00F91496 /* enterTextCell.xib */; };
 		041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D7F16D4946F00F91496 /* enterTextCell.m */; };
-		041A7D8716D496DF00F91496 /* privateSwitcherCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D8616D496DF00F91496 /* privateSwitcherCell.m */; };
-		041A7D8B16D4974200F91496 /* privateSwitcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D8A16D4974200F91496 /* privateSwitcher.xib */; };
+		041A7D8716D496DF00F91496 /* CellWithSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D8616D496DF00F91496 /* CellWithSwitcher.m */; };
+		041A7D8B16D4974200F91496 /* CellWithSwitcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D8A16D4974200F91496 /* CellWithSwitcher.xib */; };
 		0434EB0916D3A18000BD9C2B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0816D3A18000BD9C2B /* UIKit.framework */; };
 		0434EB0B16D3A18000BD9C2B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0A16D3A18000BD9C2B /* Foundation.framework */; };
 		0434EB0D16D3A18000BD9C2B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0C16D3A18000BD9C2B /* CoreGraphics.framework */; };
@@ -37,7 +37,7 @@
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
 		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
-		04CF123916D404C8009D89E3 /* Model8.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model8.xcdatamodeld */; };
+		04CF123916D404C8009D89E3 /* Model10.0.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model10.0.xcdatamodeld */; };
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
 		04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A2170C7BF100CC268D /* woodenBackground.png */; };
@@ -51,7 +51,9 @@
 		04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40116DCF7980053C4AF /* passwordViewController.m */; };
 		04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40B16DDCE620053C4AF /* passwordCell.m */; };
 		04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D6D40D16DDCE740053C4AF /* passwordCell.xib */; };
-		04D6D41216DDE1290053C4AF /* askPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D41116DDE1290053C4AF /* askPasswordViewController.m */; };
+		04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F142EE1714C962007F4423 /* PreferencesViewController.m */; };
+		04F142F21714D7BC007F4423 /* TabBarStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F142F11714D7BC007F4423 /* TabBarStyle.m */; };
+		04F142F51714D7F2007F4423 /* AdaptiveBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F142F41714D7F2007F4423 /* AdaptiveBackground.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,9 +63,9 @@
 		041A7D7C16D4945B00F91496 /* enterTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = enterTextCell.xib; sourceTree = "<group>"; };
 		041A7D7E16D4946F00F91496 /* enterTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enterTextCell.h; sourceTree = "<group>"; };
 		041A7D7F16D4946F00F91496 /* enterTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = enterTextCell.m; sourceTree = "<group>"; };
-		041A7D8516D496DF00F91496 /* privateSwitcherCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = privateSwitcherCell.h; sourceTree = "<group>"; };
-		041A7D8616D496DF00F91496 /* privateSwitcherCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = privateSwitcherCell.m; sourceTree = "<group>"; };
-		041A7D8A16D4974200F91496 /* privateSwitcher.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = privateSwitcher.xib; sourceTree = "<group>"; };
+		041A7D8516D496DF00F91496 /* CellWithSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellWithSwitcher.h; sourceTree = "<group>"; };
+		041A7D8616D496DF00F91496 /* CellWithSwitcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellWithSwitcher.m; sourceTree = "<group>"; };
+		041A7D8A16D4974200F91496 /* CellWithSwitcher.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CellWithSwitcher.xib; sourceTree = "<group>"; };
 		0434EB0416D3A18000BD9C2B /* notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0434EB0816D3A18000BD9C2B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0434EB0A16D3A18000BD9C2B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -100,7 +102,7 @@
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
-		04CF123816D404C8009D89E3 /* Model8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model8.xcdatamodel; sourceTree = "<group>"; };
+		04CF123816D404C8009D89E3 /* Model10.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model10.0.xcdatamodel; sourceTree = "<group>"; };
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
 		04D539A2170C7BF100CC268D /* woodenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackground.png; path = Pics/woodenBackground.png; sourceTree = SOURCE_ROOT; };
@@ -116,8 +118,13 @@
 		04D6D40A16DDCE620053C4AF /* passwordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordCell.h; sourceTree = "<group>"; };
 		04D6D40B16DDCE620053C4AF /* passwordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordCell.m; sourceTree = "<group>"; };
 		04D6D40D16DDCE740053C4AF /* passwordCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = passwordCell.xib; sourceTree = "<group>"; };
-		04D6D41016DDE1290053C4AF /* askPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = askPasswordViewController.h; sourceTree = "<group>"; };
-		04D6D41116DDE1290053C4AF /* askPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = askPasswordViewController.m; sourceTree = "<group>"; };
+		04F142ED1714C962007F4423 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
+		04F142EE1714C962007F4423 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
+		04F142F01714D7BC007F4423 /* TabBarStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarStyle.h; sourceTree = "<group>"; };
+		04F142F11714D7BC007F4423 /* TabBarStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarStyle.m; sourceTree = "<group>"; };
+		04F142F31714D7F2007F4423 /* AdaptiveBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdaptiveBackground.h; sourceTree = "<group>"; };
+		04F142F41714D7F2007F4423 /* AdaptiveBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdaptiveBackground.m; sourceTree = "<group>"; };
+		04F142F61714E31B007F4423 /* res.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = res.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,14 +182,14 @@
 			name = "Note add";
 			sourceTree = "<group>";
 		};
-		041A7D8916D4971500F91496 /* Private state switcher */ = {
+		041A7D8916D4971500F91496 /* Cell with switcher */ = {
 			isa = PBXGroup;
 			children = (
-				041A7D8516D496DF00F91496 /* privateSwitcherCell.h */,
-				041A7D8616D496DF00F91496 /* privateSwitcherCell.m */,
-				041A7D8A16D4974200F91496 /* privateSwitcher.xib */,
+				041A7D8516D496DF00F91496 /* CellWithSwitcher.h */,
+				041A7D8616D496DF00F91496 /* CellWithSwitcher.m */,
+				041A7D8A16D4974200F91496 /* CellWithSwitcher.xib */,
 			);
-			name = "Private state switcher";
+			name = "Cell with switcher";
 			sourceTree = "<group>";
 		};
 		0434EAF916D3A18000BD9C2B = {
@@ -216,6 +223,7 @@
 		0434EB1016D3A18000BD9C2B /* notes */ = {
 			isa = PBXGroup;
 			children = (
+				04F142F61714E31B007F4423 /* res.h */,
 				0434EB1916D3A18000BD9C2B /* AppDelegate.h */,
 				0434EB1A16D3A18000BD9C2B /* AppDelegate.m */,
 				044DE1B716D3B237004CDE0A /* Window.xib */,
@@ -250,7 +258,6 @@
 			children = (
 				044DE19E16D3AE54004CDE0A /* notesListViewController.h */,
 				044DE19F16D3AE54004CDE0A /* notesListViewController.m */,
-				04D6D40F16DDE1080053C4AF /* Ask for password */,
 				041A7D8116D495ED00F91496 /* Note add */,
 			);
 			name = "Notes list";
@@ -259,7 +266,11 @@
 		044DE1B016D3B1C8004CDE0A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04CF123716D404C8009D89E3 /* Model8.xcdatamodeld */,
+				04CF123716D404C8009D89E3 /* Model10.0.xcdatamodeld */,
+				04F142F31714D7F2007F4423 /* AdaptiveBackground.h */,
+				04F142F41714D7F2007F4423 /* AdaptiveBackground.m */,
+				04F142F01714D7BC007F4423 /* TabBarStyle.h */,
+				04F142F11714D7BC007F4423 /* TabBarStyle.m */,
 				0462F17416E30E5200BE6806 /* Note.h */,
 				0462F17516E30E5200BE6806 /* Note.m */,
 				0462F17116E30E5200BE6806 /* Pswd.h */,
@@ -273,6 +284,7 @@
 			children = (
 				044DE1BA16D3B4C7004CDE0A /* OptionsViewController.h */,
 				044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */,
+				04F142EC1714C7F7007F4423 /* Preferences */,
 				04D6D3FF16DCF7810053C4AF /* Password */,
 			);
 			name = Options;
@@ -282,7 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				04D6D40916DDCE4A0053C4AF /* Password cell */,
-				041A7D8916D4971500F91496 /* Private state switcher */,
+				041A7D8916D4971500F91496 /* Cell with switcher */,
 				041A7D7B16D4943F00F91496 /* Enter text of note cell */,
 				041A7D7916D492CF00F91496 /* Enter name cell */,
 				041A7D7A16D492DF00F91496 /* Note list cell */,
@@ -330,20 +342,20 @@
 			name = "Password cell";
 			sourceTree = "<group>";
 		};
-		04D6D40F16DDE1080053C4AF /* Ask for password */ = {
-			isa = PBXGroup;
-			children = (
-				04D6D41016DDE1290053C4AF /* askPasswordViewController.h */,
-				04D6D41116DDE1290053C4AF /* askPasswordViewController.m */,
-			);
-			name = "Ask for password";
-			sourceTree = "<group>";
-		};
 		04D6D41316DEBEDA0053C4AF /* Get first password */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = "Get first password";
+			sourceTree = "<group>";
+		};
+		04F142EC1714C7F7007F4423 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				04F142ED1714C962007F4423 /* PreferencesViewController.h */,
+				04F142EE1714C962007F4423 /* PreferencesViewController.m */,
+			);
+			name = Preferences;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,7 +421,7 @@
 				04CF122A16D4004B009D89E3 /* gear.png in Resources */,
 				041A7D7816D492C900F91496 /* enterNameCell.xib in Resources */,
 				041A7D7D16D4945B00F91496 /* enterTextCell.xib in Resources */,
-				041A7D8B16D4974200F91496 /* privateSwitcher.xib in Resources */,
+				041A7D8B16D4974200F91496 /* CellWithSwitcher.xib in Resources */,
 				04D6D3FE16DCF72F0053C4AF /* Icon.png in Resources */,
 				04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */,
 				04ACDBF1170B55F9003A74F4 /* testAddViewController.xib in Resources */,
@@ -439,16 +451,18 @@
 				044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */,
 				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
 				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
-				04CF123916D404C8009D89E3 /* Model8.xcdatamodeld in Sources */,
+				04CF123916D404C8009D89E3 /* Model10.0.xcdatamodeld in Sources */,
 				041A7D7616D492B400F91496 /* enterNameCell.m in Sources */,
 				041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */,
-				041A7D8716D496DF00F91496 /* privateSwitcherCell.m in Sources */,
+				041A7D8716D496DF00F91496 /* CellWithSwitcher.m in Sources */,
 				04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */,
 				04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */,
-				04D6D41216DDE1290053C4AF /* askPasswordViewController.m in Sources */,
 				0462F17316E30E5200BE6806 /* Pswd.m in Sources */,
 				0462F17616E30E5200BE6806 /* Note.m in Sources */,
 				04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */,
+				04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */,
+				04F142F21714D7BC007F4423 /* TabBarStyle.m in Sources */,
+				04F142F51714D7F2007F4423 /* AdaptiveBackground.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,13 +594,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		04CF123716D404C8009D89E3 /* Model8.xcdatamodeld */ = {
+		04CF123716D404C8009D89E3 /* Model10.0.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				04CF123816D404C8009D89E3 /* Model8.xcdatamodel */,
+				04CF123816D404C8009D89E3 /* Model10.0.xcdatamodel */,
 			);
-			currentVersion = 04CF123816D404C8009D89E3 /* Model8.xcdatamodel */;
-			path = Model8.xcdatamodeld;
+			currentVersion = 04CF123816D404C8009D89E3 /* Model10.0.xcdatamodel */;
+			path = Model10.0.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

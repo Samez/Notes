@@ -9,9 +9,10 @@
 #import "notesListViewController.h"
 #import "detailViewController.h"
 #import "addNewNoteViewController.h"
-#import "askPasswordViewController.h"
 #import "testAddViewController.h"
 #import "Pswd.h"
+#import "res.h"
+#import "TabBarStyle.h"
 
 @interface notesListViewController ()
 
@@ -23,12 +24,13 @@
 @synthesize fetchedResultsController;
 @synthesize noteCell;
 @synthesize passwordFetchedResultsController;
+@synthesize tabBarStyleFRC;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self setTitle:NSLocalizedString(@"AA", nil)];
+    [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
 
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
@@ -52,9 +54,17 @@
 		abort();
 	}
     
-    PSWD = [passwordFetchedResultsController fetchedObjects][0];
-
-    //[self tableView].tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
+        PSWD = [passwordFetchedResultsController fetchedObjects][0];
+    
+    if (![[self tabBarStyleFRC] performFetch:&err])
+    {
+		NSLog(@"Unresolved error %@, %@", err, [err userInfo]);
+		abort();
+	}
+    
+    if ([[tabBarStyleFRC fetchedObjects] count] >0)
+        simpleTabBar = [[(TabBarStyle*)[tabBarStyleFRC fetchedObjects][0] simplyStyle] boolValue];
     
     iP = nil;
     keyboardIsActive = NO;
@@ -72,6 +82,14 @@
 
 - (void)showTabBar:(UITabBarController *) tabbarcontroller
 {
+    int height = 0;
+    
+    if (simpleTabBar)
+        height = _SIMLPE_TABBAR_HEIGHT;
+    else
+        height = _STANDART_TABBAR_HEIGHT;
+    
+    
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.2];
     
@@ -80,12 +98,12 @@
         
         if([view isKindOfClass:[UITabBar class]])
         {
-            [view setFrame:CGRectMake(view.frame.origin.x, 521, view.frame.size.width, view.frame.size.height)];
+            [view setFrame:CGRectMake(view.frame.origin.x, height, view.frame.size.width, view.frame.size.height)];
             
         }
         else
         {
-            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, 521)];
+            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, height)];
         }
     }
     
@@ -166,7 +184,7 @@
                              }
                              completion:^(BOOL finished){
                              }];
-            if (iP.row > 5)
+            if (iP.row > 3)
                 [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
         }
@@ -369,10 +387,15 @@
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
+        {
 			[self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
-            PSWD = [passwordFetchedResultsController fetchedObjects][0];
+            if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
+                PSWD = [passwordFetchedResultsController fetchedObjects][0];
+            
+            if ([[tabBarStyleFRC fetchedObjects] count] >0)
+                simpleTabBar = [[(TabBarStyle*)[tabBarStyleFRC fetchedObjects][0] simplyStyle] boolValue];
 			break;
-			
+        }
 		case NSFetchedResultsChangeMove:
 			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -400,10 +423,10 @@
         // nil for section name key path means "no sections".
         NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
         aFetchedResultsController.delegate = self;
-        self.passwordFetchedResultsController = aFetchedResultsController;
         
+        self.passwordFetchedResultsController = aFetchedResultsController;
     }
-	
+    
 	return passwordFetchedResultsController;
 }
 
@@ -434,8 +457,39 @@
 	return fetchedResultsController;
 }
 
-- (void)viewDidUnload {
+- (NSFetchedResultsController *)tabBarStyleFRC
+{
+    // Set up the fetched results controller if needed.
+    if (tabBarStyleFRC == nil) {
+        // Create the fetch request for the entity.
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"TabBarStyle" inManagedObjectContext:managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"simplyStyle" ascending:YES];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        // Edit the section name key path and cache name if appropriate.
+        // nil for section name key path means "no sections".
+        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+        aFetchedResultsController.delegate = self;
+        self.tabBarStyleFRC = aFetchedResultsController;
+        
+    }
+    
+	return tabBarStyleFRC;
+}
+
+
+- (void)viewDidUnload
+{
     [self setNoteCell:nil];
+    self.tabBarStyleFRC.delegate = nil;
+    self.tabBarStyleFRC = nil;
     [super viewDidUnload];
 }
 @end

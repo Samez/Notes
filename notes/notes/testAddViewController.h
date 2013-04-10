@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Note.h"
 #import "Pswd.h"
-#import "privateSwitcherCell.h"
+
 #import "enterNameCell.h"
 #import "enterTextCell.h"
 

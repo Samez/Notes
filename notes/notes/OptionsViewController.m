@@ -7,9 +7,11 @@
 //
 
 #define _PSWD 0
+#define _PREF 1
 
 #import "OptionsViewController.h"
 #import "passwordViewController.h"
+#import "PreferencesViewController.h"
 
 @interface OptionsViewController ()
 
@@ -33,7 +35,7 @@
 {
     [super viewDidLoad];
     
-    [self setTitle:@"Options"];
+    [self setTitle:NSLocalizedString(@"OptionsTitle", nil)];
     
     [[[self navigationController]navigationBar] setBarStyle:UIBarStyleBlack];
     
@@ -53,7 +55,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -72,11 +74,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    
     switch ([indexPath section])
     {
         case _PSWD:
         {
-            [[cell textLabel] setText:@"Change password"];
+            [[cell textLabel] setText:NSLocalizedString(@"ChangePasswordCell", nil)];
+            break;
+        }
+            
+        case _PREF:
+        {
+            [[cell textLabel] setText:NSLocalizedString(@"PreferenceCell", nil)];
             break;
         }
     }
@@ -105,6 +114,17 @@
             
             [((passwordViewController*)nextViewController) setManagedObjectContext:managedObjectContext];
             [((passwordViewController*)nextViewController) setFetchedResultsController:fetchedResultsController];
+            
+            break;
+        }
+            
+        case _PREF:
+        {
+            nextViewController = [[PreferencesViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            
+            [((PreferencesViewController*)nextViewController) setManagedObjectContext:managedObjectContext];
+            
+            break;
         }
     }
     

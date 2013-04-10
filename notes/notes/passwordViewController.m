@@ -11,18 +11,6 @@
 #define _NEW2 102
 #define _PASSWORD_MIN_LENGTH 4
 
-NSString * const  _INCORRECT_OLD_PASSWORD = @"Incorrect old password";
-
-NSString * const _PASSWORDS_ARE_NOT_EQUAL = @"Passwords are not equal";
-
-NSString * const _PASSWORD_IS_TOO_SHORT = @"You have entered is too short password. Please, come up with a new password of sufficient length. The password can not be shorter than 4 characters";
-
-NSString * const _DEFAULT_PASSWORD_WARNING=  @"You are using the default password - 'Password'. For the safety come up and enter a new password that is at least 4 characters";
-
-NSString * const _CANT_SAVE = @"I can't save the password";
-
-NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
-
 #import "passwordViewController.h"
 #import "Pswd.h"
 
@@ -99,7 +87,7 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     {
         forOldPassword = [pass password];
         
-        [self showBottomTitle:_DEFAULT_PASSWORD_WARNING];
+        [self showBottomTitle:NSLocalizedString(@"StandartPasswordWarning", nil)];
     }
     
 }
@@ -127,16 +115,16 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     {
         if ([passwordOne length]>=_PASSWORD_MIN_LENGTH)
         {
-            [self showBottomTitle:_PASSWORD_DID_CHANGE];
+            [self showBottomTitle:NSLocalizedString(@"PasswordWasChangeNotification", nil)];
             flag = YES;
         } else
         {
-            [self showBottomTitle:_PASSWORD_IS_TOO_SHORT];
+            [self showBottomTitle:NSLocalizedString(@"TooShortPasswordWarning", nil)];
             flag = NO;
         }
     } else
     {
-        [self showBottomTitle:_PASSWORDS_ARE_NOT_EQUAL];
+        [self showBottomTitle:NSLocalizedString(@"PasswordsAreNotEqualWarning", nil)];
         flag = NO;
     }
     
@@ -155,7 +143,7 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
     else
     {
         forOldPassword = nil;
-        [self showBottomTitle:_INCORRECT_OLD_PASSWORD];
+        [self showBottomTitle:NSLocalizedString(@"IncorrectOldPasswordWarning", nil)];
         flag = NO;
     }
     return flag;
@@ -275,10 +263,10 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
                 {
                     if ([(Pswd*)[fetchedResultsController fetchedObjects][0] password])
                     {
-                        [[passCell passwordField] setPlaceholder:@"Enter old password"];
+                        [[passCell passwordField] setPlaceholder:NSLocalizedString(@"EnterOldPasswordLabel", nil)];
                     } else
                     {
-                        [[passCell passwordField] setPlaceholder:@"Enter new password"];
+                        [[passCell passwordField] setPlaceholder:NSLocalizedString(@"EnterNewPasswordLabel", nil)];
                     }
                     
                     if (forOldPassword)
@@ -292,7 +280,7 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
                     
                 case 1:
                 {
-                    [[passCell passwordField] setPlaceholder:@"Enter new password"];
+                    [[passCell passwordField] setPlaceholder:NSLocalizedString(@"EnterNewPasswordLabel", nil)];
                     [[passCell passwordField] setDelegate:self];
                     [[passCell passwordField] setTag:_NEW1];
                     
@@ -300,7 +288,7 @@ NSString * const _PASSWORD_DID_CHANGE = @"Password successfully changed";
                 }
                 case 2:
                 {
-                    [[passCell passwordField] setPlaceholder:@"Repeat new password"];
+                    [[passCell passwordField] setPlaceholder:NSLocalizedString(@"RepeatNewPasswordLabel", nil)];
                     [[passCell passwordField] setDelegate:self];
                     [[passCell passwordField] setTag:_NEW2];
 

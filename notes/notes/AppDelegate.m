@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "TabBarStyle.h"
 
 @implementation AppDelegate
 
@@ -20,6 +21,7 @@
 @synthesize window;
 
 @synthesize fetchedResultsController;
+@synthesize tabBarStyleFRC;
 
 -(void) applicationDidFinishLaunching:(UIApplication *)application
 {
@@ -41,6 +43,25 @@
         [newPassword setPassword:@"Password"];
         
         NSError *error = nil;
+        
+        if (![_managedObjectContext save:&error])
+        {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+    
+    // --- --- ---
+    if (![[self tabBarStyleFRC] performFetch:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    if ([[tabBarStyleFRC fetchedObjects] count] == 0)
+    {
+        TabBarStyle* TBS = (TabBarStyle*)[NSEntityDescription insertNewObjectForEntityForName:@"TabBarStyle" inManagedObjectContext:[self managedObjectContext]];
+        [TBS setSimplyStyle:[NSNumber numberWithBool:NO]];
         
         if (![_managedObjectContext save:&error])
         {
@@ -98,7 +119,7 @@
         return _managedObjectModel;
     }
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Model8" ofType:@"momd"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Model10.0" ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
     
@@ -112,7 +133,7 @@
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Model8.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Model10.0.sqlite"];
     
     NSError *error = nil;
     
@@ -161,6 +182,33 @@
 	return fetchedResultsController;
 }
 
+
+- (NSFetchedResultsController *)tabBarStyleFRC
+{
+    // Set up the fetched results controller if needed.
+    if (tabBarStyleFRC == nil) {
+        // Create the fetch request for the entity.
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        // Edit the entity name as appropriate.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"TabBarStyle" inManagedObjectContext:_managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Edit the sort key as appropriate.
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"simplyStyle" ascending:YES];
+        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        // Edit the section name key path and cache name if appropriate.
+        // nil for section name key path means "no sections".
+        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+        aFetchedResultsController.delegate = self;
+        self.tabBarStyleFRC = aFetchedResultsController;
+        
+    }
+    
+	return tabBarStyleFRC;
+}
 
 
 @end

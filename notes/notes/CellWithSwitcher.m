@@ -6,16 +6,19 @@
 //  Copyright (c) 2013 gg. All rights reserved.
 //
 
-#import "privateSwitcherCell.h"
+#import "CellWithSwitcher.h"
 
-@implementation privateSwitcherCell
+@implementation CellWithSwitcher
+
 @synthesize stateSwitcher;
+@synthesize myTextLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
+    if (self)
+    {
+
     }
     return self;
 }

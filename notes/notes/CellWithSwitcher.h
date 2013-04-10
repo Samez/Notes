@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface privateSwitcherCell : UITableViewCell
+@interface CellWithSwitcher: UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UISwitch *stateSwitcher;
+@property (weak, nonatomic) IBOutlet UILabel *myTextLabel;
 
 @end
