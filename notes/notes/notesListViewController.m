@@ -8,8 +8,6 @@
 
 #import "notesListViewController.h"
 #import "detailViewController.h"
-#import "addNewNoteViewController.h"
-#import "askPasswordViewController.h"
 #import "testAddViewController.h"
 
 @interface notesListViewController ()
@@ -48,38 +46,17 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.tableView reloadData];
     [self.tableView beginUpdates];
+    [self.tableView reloadData];
     [self.tableView endUpdates];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[self.tableView indexPathForSelectedRow] isEqual:indexPath]){
+    if ([indexPath isEqual:[self.tableView indexPathForSelectedRow]]){
         return [selectedCell heightForTableView];
     }
     return 50;
-}
-
-- (void)showNote:(Note *)note animated:(BOOL)animated;
-{
-    /*if (![note.isPrivate boolValue])
-    {        
-        testAddViewController *nextC = [[testAddViewController alloc] init];
-        [nextC setNote:note];
-        [nextC setForEditing:YES];
-        [nextC setManagedObjectContext:managedObjectContext];
-        nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
-        [self.navigationController pushViewController:nextC animated:YES];
-    } else
-    {
-        askPasswordViewController * nextController = [[askPasswordViewController alloc]initWithStyle:UITableViewStyleGrouped];
-        [nextController setNote:note];
-        [nextController setManagedObjectContext:managedObjectContext];
-        [nextController setNotesCount:[[fetchedResultsController fetchedObjects] count]];
-        //[self.navigationController pushViewController:nextController animated:YES];
-    }*/
-    
 }
 
 -(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -93,9 +70,9 @@
     //Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
     selectedCell=(noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     [selectedCell tryOpen:self];
+    [selectedCell passwordField].text=nil;
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
-    //[self showNote:note animated:YES];
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -112,6 +89,7 @@
     {
         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
         [selectedCell.passwordField resignFirstResponder];
+        [selectedCell passwordField].text=nil;
         [self.tableView beginUpdates];
         [self.tableView endUpdates];
         return nil;
@@ -151,19 +129,13 @@
 {
     testAddViewController *nextC = [[testAddViewController alloc] init];
     
-    //addNewNoteViewController *addController = [[addNewNoteViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    
 	Note *newNote = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
-	//addController.note = newNote;
     
     nextC.note = newNote;
     nextC.managedObjectContext = managedObjectContext;
     nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
     
     [self.navigationController pushViewController:nextC animated:YES];
-    //addController.managedObjectContext = managedObjectContext;
-    
-    //[self.navigationController pushViewController:addController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -305,12 +277,16 @@
     [nextC setForEditing:YES];
     [nextC setManagedObjectContext:managedObjectContext];
     nextC.notesCount = [[fetchedResultsController fetchedObjects] count];
+    [self.tableView beginUpdates];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [self.tableView endUpdates];
+    
     [self.navigationController pushViewController:nextC animated:YES];
 }
 
 -(void) keyboardWillShow:(NSNotification*) notification
 {
-    //NSLog(@"%@",[notification userInfo]);
+    NSLog(@"%@",[notification userInfo]);
     NSDictionary* dict=[notification userInfo];
     CGFloat keyboardTop=[(NSValue*)[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
     CGRect t=self.tableView.frame;

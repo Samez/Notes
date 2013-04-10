@@ -10,7 +10,6 @@
 #import "Note.h"
 #import "noteListCell.h"
 
-#import "addNewNoteViewController.h"
 
 @interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate,OpenNote>
 {
@@ -19,11 +18,9 @@
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;
-
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
-- (void)showNote:(Note *)note animated:(BOOL)animated;
 - (void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
 @end

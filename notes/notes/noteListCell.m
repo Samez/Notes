@@ -95,7 +95,7 @@
     if ([note.isPrivate boolValue])
     {
         [self.passwordField becomeFirstResponder];
-        if (![self.passwordField.text isEqual:@"1234"]) return;
+        if (![@"1234" isEqual:self.passwordField.text]) return;
         self.passwordField.text=@"";
     }
     [self.passwordField resignFirstResponder];

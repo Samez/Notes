@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Pswd.h"
 
 @implementation AppDelegate
 
