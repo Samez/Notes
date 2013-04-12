@@ -9,16 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "CellWithSwitcher.h"
 
-@interface PreferencesViewController : UITableViewController<NSFetchedResultsControllerDelegate>
+@interface PreferencesViewController : UITableViewController
 {
     BOOL simplyStyle;
     BOOL backgroundIsAdaptive;
 }
-
-@property (nonatomic, retain) NSFetchedResultsController *tabBarStyleFRC;
-@property (nonatomic, retain) NSFetchedResultsController *backgroundFRC;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-
 
 @property (strong, nonatomic) IBOutlet CellWithSwitcher *mySwitchCell;
 

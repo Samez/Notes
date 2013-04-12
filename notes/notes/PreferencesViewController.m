@@ -20,8 +20,6 @@
 
 @implementation PreferencesViewController
 
-@synthesize backgroundFRC, tabBarStyleFRC;
-@synthesize managedObjectContext;
 @synthesize mySwitchCell;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -45,15 +43,7 @@
     
     backgroundIsAdaptive = [[cell stateSwitcher] isOn];
     
-    if ([[backgroundFRC fetchedObjects] count] > 0)
-        [(AdaptiveBackground*)[backgroundFRC fetchedObjects][0] setBackgroundIsAdaptive: [NSNumber numberWithBool:[[cell stateSwitcher] isOn]]];
-    NSError *error;
-    
-    if (![managedObjectContext save:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    [[NSUserDefaults standardUserDefaults] setBool: [[cell stateSwitcher] isOn] forKey: @"adaptiveBackground"];
 }
 
 -(void) tabBarStyleWasChanged
@@ -62,17 +52,8 @@
     
     simplyStyle = [[cell stateSwitcher] isOn];
     
-    if ([[tabBarStyleFRC fetchedObjects] count] >0)
-        [(TabBarStyle*)[tabBarStyleFRC fetchedObjects][0] setSimplyStyle: [NSNumber numberWithBool:[[cell stateSwitcher] isOn]]];
-    
-    NSError *error;
-    
-    if (![managedObjectContext save:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
+    [[NSUserDefaults standardUserDefaults] setBool: [[cell stateSwitcher] isOn] forKey: @"simplyTabBarStyle"];
+
     [self restyleTabBar:[self tabBarController]];
 }
 
@@ -117,22 +98,16 @@
     
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    NSError *error = nil;
-    
-	if (![[self tabBarStyleFRC] performFetch:&error])
+    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
     {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-	}
-    if ([[tabBarStyleFRC fetchedObjects] count] > 0)
-        simplyStyle = [[(TabBarStyle*)[tabBarStyleFRC fetchedObjects][0] simplyStyle] boolValue];
-    NSError *err = nil;
+        simplyStyle = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
+    }
     
-    if (![[self backgroundFRC] performFetch:&err])
+    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"adaptiveBackground"] != nil)
     {
-		NSLog(@"Unresolved error %@, %@", err, [err userInfo]);
-		abort();
-	}
+        backgroundIsAdaptive = [[NSUserDefaults standardUserDefaults] boolForKey: @"adaptiveBackground"];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -172,124 +147,27 @@
         case _SIMPLE_TABBAR:
         {
             [[MYcell myTextLabel] setText:NSLocalizedString(@"SimpleTabBarStyleCell", nil)];
+            
             [MYcell.stateSwitcher addTarget: self action: @selector(tabBarStyleWasChanged) forControlEvents:UIControlEventValueChanged];
+            
             [[MYcell stateSwitcher] setOn:simplyStyle];
+            
             break;
         }
         case _ADAPTIVE_BACKGROUND:
         {
             [[MYcell myTextLabel] setText:NSLocalizedString(@"AdaptiveBackgroundCell", nil)];
+            
             [MYcell.stateSwitcher addTarget:self action:@selector(backgroundstyleWasChanged) forControlEvents:UIControlEventValueChanged];
+            
             [[MYcell stateSwitcher] setOn:backgroundIsAdaptive];
+            
             break;
         }
         
     }
     
     return MYcell;
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-	[[self tableView] endUpdates];
-}
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-	[[self tableView] beginUpdates];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
-	switch(type) {
-		case NSFetchedResultsChangeInsert:
-			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-			break;
-			
-		case NSFetchedResultsChangeDelete:
-			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-			break;
-	}
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
-	UITableView *tableView = self.tableView;
-	
-	switch(type) {
-		case NSFetchedResultsChangeInsert:
-			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-			break;
-			
-		case NSFetchedResultsChangeDelete:
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-			break;
-			
-		case NSFetchedResultsChangeUpdate:
-            if ([[tabBarStyleFRC fetchedObjects] count] > 0)
-                simplyStyle = [[(TabBarStyle*)[tabBarStyleFRC fetchedObjects][0] simplyStyle] boolValue];
-            //[self restyleTabBar:[self tabBarController]];
-			break;
-			
-		case NSFetchedResultsChangeMove:
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-	}
-}
-
-- (NSFetchedResultsController *)tabBarStyleFRC
-{
-    // Set up the fetched results controller if needed.
-    if (tabBarStyleFRC == nil) {
-        // Create the fetch request for the entity.
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"TabBarStyle" inManagedObjectContext:managedObjectContext];
-        [fetchRequest setEntity:entity];
-        
-        // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"simplyStyle" ascending:YES];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-        aFetchedResultsController.delegate = self;
-        self.tabBarStyleFRC = aFetchedResultsController;
-        
-    }
-
-	return tabBarStyleFRC;
-}
-
-- (NSFetchedResultsController *)backgroundFRC
-{
-    // Set up the fetched results controller if needed.
-    if (backgroundFRC == nil) {
-        // Create the fetch request for the entity.
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"AdaptiveBackground" inManagedObjectContext:managedObjectContext];
-        [fetchRequest setEntity:entity];
-        
-        // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"backgroundIsAdaptive" ascending:NO];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-        aFetchedResultsController.delegate = self;
-        self.backgroundFRC = aFetchedResultsController;
-        
-    }
-	
-	return backgroundFRC;
 }
 
 - (void)viewDidUnload

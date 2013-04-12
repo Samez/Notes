@@ -27,7 +27,6 @@
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSFetchedResultsController *tabBarStyleFRC;
 
 @property (nonatomic, retain) NSFetchedResultsController *passwordFetchedResultsController;
 

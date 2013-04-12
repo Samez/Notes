@@ -27,7 +27,6 @@
 @synthesize alertLabel;
 @synthesize notesCount;
 @synthesize trashButton;
-@synthesize backgroundFRC;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +40,14 @@
         hidining = NO;
     }
     return self;
+}
+
+-(void)checkSettings
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"adaptiveBackground"] != nil)
+    {
+        backgroundIsAdaptive = [[NSUserDefaults standardUserDefaults] boolForKey: @"adaptiveBackground"];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -124,6 +131,8 @@
 {
     [super viewDidLoad];
     
+    [self checkSettings];
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     
     [self.view addGestureRecognizer:tap];
@@ -157,12 +166,6 @@
     NSError *error = nil;
     
     if (![[self fetchedResultsController] performFetch:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    if (![[self backgroundFRC] performFetch:&error])
     {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
@@ -212,7 +215,6 @@
 
 -(void)updateBackground
 {
-    backgroundIsAdaptive = [[(AdaptiveBackground*)[backgroundFRC fetchedObjects][0] backgroundIsAdaptive] boolValue];
     
     if (backgroundIsAdaptive)
     {
@@ -376,7 +378,7 @@
 			
 		case NSFetchedResultsChangeUpdate:
         {
-            if ([[backgroundFRC fetchedObjects] count] > 0)
+            //TODO: !
                 [self updateBackground];
 			break;
         }
@@ -430,33 +432,6 @@
     }
     
     [UIView commitAnimations];
-}
-
-- (NSFetchedResultsController *)backgroundFRC
-{
-    // Set up the fetched results controller if needed.
-    if (backgroundFRC == nil) {
-        // Create the fetch request for the entity.
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"AdaptiveBackground" inManagedObjectContext:managedObjectContext];
-        [fetchRequest setEntity:entity];
-        
-        // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"backgroundIsAdaptive" ascending:NO];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-        aFetchedResultsController.delegate = self;
-        self.backgroundFRC = aFetchedResultsController;
-        
-    }
-	
-	return backgroundFRC;
 }
 
 - (void)viewDidUnload {

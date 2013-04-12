@@ -122,8 +122,6 @@
         {
             nextViewController = [[PreferencesViewController alloc] initWithStyle:UITableViewStyleGrouped];
             
-            [((PreferencesViewController*)nextViewController) setManagedObjectContext:managedObjectContext];
-            
             break;
         }
     }

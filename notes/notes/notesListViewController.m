@@ -24,11 +24,20 @@
 @synthesize fetchedResultsController;
 @synthesize noteCell;
 @synthesize passwordFetchedResultsController;
-@synthesize tabBarStyleFRC;
+
+-(void)checkSettings
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
+    {
+        simpleTabBar = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
+    }
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self checkSettings];
     
     [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
 
@@ -57,15 +66,6 @@
     if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
         PSWD = [passwordFetchedResultsController fetchedObjects][0];
     
-    if (![[self tabBarStyleFRC] performFetch:&err])
-    {
-		NSLog(@"Unresolved error %@, %@", err, [err userInfo]);
-		abort();
-	}
-    
-    if ([[tabBarStyleFRC fetchedObjects] count] >0)
-        simpleTabBar = [[(TabBarStyle*)[tabBarStyleFRC fetchedObjects][0] simplyStyle] boolValue];
-    
     iP = nil;
     keyboardIsActive = NO;
 }
@@ -78,6 +78,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [[self tableView] reloadData];
+    [self checkSettings];
 }
 
 - (void)showTabBar:(UITabBarController *) tabbarcontroller
@@ -391,9 +392,7 @@
 			[self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
             if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
                 PSWD = [passwordFetchedResultsController fetchedObjects][0];
-            
-            if ([[tabBarStyleFRC fetchedObjects] count] >0)
-                simpleTabBar = [[(TabBarStyle*)[tabBarStyleFRC fetchedObjects][0] simplyStyle] boolValue];
+
 			break;
         }
 		case NSFetchedResultsChangeMove:
@@ -457,39 +456,9 @@
 	return fetchedResultsController;
 }
 
-- (NSFetchedResultsController *)tabBarStyleFRC
-{
-    // Set up the fetched results controller if needed.
-    if (tabBarStyleFRC == nil) {
-        // Create the fetch request for the entity.
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"TabBarStyle" inManagedObjectContext:managedObjectContext];
-        [fetchRequest setEntity:entity];
-        
-        // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"simplyStyle" ascending:YES];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-        aFetchedResultsController.delegate = self;
-        self.tabBarStyleFRC = aFetchedResultsController;
-        
-    }
-    
-	return tabBarStyleFRC;
-}
-
-
 - (void)viewDidUnload
 {
     [self setNoteCell:nil];
-    self.tabBarStyleFRC.delegate = nil;
-    self.tabBarStyleFRC = nil;
     [super viewDidUnload];
 }
 @end
