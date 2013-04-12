@@ -8,7 +8,6 @@
 
 #import "testAddViewController.h"
 #import "res.h"
-#import "AdaptiveBackground.h"
 
 #define MAXLENGTH 25
 

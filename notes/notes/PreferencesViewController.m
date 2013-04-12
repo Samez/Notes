@@ -7,12 +7,11 @@
 //
 
 #import "PreferencesViewController.h"
-#import "TabBarStyle.h"
-#import "AdaptiveBackground.h"
 #import "res.h"
 
 #define _SIMPLE_TABBAR 0
 #define _ADAPTIVE_BACKGROUND 1
+#define _HIDE_PASSWORD 2
 
 @interface PreferencesViewController ()
 
@@ -43,7 +42,9 @@
     
     backgroundIsAdaptive = [[cell stateSwitcher] isOn];
     
-    [[NSUserDefaults standardUserDefaults] setBool: [[cell stateSwitcher] isOn] forKey: @"adaptiveBackground"];
+    [[NSUserDefaults standardUserDefaults] setBool: backgroundIsAdaptive forKey: @"adaptiveBackground"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void) tabBarStyleWasChanged
@@ -52,9 +53,22 @@
     
     simplyStyle = [[cell stateSwitcher] isOn];
     
-    [[NSUserDefaults standardUserDefaults] setBool: [[cell stateSwitcher] isOn] forKey: @"simplyTabBarStyle"];
+    [[NSUserDefaults standardUserDefaults] setBool: simplyStyle forKey: @"simplyTabBarStyle"];
 
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     [self restyleTabBar:[self tabBarController]];
+}
+
+-(void)secureTextEntryWasChanged
+{
+    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_HIDE_PASSWORD inSection:0]];
+    
+    textEntryIsSecured = [[cell stateSwitcher] isOn];
+    
+    [[NSUserDefaults standardUserDefaults] setBool: textEntryIsSecured forKey: @"secureTextEntry"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void)restyleTabBar:(UITabBarController*)tabbarcontroller
@@ -107,6 +121,11 @@
     {
         backgroundIsAdaptive = [[NSUserDefaults standardUserDefaults] boolForKey: @"adaptiveBackground"];
     }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"secureTextEntry"] != nil)
+    {
+        textEntryIsSecured = [[NSUserDefaults standardUserDefaults] boolForKey: @"secureTextEntry"];
+    }
 
 }
 
@@ -124,7 +143,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -163,6 +182,14 @@
             [[MYcell stateSwitcher] setOn:backgroundIsAdaptive];
             
             break;
+        }
+        case _HIDE_PASSWORD:
+        {
+            [[MYcell myTextLabel] setText:NSLocalizedString(@"HidePasswordCell", nil)];
+            
+            [MYcell.stateSwitcher addTarget:self action:@selector(secureTextEntryWasChanged) forControlEvents:UIControlEventValueChanged];
+            
+            [[MYcell stateSwitcher] setOn:textEntryIsSecured];
         }
         
     }

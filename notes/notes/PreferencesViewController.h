@@ -13,6 +13,7 @@
 {
     BOOL simplyStyle;
     BOOL backgroundIsAdaptive;
+    BOOL textEntryIsSecured;
 }
 
 @property (strong, nonatomic) IBOutlet CellWithSwitcher *mySwitchCell;

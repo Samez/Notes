@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "TabBarStyle.h"
-#import "AdaptiveBackground.h"
+#import "res.h"
+#import "MKiCloudSync.h"
 
 @implementation AppDelegate
 
@@ -23,11 +23,14 @@
 
 @synthesize fetchedResultsController;
 
+
 -(void) applicationDidFinishLaunching:(UIApplication *)application
 {
     [notesListController setManagedObjectContext:[self managedObjectContext]];
     [optionsController setManagedObjectContext:[self managedObjectContext]];
     [window setRootViewController:[self tabBarController]];
+    
+    [self LoadSettings];
     
     NSError *error = nil;
     
@@ -51,6 +54,7 @@
         }
     }
     
+    //[MKiCloudSync start];
     
     [[self window] makeKeyAndVisible];
 }
@@ -59,12 +63,17 @@
 {
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"simplyTabBarStyle"];
+        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"simplyTabBarStyle"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"adaptiveBackground"] == nil)
     {
         [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"adaptiveBackground"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"secureTextEntry"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"secureTextEntry"];
     }
 }
 
@@ -114,7 +123,7 @@
         return _managedObjectModel;
     }
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Model10.0" ofType:@"momd"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Model10.1" ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
     
@@ -128,7 +137,7 @@
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Model10.0.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Model10.1.sqlite"];
     
     NSError *error = nil;
     

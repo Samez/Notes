@@ -37,7 +37,8 @@
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
 		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
-		04CF123916D404C8009D89E3 /* Model10.0.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model10.0.xcdatamodeld */; };
+		04CF123916D404C8009D89E3 /* Model10.1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model10.1.xcdatamodeld */; };
+		04D108DA1717A09A00A60139 /* MKiCloudSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D108D91717A09A00A60139 /* MKiCloudSync.m */; };
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
 		04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A2170C7BF100CC268D /* woodenBackground.png */; };
@@ -52,8 +53,6 @@
 		04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40B16DDCE620053C4AF /* passwordCell.m */; };
 		04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D6D40D16DDCE740053C4AF /* passwordCell.xib */; };
 		04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F142EE1714C962007F4423 /* PreferencesViewController.m */; };
-		04F142F21714D7BC007F4423 /* TabBarStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F142F11714D7BC007F4423 /* TabBarStyle.m */; };
-		04F142F51714D7F2007F4423 /* AdaptiveBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F142F41714D7F2007F4423 /* AdaptiveBackground.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +91,7 @@
 		0462F17216E30E5200BE6806 /* Pswd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pswd.m; sourceTree = "<group>"; };
 		0462F17416E30E5200BE6806 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
 		0462F17516E30E5200BE6806 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		04639DAA1717AFEB00DAA668 /* notes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = notes.entitlements; sourceTree = "<group>"; };
 		04702F6B17142D9400DCA0C9 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = alert.png; path = Pics/alert.png; sourceTree = SOURCE_ROOT; };
 		04ACDBED170B55F9003A74F4 /* testAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testAddViewController.h; sourceTree = "<group>"; };
 		04ACDBEE170B55F9003A74F4 /* testAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testAddViewController.m; sourceTree = "<group>"; };
@@ -102,7 +102,9 @@
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
-		04CF123816D404C8009D89E3 /* Model10.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model10.0.xcdatamodel; sourceTree = "<group>"; };
+		04CF123816D404C8009D89E3 /* Model10.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model10.1.xcdatamodel; sourceTree = "<group>"; };
+		04D108D81717A09A00A60139 /* MKiCloudSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKiCloudSync.h; sourceTree = "<group>"; };
+		04D108D91717A09A00A60139 /* MKiCloudSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKiCloudSync.m; sourceTree = "<group>"; };
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
 		04D539A2170C7BF100CC268D /* woodenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackground.png; path = Pics/woodenBackground.png; sourceTree = SOURCE_ROOT; };
@@ -120,10 +122,6 @@
 		04D6D40D16DDCE740053C4AF /* passwordCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = passwordCell.xib; sourceTree = "<group>"; };
 		04F142ED1714C962007F4423 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
 		04F142EE1714C962007F4423 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
-		04F142F01714D7BC007F4423 /* TabBarStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarStyle.h; sourceTree = "<group>"; };
-		04F142F11714D7BC007F4423 /* TabBarStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarStyle.m; sourceTree = "<group>"; };
-		04F142F31714D7F2007F4423 /* AdaptiveBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdaptiveBackground.h; sourceTree = "<group>"; };
-		04F142F41714D7F2007F4423 /* AdaptiveBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdaptiveBackground.m; sourceTree = "<group>"; };
 		04F142F61714E31B007F4423 /* res.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = res.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -223,11 +221,12 @@
 		0434EB1016D3A18000BD9C2B /* notes */ = {
 			isa = PBXGroup;
 			children = (
+				04639DAA1717AFEB00DAA668 /* notes.entitlements */,
 				04F142F61714E31B007F4423 /* res.h */,
 				0434EB1916D3A18000BD9C2B /* AppDelegate.h */,
 				0434EB1A16D3A18000BD9C2B /* AppDelegate.m */,
 				044DE1B716D3B237004CDE0A /* Window.xib */,
-				04D6D41316DEBEDA0053C4AF /* Get first password */,
+				04D108DB1717A0A000A60139 /* iCloud sync class */,
 				044DE19C16D3AE3A004CDE0A /* Notes list */,
 				044DE1B916D3B493004CDE0A /* Options */,
 				044DE1B016D3B1C8004CDE0A /* Model */,
@@ -266,11 +265,7 @@
 		044DE1B016D3B1C8004CDE0A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04CF123716D404C8009D89E3 /* Model10.0.xcdatamodeld */,
-				04F142F31714D7F2007F4423 /* AdaptiveBackground.h */,
-				04F142F41714D7F2007F4423 /* AdaptiveBackground.m */,
-				04F142F01714D7BC007F4423 /* TabBarStyle.h */,
-				04F142F11714D7BC007F4423 /* TabBarStyle.m */,
+				04CF123716D404C8009D89E3 /* Model10.1.xcdatamodeld */,
 				0462F17416E30E5200BE6806 /* Note.h */,
 				0462F17516E30E5200BE6806 /* Note.m */,
 				0462F17116E30E5200BE6806 /* Pswd.h */,
@@ -323,6 +318,15 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
+		04D108DB1717A0A000A60139 /* iCloud sync class */ = {
+			isa = PBXGroup;
+			children = (
+				04D108D81717A09A00A60139 /* MKiCloudSync.h */,
+				04D108D91717A09A00A60139 /* MKiCloudSync.m */,
+			);
+			name = "iCloud sync class";
+			sourceTree = "<group>";
+		};
 		04D6D3FF16DCF7810053C4AF /* Password */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,13 +344,6 @@
 				04D6D40D16DDCE740053C4AF /* passwordCell.xib */,
 			);
 			name = "Password cell";
-			sourceTree = "<group>";
-		};
-		04D6D41316DEBEDA0053C4AF /* Get first password */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Get first password";
 			sourceTree = "<group>";
 		};
 		04F142EC1714C7F7007F4423 /* Preferences */ = {
@@ -451,7 +448,7 @@
 				044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */,
 				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
 				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
-				04CF123916D404C8009D89E3 /* Model10.0.xcdatamodeld in Sources */,
+				04CF123916D404C8009D89E3 /* Model10.1.xcdatamodeld in Sources */,
 				041A7D7616D492B400F91496 /* enterNameCell.m in Sources */,
 				041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */,
 				041A7D8716D496DF00F91496 /* CellWithSwitcher.m in Sources */,
@@ -461,8 +458,7 @@
 				0462F17616E30E5200BE6806 /* Note.m in Sources */,
 				04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */,
 				04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */,
-				04F142F21714D7BC007F4423 /* TabBarStyle.m in Sources */,
-				04F142F51714D7F2007F4423 /* AdaptiveBackground.m in Sources */,
+				04D108DA1717A09A00A60139 /* MKiCloudSync.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,11 +545,15 @@
 		0434EB2816D3A18000BD9C2B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "notes/notes-Prefix.pch";
 				INFOPLIST_FILE = "notes/notes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -561,11 +561,15 @@
 		0434EB2916D3A18000BD9C2B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "notes/notes-Prefix.pch";
 				INFOPLIST_FILE = "notes/notes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -594,13 +598,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		04CF123716D404C8009D89E3 /* Model10.0.xcdatamodeld */ = {
+		04CF123716D404C8009D89E3 /* Model10.1.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				04CF123816D404C8009D89E3 /* Model10.0.xcdatamodel */,
+				04CF123816D404C8009D89E3 /* Model10.1.xcdatamodel */,
 			);
-			currentVersion = 04CF123816D404C8009D89E3 /* Model10.0.xcdatamodel */;
-			path = Model10.0.xcdatamodeld;
+			currentVersion = 04CF123816D404C8009D89E3 /* Model10.1.xcdatamodel */;
+			path = Model10.1.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

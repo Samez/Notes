@@ -12,7 +12,6 @@
 #import "testAddViewController.h"
 #import "Pswd.h"
 #import "res.h"
-#import "TabBarStyle.h"
 
 @interface notesListViewController ()
 
@@ -134,6 +133,17 @@
 {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
     [cell setN:note];
+    
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    
+    [[cell passwordField]  setReturnKeyType:UIReturnKeyDone];
+    
+    [[cell passwordField] setDelegate:self];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"secureTextEntry"])
+        [[cell passwordField]  setSecureTextEntry:YES];
+    else
+        [[cell passwordField]  setSecureTextEntry:NO];
 }
 
 -(void)tryEnter
@@ -157,84 +167,95 @@
     }
 }
 
+-(void)changeTableViewHeightAt:(CGFloat)deltaHeight
+{
+    [UIView animateWithDuration:0.25 delay:0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + deltaHeight);
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    if (deltaHeight < 0)
+        [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    else
+        [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:YES];
+     
+
+}
+
+-(void)didSelectPrivateNoteAtIndexPath:(NSIndexPath*)indexPath
+{
+    if (iP == nil)
+    {
+        iP = indexPath;
+        
+        [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:666];
+        
+        [self.tableView beginUpdates];
+        
+        [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] showPasswordField];
+        
+        [self.tableView endUpdates];
+        
+        if (simpleTabBar)
+            [self changeTableViewHeightAt:-_SIMPLY_TABBAR_CHANGE_VALUE];
+        else
+            [self changeTableViewHeightAt:-_NORMAL_TABBAR_CHANGE_VALUE];
+    }
+    else
+    {
+        if (![iP isEqual:indexPath])
+        {
+            [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:nil];
+            
+            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
+            
+            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] setNormalImage];
+            
+            iP = indexPath;
+            
+            [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:666];
+            
+            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] showPasswordField];
+            
+        } else
+        {
+            [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:nil];
+            
+            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
+            
+            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] setNormalImage];
+            
+            if (simpleTabBar)
+                [self changeTableViewHeightAt:_SIMPLY_TABBAR_CHANGE_VALUE];
+            else
+                [self changeTableViewHeightAt:_NORMAL_TABBAR_CHANGE_VALUE];
+            
+            iP = nil;
+        }
+    }
+    
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-        
+    
     [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
     
+    Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
+        
     if ([[note isPrivate] boolValue])
     {
-        if (iP == nil)
-        {
-            iP = indexPath;
-            
-            [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:666];
-            
-            [(noteListCell*)[tableView cellForRowAtIndexPath:iP] showPasswordField];
-            
-            [self.tableView beginUpdates];
-            [self.tableView endUpdates];
-            
-            [UIView animateWithDuration:0.25
-                                  delay:0
-                                options: UIViewAnimationCurveEaseOut
-                             animations:^{
-                                 self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height - 170);
-                             }
-                             completion:^(BOOL finished){
-                             }];
-            if (iP.row > 3)
-                [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-
-        }
-        else
-        {
-            if (![iP isEqual:indexPath])
-            {
-                [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
-                
-                if ([(noteListCell*)[tableView cellForRowAtIndexPath:iP] alert])
-                    [(noteListCell*)[tableView cellForRowAtIndexPath:iP] setNormalImage];
-                
-                iP = indexPath;
-                
-                [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:666];
-                
-                [(noteListCell*)[tableView cellForRowAtIndexPath:iP] showPasswordField];
-
-            } else
-            {
-                [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
-                
-                [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:nil];
-                
-                if ([(noteListCell*)[tableView cellForRowAtIndexPath:iP] alert])
-                    [(noteListCell*)[tableView cellForRowAtIndexPath:iP] setNormalImage];
-                
-                [UIView animateWithDuration:0.25
-                                      delay:0
-                                    options: UIViewAnimationCurveEaseOut
-                                 animations:^{
-                                     self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + 170);
-                                 }
-                                 completion:^(BOOL finished){
-                                 }];
-
-                iP = nil;
-            }
-        }
-        
-        [self.tableView beginUpdates];
-        [self.tableView endUpdates];
-        
+        [self didSelectPrivateNoteAtIndexPath:indexPath];
     } else
     {
         if (iP != nil)
         {
-            [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
             [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:nil];
+            [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
             iP = nil;
         }
         [self showNote:note animated:YES];
@@ -338,13 +359,7 @@
     [[MYcell passwordField] setAlpha:0.0];
     
     [self configureCell:MYcell atIndexPath:indexPath];
-    
-    [MYcell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    
-    [[MYcell passwordField]  setReturnKeyType:UIReturnKeyDone];
-    [[MYcell passwordField]  setSecureTextEntry:YES];
 
-    [[MYcell passwordField] setDelegate:self];
 
     return MYcell;
 }
