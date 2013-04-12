@@ -28,6 +28,8 @@
     return self;
 }
 
+
+
 -(void)setAlertImage
 {
     if (alert)
@@ -122,9 +124,12 @@
     NSString * timeString = [date_format stringFromDate: note.date];
     
     [timeLabel setText:timeString];
+
+}
+
+-(void) setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
     
-    if ([[note isPrivate] boolValue])
-        [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 }
 
 @end

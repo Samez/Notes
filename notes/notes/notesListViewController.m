@@ -15,6 +15,10 @@
 
 @interface notesListViewController ()
 
+@property UIBarButtonItem* editButton;
+@property UIBarButtonItem* doneButton;
+@property UIBarButtonItem* deleteButton;
+
 @end
 
 @implementation notesListViewController
@@ -23,6 +27,8 @@
 @synthesize fetchedResultsController;
 @synthesize noteCell;
 @synthesize passwordFetchedResultsController;
+@synthesize editButton;
+@synthesize doneButton;
 
 -(void)checkSettings
 {
@@ -43,10 +49,16 @@
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
     UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+    self.editButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editing)];
+    self.doneButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editing)];
+
     
     [[self navigationItem] setRightBarButtonItem:addButtonItem];
+    [self.navigationItem setLeftBarButtonItem:self.editButton];
     
     NSError *error = nil;
+    
+    self.tableView.allowsMultipleSelectionDuringEditing=YES;
     
 	if (![[self fetchedResultsController] performFetch:&error])
     {
@@ -67,6 +79,18 @@
     
     iP = nil;
     keyboardIsActive = NO;
+}
+
+-(void) editing
+{
+    if ([self.tableView isEditing])
+    {
+        [self.navigationItem setLeftBarButtonItem:self.editButton];
+        [self.tableView setEditing:NO animated:YES];   
+    }else{
+        [self.navigationItem setLeftBarButtonItem:self.doneButton];
+        [self.tableView setEditing:YES animated:YES];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -240,9 +264,21 @@
     [self.tableView endUpdates];
 }
 
+-(NSIndexPath*) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.tableView.isEditing)
+    {
+        [[self.tableView cellForRowAtIndexPath:indexPath] setSelectionStyle:UITableViewCellSelectionStyleGray];
+    }else [[self.tableView cellForRowAtIndexPath:indexPath] setSelectionStyle:UITableViewCellSelectionStyleNone];
+    return indexPath;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (self.tableView.isEditing)
+    {
+        return;
+    }
     [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
     
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
