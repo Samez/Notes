@@ -12,15 +12,13 @@
 #import "Pswd.h"
 #import "addNewNoteViewController.h"
 
-@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate>
+@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate>
 {
-    NSFetchedResultsController *fetchedResultsController;
-    NSFetchedResultsController *passwordFetchedResultsController;
-    NSManagedObjectContext *managedObjectContext;
     NSIndexPath *iP;
     Pswd *PSWD;
     BOOL keyboardIsActive;
     BOOL simpleTabBar;
+    NSMutableArray *swipedCells;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;

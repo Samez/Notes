@@ -119,6 +119,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 55}, {237, 22}}</string>
 								<reference key="NSSuperview" ref="84858619"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -149,7 +150,7 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrameSize">{300, 84}</string>
+						<string key="NSFrameSize">{320, 84}</string>
 						<reference key="NSSuperview" ref="280486264"/>
 						<reference key="NSNextKeyView" ref="183084496"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
@@ -174,7 +175,6 @@
 				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISelectionStyle">0</int>
-				<int key="IBUIAccessoryType">1</int>
 				<reference key="IBUIContentView" ref="84858619"/>
 				<string key="IBUIReuseIdentifier">noteListCell</string>
 				<integer value="75" key="IBUIRowHeight"/>

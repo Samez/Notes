@@ -28,7 +28,24 @@
     return self;
 }
 
-
+-(void)swipeCellAt:(CGFloat)xPixels
+{
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         
+                         for(UIView *view in [self subviews])
+                         {
+                             if (view != img)
+                             [view setFrame:CGRectMake(view.frame.origin.x + xPixels, view.frame.origin.y, view.frame.size.width, view.frame.size.height)];
+                         }
+        
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
 
 -(void)setAlertImage
 {

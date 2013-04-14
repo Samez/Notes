@@ -63,12 +63,12 @@
 {
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"simplyTabBarStyle"];
+        [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"simplyTabBarStyle"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"adaptiveBackground"] == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"adaptiveBackground"];
+        [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"adaptiveBackground"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"secureTextEntry"] == nil)

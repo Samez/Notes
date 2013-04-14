@@ -27,5 +27,6 @@
 -(void)showPasswordField;
 -(void)setAlertImage;
 -(void)setNormalImage;
+-(void)swipeCellAt:(CGFloat)xPixels;
 
 @end

@@ -27,3 +27,5 @@
 "SimpleTabBarStyleCell" = "Упрощенная панель";
 "AdaptiveBackgroundCell" = "Адаптивный фон";
 "HidePasswordCell" = "Скрывать пароль";
+"EditButton" = "Изменить";
+"DoneButton" = "Готово";

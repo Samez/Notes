@@ -12,6 +12,7 @@
 #import "testAddViewController.h"
 #import "Pswd.h"
 #import "res.h"
+#import "Note.h"
 
 @interface notesListViewController ()
 
@@ -37,6 +38,56 @@
         simpleTabBar = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
     }
 }
+/*
+-(void)deleteSelectedCells
+{
+    NSMutableArray *cellsToDelete = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++)
+    {
+        NSIndexPath *p = [NSIndexPath indexPathForRow:i inSection:0];
+        
+        if ([[self.tableView cellForRowAtIndexPath:p] accessoryType] == UITableViewCellAccessoryCheckmark)
+        {
+            //[cellsToDelete addObject:p];
+            //[managedObjectContext delete:p];
+        }
+    }
+    
+    //[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[self.tableView indexPathForSelectedRow]] withRowAnimation:UITableViewRowAnimationLeft];
+    
+    //NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    
+    [self.tableView reloadData];
+}
+
+- (void)editButtonPressed
+{
+    BOOL editing = !self.tableView.editing;
+    
+    //self.navigationItem.rightBarButtonItem.enabled = !editing;
+    
+    if (editing)
+    {
+        UIBarButtonItem *myDoneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneButton", nil) style:UIBarButtonItemStyleDone target:self action:@selector(editButtonPressed)];
+
+        self.navigationItem.leftBarButtonItem = myDoneButton;
+        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleDone;
+        
+    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteSelectedCells)];
+        self.navigationItem.rightBarButtonItem = deleteButton;
+    }
+    else
+    {
+        self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"EditButton", nil);
+
+        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStylePlain;
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+
+    }
+    [self.tableView setEditing:editing animated:YES];
+}
+*/
 
 - (void)viewDidLoad
 {
@@ -49,16 +100,10 @@
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
     UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
-    self.editButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editing)];
-    self.doneButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editing)];
-
     
     [[self navigationItem] setRightBarButtonItem:addButtonItem];
-    [self.navigationItem setLeftBarButtonItem:self.editButton];
     
     NSError *error = nil;
-    
-    self.tableView.allowsMultipleSelectionDuringEditing=YES;
     
 	if (![[self fetchedResultsController] performFetch:&error])
     {
@@ -78,19 +123,131 @@
         PSWD = [passwordFetchedResultsController fetchedObjects][0];
     
     iP = nil;
+    
     keyboardIsActive = NO;
+    
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                     action:@selector(handleSwipeLeft:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.tableView addGestureRecognizer:recognizer];
+    
+    //Add a right swipe gesture recognizer
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                           action:@selector(handleSwipeRight:)];
+    recognizer.delegate = self;
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    [self.tableView addGestureRecognizer:recognizer];
 }
 
--(void) editing
+-(void)deleteSelectedCells
 {
-    if ([self.tableView isEditing])
+    
+    for (int i = 0; i < [swipedCells count]; ++i)
     {
-        [self.navigationItem setLeftBarButtonItem:self.editButton];
-        [self.tableView setEditing:NO animated:YES];   
-    }else{
-        [self.navigationItem setLeftBarButtonItem:self.doneButton];
-        [self.tableView setEditing:YES animated:YES];
+        Note* mo = (Note*)[fetchedResultsController objectAtIndexPath:swipedCells[i]];
+        NSLog(@"a");
+        [managedObjectContext delete:mo];
+        NSLog(@"b");
     }
+    
+    NSError *error = nil;
+    if (![managedObjectContext save:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    //[self.tableView deleteRowsAtIndexPaths:swipedCells withRowAnimation:UITableViewRowAnimationFade];
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    view.backgroundColor = [UIColor whiteColor];
+    return view;
+}
+
+- (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
+{
+    CGPoint location = [gestureRecognizer locationInView:self.tableView];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    
+    if (swipedCells == nil)
+        swipedCells = [[NSMutableArray alloc] init];
+
+    if ([swipedCells containsObject:indexPath])
+    {
+        [swipedCells removeObject:indexPath];
+        [self swipeCellAtIndexPath:indexPath at:-27];
+        //noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        //[cell swipeCellAt:-27];
+    }
+    
+    noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    [cell setBackgroundColor:[UIColor whiteColor]];
+    [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
+    
+    if ([swipedCells count] == 0)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+        [self.tableView setAllowsSelection:YES];
+    }
+}
+
+- (void)handleSwipeRight:(UISwipeGestureRecognizer *)gestureRecognizer
+{
+    [self.tableView setAllowsSelection:NO];
+    
+    CGPoint location = [gestureRecognizer locationInView:self.tableView];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    
+    if (indexPath != nil)
+    {
+        if ([swipedCells count] == 0)
+        {
+            UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteSelectedCells)];
+            self.navigationItem.rightBarButtonItem = deleteButton;
+        }
+
+        if (iP != nil)
+        {
+            [self didSelectPrivateNoteAtIndexPath:iP];
+        }
+        
+        if (swipedCells == nil)
+            swipedCells = [[NSMutableArray alloc] init];
+
+        if (![swipedCells containsObject:indexPath])
+        {
+            
+            [swipedCells addObject:indexPath];
+            
+            [self swipeCellAtIndexPath:indexPath at:+27];
+            //noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+            //[cell swipeCellAt:+27];
+        }
+        
+        noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setBackgroundColor:[UIColor colorWithRed:1 green:0.2 blue:0.2 alpha:1]];
+        [[cell timeLabel] setTextColor:[UIColor whiteColor]];
+    }
+}
+
+-(void)swipeCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels
+{
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                         [cell setFrame:CGRectMake(cell.frame.origin.x + xPixels, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+                         
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -100,7 +257,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [[self tableView] reloadData];
+    //[[self tableView] reloadData];
     [self checkSettings];
 }
 
@@ -158,7 +315,9 @@
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
     [cell setN:note];
     
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    
+    [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
     
     [[cell passwordField]  setReturnKeyType:UIReturnKeyDone];
     
@@ -182,7 +341,9 @@
         [nextC setManagedObjectContext:managedObjectContext];
         [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
         [nextC setNote:[[fetchedResultsController fetchedObjects] objectAtIndex:iP.row]];
+        
         iP = nil;
+        
         [[self navigationController] pushViewController:nextC animated:YES];
         
     } else
@@ -204,8 +365,6 @@
         [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     else
         [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:YES];
-     
-
 }
 
 -(void)didSelectPrivateNoteAtIndexPath:(NSIndexPath*)indexPath
@@ -216,9 +375,9 @@
         
         [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:666];
         
-        [self.tableView beginUpdates];
-        
         [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] showPasswordField];
+        
+        [self.tableView beginUpdates];
         
         [self.tableView endUpdates];
         
@@ -231,11 +390,7 @@
     {
         if (![iP isEqual:indexPath])
         {
-            [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:nil];
-            
-            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
-            
-            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] setNormalImage];
+            [self deselectPrivateRowAtIndexPath:iP];
             
             iP = indexPath;
             
@@ -245,11 +400,7 @@
             
         } else
         {
-            [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:nil];
-            
-            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
-            
-            [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] setNormalImage];
+            [self deselectPrivateRowAtIndexPath:iP];
             
             if (simpleTabBar)
                 [self changeTableViewHeightAt:_SIMPLY_TABBAR_CHANGE_VALUE];
@@ -262,6 +413,15 @@
     
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
+}
+
+-(void)deselectPrivateRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath] passwordField] setTag:nil];
+    
+    [(noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath] hidePasswordField];
+    
+    [(noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath] setNormalImage];
 }
 
 -(NSIndexPath*) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -304,7 +464,8 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-		[context deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
+		//[context deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
+        
 	}
     
     NSError *error;
@@ -396,7 +557,6 @@
     
     [self configureCell:MYcell atIndexPath:indexPath];
 
-
     return MYcell;
 }
 
@@ -435,12 +595,15 @@
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			//[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            //[tableView deleteRowsAtIndexPaths:swipedCells withRowAnimation:UITableViewRowAnimationFade];
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
         {
-			[self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            if ([[fetchedResultsController fetchedObjects] count] > 0)
+                [self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            
             if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
                 PSWD = [passwordFetchedResultsController fetchedObjects][0];
 
