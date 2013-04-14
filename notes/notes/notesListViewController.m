@@ -33,6 +33,7 @@
 
 -(void)checkSettings
 {
+    
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
     {
         simpleTabBar = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
@@ -44,8 +45,6 @@
     [super viewDidLoad];
     
     [self checkSettings];
-    
-    [self.tableView setAllowsMultipleSelectionDuringEditing:YES];
     
     [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
 
@@ -76,8 +75,6 @@
     
     iP = nil;
     
-    keyboardIsActive = NO;
-    
     UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                      action:@selector(handleSwipeLeft:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
@@ -92,6 +89,7 @@
 
 -(void)deleteSelectedCells
 {
+    
     for (int i = 0; i < [swipedCells count]; ++i)
     {
         Note* mo = (Note*)[fetchedResultsController objectAtIndexPath:swipedCells[i]];
@@ -112,13 +110,14 @@
     [self.tableView setAllowsSelection:YES];
 
 }
-
+/*
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
     view.backgroundColor = [UIColor whiteColor];
     return view;
 }
+*/
 
 - (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
 {
@@ -132,13 +131,13 @@
     if ([swipedCells containsObject:indexPath])
     {
         [swipedCells removeObject:indexPath];
-        [self swipeCellAtIndexPath:indexPath at:-27];
+        [self swipeCellAtIndexPath:indexPath at:-27 withTargetColor:[UIColor whiteColor]];
         //noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
         //[cell swipeCellAt:-27];
     }
     
     noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    [cell setBackgroundColor:[UIColor whiteColor]];
+
     [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
     
     if ([swipedCells count] == 0)
@@ -150,6 +149,7 @@
 
 - (void)handleSwipeRight:(UISwipeGestureRecognizer *)gestureRecognizer
 {
+    
     [self.tableView setAllowsSelection:NO];
     
     CGPoint location = [gestureRecognizer locationInView:self.tableView];
@@ -177,24 +177,26 @@
             
             [swipedCells addObject:indexPath];
             
-            [self swipeCellAtIndexPath:indexPath at:+27];
+            [self swipeCellAtIndexPath:indexPath at:+27 withTargetColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
             //noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
             //[cell swipeCellAt:+27];
         }
         
         noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-        [cell setBackgroundColor:[UIColor colorWithRed:1 green:0.2 blue:0.2 alpha:1]];
+
         [[cell timeLabel] setTextColor:[UIColor whiteColor]];
     }
 }
 
--(void)swipeCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels
+-(void)swipeCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels withTargetColor:(UIColor*)color
 {
+    
     [UIView animateWithDuration:0.2
                           delay:0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
                          UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                         [cell setBackgroundColor:color];
                          [cell setFrame:CGRectMake(cell.frame.origin.x + xPixels, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
                          
                      }
@@ -205,17 +207,20 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    
     [self showTabBar:[self tabBarController]];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    //[[self tableView] reloadData];
-    [self checkSettings];
+    
+    [[self tableView] reloadData];
+    //[self checkSettings];
 }
 
 - (void)showTabBar:(UITabBarController *) tabbarcontroller
 {
+    
     int height = 0;
     
     if (simpleTabBar)
@@ -246,6 +251,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if ([iP isEqual:indexPath])
         return 85;
     else
@@ -253,7 +259,8 @@
 }
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
-{  
+{
+    
         testAddViewController *nextC = [[testAddViewController alloc] init];
         [nextC setNote:note];
         [nextC setForEditing:YES];
@@ -265,10 +272,9 @@
 
 -(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
+    
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
     [cell setN:note];
-    
-    //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
     
@@ -276,14 +282,13 @@
     
     [[cell passwordField] setDelegate:self];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"secureTextEntry"])
-        [[cell passwordField]  setSecureTextEntry:YES];
-    else
-        [[cell passwordField]  setSecureTextEntry:NO];
+    [[cell passwordField]  setSecureTextEntry:[[NSUserDefaults standardUserDefaults] boolForKey:@"secureTextEntry"]];
+
 }
 
 -(void)tryEnter
 {
+    
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:iP];
 
     
@@ -307,6 +312,7 @@
 
 -(void)changeTableViewHeightAt:(CGFloat)deltaHeight
 {
+    
     [UIView animateWithDuration:0.25 delay:0 options: UIViewAnimationCurveEaseOut
                      animations:^{
                          self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + deltaHeight);
@@ -322,6 +328,8 @@
 
 -(void)didSelectPrivateNoteAtIndexPath:(NSIndexPath*)indexPath
 {
+    
+    
     if (iP == nil)
     {
         iP = indexPath;
@@ -370,6 +378,7 @@
 
 -(void)deselectPrivateRowAtIndexPath:(NSIndexPath*)indexPath
 {
+    
     [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath] passwordField] setTag:nil];
     
     [(noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath] hidePasswordField];
@@ -379,6 +388,7 @@
 
 -(NSIndexPath*) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (self.tableView.isEditing)
     {
         [[self.tableView cellForRowAtIndexPath:indexPath] setSelectionStyle:UITableViewCellSelectionStyleGray];
@@ -388,6 +398,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if (self.tableView.isEditing)
     {
         return;
@@ -411,36 +422,9 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSManagedObjectContext *context = [fetchedResultsController managedObjectContext];
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-		//[context deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
-        
-	}
-    
-    NSError *error;
-    if (![context save:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([self isEditing])
-    {
-        return UITableViewCellEditingStyleDelete;
-    }
-    
-    return UITableViewCellEditingStyleNone;
-}
-
 - (void)add:(id)sender
 {
+    
     if (iP != nil)
     {
         [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
@@ -471,15 +455,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger numberOfRows = 0;
-	
-    if ([[fetchedResultsController sections] count] > 0)
-    {
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
-        numberOfRows = [sectionInfo numberOfObjects];
-    }
-    
-    return numberOfRows;
+    return [[fetchedResultsController fetchedObjects] count];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -495,6 +471,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     static NSString *MyCellIdentifier = @"noteListCell";
     
     noteListCell *MYcell = [tableView dequeueReusableCellWithIdentifier:MyCellIdentifier];
@@ -509,7 +486,7 @@
     [[MYcell passwordField] setAlpha:0.0];
     
     [self configureCell:MYcell atIndexPath:indexPath];
-
+    
     return MYcell;
 }
 
@@ -549,13 +526,11 @@
 			
 		case NSFetchedResultsChangeDelete:
 			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            //[tableView deleteRowsAtIndexPaths:swipedCells withRowAnimation:UITableViewRowAnimationFade];
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
         {
-            if ([[fetchedResultsController fetchedObjects] count] > 0)
-                [self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            [self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
             
             if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
                 PSWD = [passwordFetchedResultsController fetchedObjects][0];

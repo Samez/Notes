@@ -16,7 +16,6 @@
 {
     NSIndexPath *iP;
     Pswd *PSWD;
-    BOOL keyboardIsActive;
     BOOL simpleTabBar;
     NSMutableArray *swipedCells;
 }

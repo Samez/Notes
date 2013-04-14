@@ -38,7 +38,6 @@
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
 		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
 		04CF123916D404C8009D89E3 /* Model10.1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model10.1.xcdatamodeld */; };
-		04D108DA1717A09A00A60139 /* MKiCloudSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D108D91717A09A00A60139 /* MKiCloudSync.m */; };
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
 		04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A2170C7BF100CC268D /* woodenBackground.png */; };
@@ -103,8 +102,6 @@
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
 		04CF123816D404C8009D89E3 /* Model10.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model10.1.xcdatamodel; sourceTree = "<group>"; };
-		04D108D81717A09A00A60139 /* MKiCloudSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKiCloudSync.h; sourceTree = "<group>"; };
-		04D108D91717A09A00A60139 /* MKiCloudSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKiCloudSync.m; sourceTree = "<group>"; };
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
 		04D539A2170C7BF100CC268D /* woodenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackground.png; path = Pics/woodenBackground.png; sourceTree = SOURCE_ROOT; };
@@ -226,7 +223,6 @@
 				0434EB1916D3A18000BD9C2B /* AppDelegate.h */,
 				0434EB1A16D3A18000BD9C2B /* AppDelegate.m */,
 				044DE1B716D3B237004CDE0A /* Window.xib */,
-				04D108DB1717A0A000A60139 /* iCloud sync class */,
 				044DE19C16D3AE3A004CDE0A /* Notes list */,
 				044DE1B916D3B493004CDE0A /* Options */,
 				044DE1B016D3B1C8004CDE0A /* Model */,
@@ -316,15 +312,6 @@
 				04CF122716D4004B009D89E3 /* gear.png */,
 			);
 			name = Icons;
-			sourceTree = "<group>";
-		};
-		04D108DB1717A0A000A60139 /* iCloud sync class */ = {
-			isa = PBXGroup;
-			children = (
-				04D108D81717A09A00A60139 /* MKiCloudSync.h */,
-				04D108D91717A09A00A60139 /* MKiCloudSync.m */,
-			);
-			name = "iCloud sync class";
 			sourceTree = "<group>";
 		};
 		04D6D3FF16DCF7810053C4AF /* Password */ = {
@@ -458,7 +445,6 @@
 				0462F17616E30E5200BE6806 /* Note.m in Sources */,
 				04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */,
 				04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */,
-				04D108DA1717A09A00A60139 /* MKiCloudSync.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

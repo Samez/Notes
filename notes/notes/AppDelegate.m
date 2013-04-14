@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "res.h"
-#import "MKiCloudSync.h"
 
 @implementation AppDelegate
 
@@ -53,8 +52,6 @@
             abort();
         }
     }
-    
-    //[MKiCloudSync start];
     
     [[self window] makeKeyAndVisible];
 }
@@ -170,7 +167,7 @@
         [fetchRequest setEntity:entity];
         
         // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
+        NSSortDescriptor *sortDescriptor = nil;//[[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
         
         [fetchRequest setSortDescriptors:sortDescriptors];
