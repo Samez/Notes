@@ -38,62 +38,14 @@
         simpleTabBar = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
     }
 }
-/*
--(void)deleteSelectedCells
-{
-    NSMutableArray *cellsToDelete = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++)
-    {
-        NSIndexPath *p = [NSIndexPath indexPathForRow:i inSection:0];
-        
-        if ([[self.tableView cellForRowAtIndexPath:p] accessoryType] == UITableViewCellAccessoryCheckmark)
-        {
-            //[cellsToDelete addObject:p];
-            //[managedObjectContext delete:p];
-        }
-    }
-    
-    //[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[self.tableView indexPathForSelectedRow]] withRowAnimation:UITableViewRowAnimationLeft];
-    
-    //NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-    
-    [self.tableView reloadData];
-}
-
-- (void)editButtonPressed
-{
-    BOOL editing = !self.tableView.editing;
-    
-    //self.navigationItem.rightBarButtonItem.enabled = !editing;
-    
-    if (editing)
-    {
-        UIBarButtonItem *myDoneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneButton", nil) style:UIBarButtonItemStyleDone target:self action:@selector(editButtonPressed)];
-
-        self.navigationItem.leftBarButtonItem = myDoneButton;
-        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleDone;
-        
-    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteSelectedCells)];
-        self.navigationItem.rightBarButtonItem = deleteButton;
-    }
-    else
-    {
-        self.navigationItem.leftBarButtonItem.title = NSLocalizedString(@"EditButton", nil);
-
-        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStylePlain;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
-
-    }
-    [self.tableView setEditing:editing animated:YES];
-}
-*/
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     [self checkSettings];
+    
+    [self.tableView setAllowsMultipleSelectionDuringEditing:YES];
     
     [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
 
@@ -131,7 +83,6 @@
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
     [self.tableView addGestureRecognizer:recognizer];
     
-    //Add a right swipe gesture recognizer
     recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                            action:@selector(handleSwipeRight:)];
     recognizer.delegate = self;
@@ -141,13 +92,11 @@
 
 -(void)deleteSelectedCells
 {
-    
     for (int i = 0; i < [swipedCells count]; ++i)
     {
         Note* mo = (Note*)[fetchedResultsController objectAtIndexPath:swipedCells[i]];
-        NSLog(@"a");
-        [managedObjectContext delete:mo];
-        NSLog(@"b");
+        
+        [managedObjectContext deleteObject:mo];
     }
     
     NSError *error = nil;
@@ -157,7 +106,11 @@
         abort();
     }
     
-    //[self.tableView deleteRowsAtIndexPaths:swipedCells withRowAnimation:UITableViewRowAnimationFade];
+    swipedCells = nil;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+    [self.tableView setAllowsSelection:YES];
+
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -595,7 +548,7 @@
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			//[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             //[tableView deleteRowsAtIndexPaths:swipedCells withRowAnimation:UITableViewRowAnimationFade];
 			break;
 			
