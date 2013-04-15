@@ -291,6 +291,11 @@
     CGFloat keyboardTop=[(NSValue*)[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
     CGRect t=self.tableView.frame;
 
+    NSLog(@"%@",[NSValue valueWithCGPoint:[[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin]);
+    CGPoint p=[self.tableView.superview convertPoint:[[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin fromView:nil];
+    NSLog(@"%@",[NSValue valueWithCGPoint:p]);
+    t.size.height=p.y;
+    
     //NSLog(@"%f",t.size.height);
     self.tableView.frame=t;
 }
@@ -300,6 +305,9 @@
     //NSLog(@"%@",[notification userInfo]);
     NSDictionary* dict=[notification userInfo];
     CGRect t=self.tableView.frame;
+    
+    CGSize size=[self.tableView.superview frame].size;
+    t.size=size;
     
     //NSLog(@"%f",t.size.height);
     self.tableView.frame=t;
