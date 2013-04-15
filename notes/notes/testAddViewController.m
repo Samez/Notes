@@ -53,13 +53,13 @@
 {
     [self hideTabBar:[self tabBarController]];
     
-    [self showTrashButtonWithDuration:0.6];
+    [self showTrashButtonWithDuration:0.4];
 }
 
 -(void)showTrashButtonWithDuration:(CGFloat)duration
 {
     [UIView animateWithDuration:duration
-                          delay:0.25
+                          delay:0.2
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
                          [trashButton setAlpha:1.0];
@@ -131,6 +131,9 @@
     [super viewDidLoad];
     
     [self checkSettings];
+    
+    myTextView.keyboardAppearance = UIKeyboardAppearanceAlert;
+    myNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     

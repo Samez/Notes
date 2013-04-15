@@ -301,6 +301,8 @@
     
     [[passCell passwordField] setSecureTextEntry:YES];
     
+    passCell.passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
+    
     return passCell;
 }
 

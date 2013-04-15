@@ -13,6 +13,7 @@
 #import "Pswd.h"
 #import "res.h"
 #import "Note.h"
+#import "passwordAlertView.h"
 
 @interface notesListViewController ()
 
@@ -40,11 +41,57 @@
     }
 }
 
+-(void)fillBD
+{
+    
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    
+    int len = 14;
+    
+    for (int i = 0; i<15; ++i)
+    {
+        NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
+        
+        for (int i=0; i<len; i++) {
+            [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random() % [letters length]]];
+        }
+        
+        Note *note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:[self managedObjectContext]];
+        [note setText:@"lolwto"];
+        [note setName:randomString];
+        [note setDate:[NSDate date]];
+        [note setIsPrivate:[NSNumber numberWithUnsignedInt:arc4random()%2]];
+    }
+    
+    NSError *error = nil;
+    
+    if (![managedObjectContext save:&error])
+    {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    /*
+    for (UITableViewCell* cell in [self.tableView visibleCells])
+    {
+        if ([swipedCells containsObject:[self.tableView indexPathForCell:cell]])
+        {
+            [self swipeCellAtIndexPath:[self.tableView indexPathForCell:cell] at:+2 withTargetColor:[UIColor redColor]];
+        }
+    }
+    */
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     [self checkSettings];
+    
+    [self.tableView setDelegate:self];
     
     [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
 
@@ -53,6 +100,10 @@
     UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
     
     [[self navigationItem] setRightBarButtonItem:addButtonItem];
+    
+    UIBarButtonItem *fillBD = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
+    
+    [[self navigationItem] setLeftBarButtonItem:fillBD];
     
     NSError *error = nil;
     
@@ -87,9 +138,32 @@
     [self.tableView addGestureRecognizer:recognizer];
 }
 
--(void)deleteSelectedCells
+-(BOOL)showPromptAlert
 {
+    passwordAlertView *passwordAlert = [[passwordAlertView alloc] initWithTitle:NSLocalizedString(@"PasswordCheckAlertViewTitle", nil)
+                                                            message:NSLocalizedString(@"EnterPasswordToDeleteTitle",nil)
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Cancel",nil)
+                                                  otherButtonTitles:@"OK", nil];
     
+    UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(16,83,252,25)];
+    passwordField.borderStyle = UITextBorderStyleRoundedRect;
+    passwordField.secureTextEntry = YES;
+    passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
+    passwordField.delegate = self;
+    [passwordField setTag:1919];
+    [passwordField becomeFirstResponder];
+    [passwordAlert addSubview:passwordField];
+        
+    [passwordAlert show];
+    
+    [passwordAlert setDelegate:self];
+    
+    return YES;
+}
+
+-(void)deleteSwipedCells
+{
     for (int i = 0; i < [swipedCells count]; ++i)
     {
         Note* mo = (Note*)[fetchedResultsController objectAtIndexPath:swipedCells[i]];
@@ -108,8 +182,60 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
     [self.tableView setAllowsSelection:YES];
-
+    
 }
+
+-(void)deselectSwipedCells
+{
+    for (int i = 0; i < [swipedCells count]; ++i)
+        {
+            [self swipeCellAtIndexPath:swipedCells[i] at:-27 withTargetColor:[UIColor whiteColor]];
+        }
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+    [self.tableView setAllowsSelection:YES];
+    
+    swipedCells = nil;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==1)
+        for (UIView* view in alertView.subviews)
+        {
+            if ([view isKindOfClass:[UITextField class]])
+            {
+                UITextField* textField = (UITextField*)view;
+                if ([[textField text] isEqualToString:[PSWD password]])
+                {
+                    [self deleteSwipedCells];
+                    [(passwordAlertView*)alertView setPasswordIsAccepted:YES];
+                }
+                else
+                    [alertView setMessage:NSLocalizedString(@"WrongPasswordAlert", nil)];
+            } 
+        }
+
+    if (buttonIndex == 0 )
+        [self deselectSwipedCells];
+}
+
+-(void)tryToDeleteSelectedCells
+{
+    BOOL havePrivateNote = NO;
+    
+    for (int i = 0; i < [swipedCells count]; ++i)
+    {
+        if ([[(Note*)[fetchedResultsController objectAtIndexPath:swipedCells[i]] isPrivate] boolValue])
+            havePrivateNote = YES;
+    }
+    
+    if (havePrivateNote)
+        [self showPromptAlert];
+    else
+        [self deleteSwipedCells];
+}
+
 /*
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
@@ -160,7 +286,7 @@
     {
         if ([swipedCells count] == 0)
         {
-            UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteSelectedCells)];
+            UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(tryToDeleteSelectedCells)];
             self.navigationItem.rightBarButtonItem = deleteButton;
         }
 
@@ -215,7 +341,12 @@
 {
     
     [[self tableView] reloadData];
-    //[self checkSettings];
+    [self checkSettings];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self deselectSwipedCells];
 }
 
 - (void)showTabBar:(UITabBarController *) tabbarcontroller
@@ -487,6 +618,8 @@
     
     [self configureCell:MYcell atIndexPath:indexPath];
     
+    MYcell.passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
+
     return MYcell;
 }
 

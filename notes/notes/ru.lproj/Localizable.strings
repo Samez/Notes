@@ -29,3 +29,6 @@
 "HidePasswordCell" = "Скрывать пароль";
 "EditButton" = "Изменить";
 "DoneButton" = "Готово";
+"WrongPasswordAlert" = "Неверный пароль\n\n\n";
+"PasswordCheckAlertViewTitle" = "Проверка пароля";
+"EnterPasswordToDeleteTitle" = "Введите пароль\n\n\n";

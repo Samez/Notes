@@ -12,7 +12,7 @@
 #import "Pswd.h"
 #import "addNewNoteViewController.h"
 
-@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate>
+@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate>
 {
     NSIndexPath *iP;
     Pswd *PSWD;
