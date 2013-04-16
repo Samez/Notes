@@ -12,7 +12,6 @@
 #define _PASSWORD_MIN_LENGTH 4
 
 #import "passwordViewController.h"
-#import "Pswd.h"
 
 @interface passwordViewController ()
 
@@ -20,8 +19,6 @@
 
 @implementation passwordViewController
 
-@synthesize fetchedResultsController;
-@synthesize managedObjectContext;
 @synthesize pass;
 @synthesize pswdCell;
 
@@ -58,15 +55,8 @@
     
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
-    NSError *error = nil;
-    
-    if (![[self fetchedResultsController] performFetch:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    pass = [[NSUserDefaults standardUserDefaults] stringForKey:@"password"];
 
-    pass = (Pswd*)[fetchedResultsController fetchedObjects][0];
 
     [[self tableView] setAllowsSelection:NO];
     
@@ -83,9 +73,9 @@
 {
     [super viewDidAppear:animated];
     
-    if([[pass password] isEqualToString:@"Password"])
+    if([pass isEqualToString:@"Password"])
     {
-        forOldPassword = [pass password];
+        forOldPassword = pass;
         
         [self showBottomTitle:NSLocalizedString(@"StandartPasswordWarning", nil)];
     }
@@ -155,17 +145,17 @@
     NSString *newPassOne = nil;
     NSString *newPassTwo = nil;
     
-    if ([pass password])
+    if (pass != nil)
     {
         oldPass = [[((passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]) passwordField] text];
         newPassOne = [[((passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) passwordField] text];
         newPassTwo = [[((passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]]) passwordField] text];
         
-        if ([self compareOldPassword:[pass password] andNewPassword:oldPass])
+        if ([self compareOldPassword:pass andNewPassword:oldPass])
         {
             if ([self compareNewPasswordOne:newPassOne andNewPasswordTwo:newPassTwo])
             {
-                [pass setPassword:newPassOne];
+                pass = newPassOne;
                 [self savePass];
             }
         }
@@ -176,7 +166,7 @@
         
         if ([self compareNewPasswordOne:newPassOne andNewPasswordTwo:newPassTwo])
         {
-            [pass setPassword:newPassOne];
+            pass = newPassOne;
             [self savePass];
         }
     }
@@ -198,13 +188,7 @@
 
 -(void)savePass
 {
-    NSError *error;
-    if (![managedObjectContext save:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
+    [[NSUserDefaults standardUserDefaults] setObject:pass forKey:@"password"];
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
@@ -235,7 +219,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([pass password])
+    if (pass)
         return 3;
     else
         return 2;
@@ -261,7 +245,7 @@
             {
                 case 0:
                 {
-                    if ([(Pswd*)[fetchedResultsController fetchedObjects][0] password])
+                    if (pass)
                     {
                         [[passCell passwordField] setPlaceholder:NSLocalizedString(@"EnterOldPasswordLabel", nil)];
                     } else
@@ -358,33 +342,6 @@
             [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
 	}
-}
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    // Set up the fetched results controller if needed.
-    if (fetchedResultsController == nil) {
-        // Create the fetch request for the entity.
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pswd" inManagedObjectContext:managedObjectContext];
-        [fetchRequest setEntity:entity];
-        
-        // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-        aFetchedResultsController.delegate = self;
-        self.fetchedResultsController = aFetchedResultsController;
-        
-    }
-	
-	return fetchedResultsController;
 }
 
 - (void)viewDidUnload {

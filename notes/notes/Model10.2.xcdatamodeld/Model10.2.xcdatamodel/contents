@@ -6,11 +6,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Pswd" representedClassName="Pswd" syncable="YES">
-        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <elements>
         <element name="Note" positionX="-36" positionY="192" width="128" height="105"/>
-        <element name="Pswd" positionX="63" positionY="234" width="128" height="58"/>
     </elements>
 </model>

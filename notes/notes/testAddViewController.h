@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "Note.h"
-#import "Pswd.h"
-
 #import "enterNameCell.h"
 #import "enterTextCell.h"
 
@@ -36,7 +34,6 @@
 @property (nonatomic, retain) Note *note;
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (weak, nonatomic) IBOutlet UIButton *lockButton;
 @property (weak, nonatomic) IBOutlet UILabel *alertLabel;
 @property (weak, nonatomic) IBOutlet UIButton *trashButton;

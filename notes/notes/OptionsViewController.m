@@ -19,9 +19,6 @@
 
 @implementation OptionsViewController
 
-@synthesize managedObjectContext;
-@synthesize fetchedResultsController;
-
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -110,18 +107,13 @@
     {
         case _PSWD:
         {
-            nextViewController = [[passwordViewController alloc] initWithStyle:UITableViewStyleGrouped];
-            
-            [((passwordViewController*)nextViewController) setManagedObjectContext:managedObjectContext];
-            [((passwordViewController*)nextViewController) setFetchedResultsController:fetchedResultsController];
-            
+            nextViewController = [[passwordViewController alloc] initWithStyle:UITableViewStyleGrouped];            
             break;
         }
             
         case _PREF:
         {
             nextViewController = [[PreferencesViewController alloc] initWithStyle:UITableViewStyleGrouped];
-            
             break;
         }
     }

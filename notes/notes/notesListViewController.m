@@ -10,11 +10,8 @@
 #import "detailViewController.h"
 #import "addNewNoteViewController.h"
 #import "testAddViewController.h"
-#import "Pswd.h"
 #import "res.h"
 #import "Note.h"
-
-#import "CustomAlertView.h"
 
 @interface notesListViewController ()
 
@@ -32,7 +29,6 @@
 @synthesize managedObjectContext;
 @synthesize fetchedResultsController;
 @synthesize noteCell;
-@synthesize passwordFetchedResultsController;
 @synthesize editButton;
 @synthesize doneButton;
 @synthesize addButton;
@@ -45,6 +41,16 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
     {
         simpleTabBar = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"password"] != nil)
+    {
+        PSWD = [[NSUserDefaults standardUserDefaults] objectForKey: @"password"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"unsafeDeletion"] != nil)
+    {
+        unsafeDeletion = [[NSUserDefaults standardUserDefaults] boolForKey:@"unsafeDeletion"];
     }
 }
 
@@ -66,7 +72,8 @@
         [note setText:@"lolwto"];
         [note setName:randomString];
         [note setDate:[NSDate date]];
-        [note setIsPrivate:[NSNumber numberWithUnsignedInt:arc4random()%2]];
+        //[note setIsPrivate:[NSNumber numberWithUnsignedInt:arc4random()%2]];
+        [note setIsPrivate:[NSNumber numberWithBool:YES]];
     }
     
     NSError *error = nil;
@@ -77,35 +84,17 @@
         abort();
     }
 }
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    {
-    if (oldVisibleCells == nil)
-        oldVisibleCells = [[NSMutableArray alloc] init];
-    
-    for (NSIndexPath* ip in [self.tableView indexPathsForVisibleRows])
-    {
-        if ((![oldVisibleCells containsObject:ip]) && ([swipedCells containsObject:ip]))
+    if([swipedCells containsObject:indexPath])
         {
-            [self updateCellAtIndexPath:ip at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
-
+            [cell setBackgroundColor:[UIColor sashaGray]];
+            CGRect t=cell.frame ;
+            t.origin.x+=_SHIFT_CELL_LENGTH;
+            cell.frame=t;
         }
-    }
-    
-    oldVisibleCells = [NSMutableArray arrayWithArray:[self.tableView indexPathsForVisibleRows]];
-    }
 }
-/*
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([swipedCells containsObject:indexPath])
-    {
-        [self updateCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
-        [(noteListCell*)cell swipeCellAt:+_SHIFT_CELL_LENGTH]
-    }
-}
-*/
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -120,8 +109,6 @@
     
     self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
     
-
-    
     self.deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(tryToDeleteSelectedCells)];
     
     self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
@@ -129,9 +116,8 @@
     self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
 
     [[self navigationItem] setRightBarButtonItem:self.addButton];
-    //[[self navigationItem] setLeftBarButtonItem:fillBD];
     
-
+    //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
     
     NSError *error = nil;
     
@@ -141,16 +127,8 @@
 		abort();
 	}
     
-    NSError *err = nil;
-    
-    if (![[self passwordFetchedResultsController] performFetch:&err])
-    {
-		NSLog(@"Unresolved error %@, %@", err, [err userInfo]);
-		abort();
-	}
-    
-    if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
-        PSWD = [passwordFetchedResultsController fetchedObjects][0];
+    if([[NSUserDefaults standardUserDefaults] valueForKey:@"password"] != nil)
+        PSWD = [[NSUserDefaults standardUserDefaults] valueForKey:@"password"];
     
     iP = nil;
     
@@ -168,7 +146,7 @@
 
 -(BOOL)showPromptAlert
 {
-    CustomAlertView *customAlertView = [[CustomAlertView alloc]initWithTitle:NSLocalizedString(@"PasswordCheckAlertViewTitle", nil)
+    customAlertView = [[CustomAlertView alloc]initWithTitle:NSLocalizedString(@"PasswordCheckAlertViewTitle", nil)
                                                                      message:NSLocalizedString(@"EnterPasswordToDeleteTitle", nil)
                                                                     delegate:self
                                                            cancelButtonTitle:@"Cancel"
@@ -178,6 +156,7 @@
     passwordField.borderStyle = UITextBorderStyleRoundedRect;
     passwordField.secureTextEntry = YES;
     passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
+    passwordField.returnKeyType = UIReturnKeyDone;
     passwordField.delegate = self;
     [passwordField setTag:1919];
     [passwordField becomeFirstResponder];
@@ -190,38 +169,46 @@
 
 -(void)deleteSwipedCells
 {
-    for (int i = 0; i < [swipedCells count]; ++i)
+    if (canDelete)
     {
-        Note* mo = (Note*)[fetchedResultsController objectAtIndexPath:swipedCells[i]];
+        canDelete = NO;
+            
+        [UIView animateWithDuration:0.3
+                              delay:0
+                            options: UIViewAnimationCurveEaseOut
+                         animations:^{
+                             
+                             for (int i = 0; i < [swipedCells count]; ++i)
+                             {
+                                 
+                                 [self swipeToDeleteCellAtIndexPath:swipedCells[i] ignoreCanDelete:YES];
+                             }
+                         }
+                         completion:^(BOOL finished){
+
+                             NSError *error = nil;
+                             if (![managedObjectContext save:&error])
+                             {
+                                 NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                 abort();
+                             }
+                             canDelete = YES;
+                         }];
+
         
-        [managedObjectContext deleteObject:mo];
+        swipedCells = nil;
+        
+        self.navigationItem.rightBarButtonItem = self.addButton;
+        self.navigationItem.leftBarButtonItem = nil;
+        [self.tableView setAllowsSelection:YES];
     }
-    
-    NSError *error = nil;
-    if (![managedObjectContext save:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    swipedCells = nil;
-    
-    self.navigationItem.rightBarButtonItem = self.addButton;
-    self.navigationItem.leftBarButtonItem = nil;
-    [self.tableView setAllowsSelection:YES];
-    
 }
 
 -(void)deselectSwipedCells
 {
     for (int i = 0; i < [swipedCells count]; ++i)
         {
-            [self swipeCellAtIndexPath:swipedCells[i] at:-_SHIFT_CELL_LENGTH withTargetColor:[UIColor whiteColor]];
-            
-            noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:swipedCells[i]];
-            [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
-            
-            //[(noteListCell*)[self.tableView cellForRowAtIndexPath:swipedCells[i]] swipeCellAt:-_SHIFT_CELL_LENGTH];
+            [self swipeCellAtIndexPath:swipedCells[i] at:-_SHIFT_CELL_LENGTH withTargetColor:[UIColor whiteColor] andWithDuration:0.3];
         }
     
     self.navigationItem.rightBarButtonItem = addButton;
@@ -239,7 +226,7 @@
             if ([view isKindOfClass:[UITextField class]])
             {
                 UITextField* textField = (UITextField*)view;
-                if ([[textField text] isEqualToString:[PSWD password]])
+                if ([[textField text] isEqualToString:PSWD])
                 {
                     [self deleteSwipedCells];
                     [(CustomAlertView*)alertView setPasswordIsAccepted:YES];
@@ -272,15 +259,6 @@
         [self deleteSwipedCells];
 }
 
-/*
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-    view.backgroundColor = [UIColor whiteColor];
-    return view;
-}
-*/
-
 - (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
 {
     CGPoint location = [gestureRecognizer locationInView:self.tableView];
@@ -293,11 +271,10 @@
     if ([swipedCells containsObject:indexPath])
     {
         [swipedCells removeObject:indexPath];
-        [self swipeCellAtIndexPath:indexPath at:-_SHIFT_CELL_LENGTH withTargetColor:[UIColor whiteColor]];
+        [self swipeCellAtIndexPath:indexPath at:-_SHIFT_CELL_LENGTH withTargetColor:[UIColor whiteColor] andWithDuration:0.3];
         
         noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
         [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
-        //[cell swipeCellAt:-_SHIFT_CELL_LENGTH];
     }
 
     if ([swipedCells count] == 0)
@@ -310,6 +287,8 @@
 
 - (void)handleSwipeRight:(UISwipeGestureRecognizer *)gestureRecognizer
 {
+    if (!canDelete)
+        return;
     
     [self.tableView setAllowsSelection:NO];
     
@@ -319,39 +298,42 @@
     
     if (indexPath != nil)
     {
-        if ([swipedCells count] == 0)
+        if ((unsafeDeletion) && (![[[fetchedResultsController objectAtIndexPath:indexPath] isPrivate] boolValue]) && ([swipedCells count] == 0))
         {
-            self.navigationItem.rightBarButtonItem = self.deleteButton;
-            self.navigationItem.leftBarButtonItem = self.deselectButton;
+            [self swipeToDeleteCellAtIndexPath:indexPath ignoreCanDelete:NO];
         }
+        else
+        {
+            if ([swipedCells count] == 0)
+            {
+                self.navigationItem.rightBarButtonItem = self.deleteButton;
+                self.navigationItem.leftBarButtonItem = self.deselectButton;
+            }
 
-        if (iP != nil)
-        {
-            [self didSelectPrivateNoteAtIndexPath:iP];
-        }
-        
-        if (swipedCells == nil)
-            swipedCells = [[NSMutableArray alloc] init];
+            if (iP != nil)
+            {
+                [self didSelectPrivateNoteAtIndexPath:iP];
+            }
+            
+            if (swipedCells == nil)
+                swipedCells = [[NSMutableArray alloc] init];
 
-        if (![swipedCells containsObject:indexPath])
-        {
-            
-            [swipedCells addObject:indexPath];
-            
-            [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
-            //noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-            //[cell swipeCellAt:+_SHIFT_CELL_LENGTH];
+            if (![swipedCells containsObject:indexPath])
+            {
+                
+                [swipedCells addObject:indexPath];
+                
+                [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor sashaGray] andWithDuration:0.3];
+                
+            }
         }
-        
-        noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-        [[cell timeLabel] setTextColor:[UIColor whiteColor]];
     }
 }
 
--(void)swipeCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels withTargetColor:(UIColor*)color
+-(void)swipeCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels withTargetColor:(UIColor*)color andWithDuration:(CGFloat)duration
 {
     
-    [UIView animateWithDuration:0.2
+    [UIView animateWithDuration:duration
                           delay:0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
@@ -359,8 +341,43 @@
                          [self updateCellAtIndexPath:indexPath at:xPixels withTargetColor:color];
                      }
                      completion:^(BOOL finished){
-                         
+
                      }];
+}
+
+-(void)swipeToDeleteCellAtIndexPath:(NSIndexPath*)indexPath ignoreCanDelete:(BOOL)ignore
+{
+    if (ignore)
+        canDelete = YES;
+    
+    if (canDelete)
+    {
+        canDelete = NO;
+        [UIView animateWithDuration:0.4
+                              delay:0
+                            options: UIViewAnimationCurveEaseOut
+                         animations:^{
+                             [self updateCellAtIndexPath:indexPath at:320 withTargetColor:[UIColor sashaGray]];
+                         }
+                         completion:^(BOOL finished){
+                             [managedObjectContext deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
+                             canDelete = YES;
+                             
+                             if (!ignore)
+                             {
+                                 NSError *error = nil;
+                                 
+                                 if (![managedObjectContext save:&error])
+                                 {
+                                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                     abort();
+                                 }
+                                 
+                                 [self.tableView setAllowsSelection:YES];
+                             }
+                         }];
+    }
+    
 }
 
 -(void)updateCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels withTargetColor:(UIColor*)color
@@ -377,9 +394,10 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
     [[self tableView] reloadData];
     [self checkSettings];
+    canDelete = YES;
+    canTryToEnter = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -460,7 +478,7 @@
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:iP];
 
     
-    if ([[[cell passwordField] text] isEqualToString:[PSWD password]])
+    if ([[[cell passwordField] text] isEqualToString:PSWD])
     {
         testAddViewController *nextC = [[testAddViewController alloc] init];
         
@@ -480,22 +498,38 @@
 
 -(void)changeTableViewHeightAt:(CGFloat)deltaHeight
 {
-    
-    [UIView animateWithDuration:0.25 delay:0 options: UIViewAnimationCurveEaseOut
-                     animations:^{
-                         self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + deltaHeight);
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    if (deltaHeight < 0)
-        [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    else
-        [self.tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionTop animated:YES];
+    if (canTryToEnter)
+    {
+        canTryToEnter = NO;
+        [UIView animateWithDuration:0.25 delay:0 options: UIViewAnimationCurveEaseOut
+                         animations:^{
+                             self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + deltaHeight);
+                         }
+                         completion:^(BOOL finished){
+                             canTryToEnter = YES;
+                         }];
+        
+        int index = [[self.tableView visibleCells] indexOfObject:[self.tableView cellForRowAtIndexPath:iP]];
+        
+        if (deltaHeight < 0)
+        {
+            if (index >= 5)
+            {
+                [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            } else if (index == 0)
+            {
+                [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            }
+        }
+    }
+
 }
 
 -(void)didSelectPrivateNoteAtIndexPath:(NSIndexPath*)indexPath
 {
+    if (!canTryToEnter)
+        return;
+        
     if (iP == nil)
     {
         iP = indexPath;
@@ -609,7 +643,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -631,6 +664,20 @@
         [textField resignFirstResponder];
         [self tryEnter];
         return NO;
+    }
+    
+    if ([textField tag] == 1919)
+    {
+        if ([[textField text] isEqualToString:PSWD])
+        {
+            [self deleteSwipedCells];
+            [customAlertView dismissWithClickedButtonIndex:customAlertView.cancelButtonIndex animated:YES];
+        } else
+        {
+            [textField setText:nil];
+            [customAlertView setMessage:NSLocalizedString(@"WrongPasswordAlert", nil)];
+        }
+
     }
     return YES;
 }
@@ -654,9 +701,6 @@
     [self configureCell:MYcell atIndexPath:indexPath];
     
     MYcell.passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
-    
-    //if ([swipedCells containsObject:indexPath])
-     //   NSLog(@"%d",indexPath.row);
 
     return MYcell;
 }
@@ -704,9 +748,6 @@
             if ([[fetchedResultsController fetchedObjects] count] > 0)
                 [self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
             
-            if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
-                PSWD = [passwordFetchedResultsController fetchedObjects][0];
-
 			break;
         }
 		case NSFetchedResultsChangeMove:
@@ -714,33 +755,6 @@
             [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
 	}
-}
-
-- (NSFetchedResultsController *)passwordFetchedResultsController
-{
-    // Set up the fetched results controller if needed.
-    if (passwordFetchedResultsController == nil) {
-        // Create the fetch request for the entity.
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pswd" inManagedObjectContext:managedObjectContext];
-        [fetchRequest setEntity:entity];
-        
-        // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-        aFetchedResultsController.delegate = self;
-        
-        self.passwordFetchedResultsController = aFetchedResultsController;
-    }
-    
-	return passwordFetchedResultsController;
 }
 
 - (NSFetchedResultsController *)fetchedResultsController

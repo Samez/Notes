@@ -20,37 +20,15 @@
 @synthesize optionsController;
 @synthesize window;
 
-@synthesize fetchedResultsController;
 
 
 -(void) applicationDidFinishLaunching:(UIApplication *)application
 {
     [self LoadSettings];
-    [self managedObjectContext];
-    NSError *error = nil;
-    
-    if (![[self fetchedResultsController] performFetch:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    if ([[fetchedResultsController fetchedObjects] count] == 0)
-    {
-        Pswd* newPassword = (Pswd*)[NSEntityDescription insertNewObjectForEntityForName:@"Pswd" inManagedObjectContext:[self managedObjectContext]];
-        [newPassword setPassword:@"pass"];
-        
-        NSError *error = nil;
-        
-        if (![_managedObjectContext save:&error])
-        {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-    
+
     [notesListController setManagedObjectContext:[self managedObjectContext]];
     [optionsController setManagedObjectContext:[self managedObjectContext]];
+    
     [window setRootViewController:[self tabBarController]];
     
     [[self window] makeKeyAndVisible];
@@ -71,6 +49,16 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"secureTextEntry"] == nil)
     {
         [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"secureTextEntry"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"password"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"pass" forKey:@"password"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"unsafeDeletion"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"unsafeDeletion"];
     }
 }
 
@@ -120,7 +108,7 @@
         return _managedObjectModel;
     }
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Model10.1" ofType:@"momd"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Model10.2" ofType:@"momd"];
     NSURL *momURL = [NSURL fileURLWithPath:path];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
     
@@ -134,7 +122,7 @@
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Model10.1.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Model10.2.sqlite"];
     
     NSError *error = nil;
     
@@ -154,33 +142,6 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    // Set up the fetched results controller if needed.
-    if (fetchedResultsController == nil) {
-        // Create the fetch request for the entity.
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pswd" inManagedObjectContext:_managedObjectContext];
-        [fetchRequest setEntity:entity];
-        
-        // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = nil;//[[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-        aFetchedResultsController.delegate = self;
-        self.fetchedResultsController = aFetchedResultsController;
-        
-    }
-	
-	return fetchedResultsController;
 }
 
 @end

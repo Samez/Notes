@@ -19,7 +19,7 @@
 @synthesize forEditing;
 @synthesize myTextView;
 @synthesize myNameField;
-@synthesize managedObjectContext,fetchedResultsController;
+@synthesize managedObjectContext;
 @synthesize note;
 @synthesize timeText;
 @synthesize lockButton;
@@ -54,6 +54,8 @@
     [self hideTabBar:[self tabBarController]];
     
     [self showTrashButtonWithDuration:0.4];
+    
+    [self.myTextView becomeFirstResponder];
 }
 
 -(void)showTrashButtonWithDuration:(CGFloat)duration
@@ -164,15 +166,7 @@
     [[self navigationItem] setRightBarButtonItem:saveButtonItem];
     
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
-    
-    NSError *error = nil;
-    
-    if (![[self fetchedResultsController] performFetch:&error])
-    {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
+
     [myTextView setDelegate:self];
     [myTextView setScrollEnabled:NO];
     [myTextView setReturnKeyType:UIReturnKeyNext];
@@ -387,33 +381,6 @@
 		case NSFetchedResultsChangeMove:
             break;
 	}
-}
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    // Set up the fetched results controller if needed.
-    if (fetchedResultsController == nil) {
-        // Create the fetch request for the entity.
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        // Edit the entity name as appropriate.
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pswd" inManagedObjectContext:managedObjectContext];
-        [fetchRequest setEntity:entity];
-        
-        // Edit the sort key as appropriate.
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"password" ascending:YES];
-        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-        
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-        aFetchedResultsController.delegate = self;
-        self.fetchedResultsController = aFetchedResultsController;
-        
-    }
-	
-	return fetchedResultsController;
 }
 
 - (void)hideTabBar:(UITabBarController *) tabbarcontroller

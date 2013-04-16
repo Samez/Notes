@@ -32,3 +32,4 @@
 "WrongPasswordAlert" = "Неверный пароль\n\n\n";
 "PasswordCheckAlertViewTitle" = "Подтвердите удаление";
 "EnterPasswordToDeleteTitle" = "Введите пароль\n\n\n";
+"unsafeDetetionCell" = "Небезопасное удаление";

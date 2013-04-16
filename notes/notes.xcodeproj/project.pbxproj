@@ -29,7 +29,6 @@
 		044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */; };
 		044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BF16D3B60B004CDE0A /* noteListCell.m */; };
 		044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C116D3B620004CDE0A /* noteListCell.xib */; };
-		0462F17316E30E5200BE6806 /* Pswd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0462F17216E30E5200BE6806 /* Pswd.m */; };
 		0462F17616E30E5200BE6806 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 0462F17516E30E5200BE6806 /* Note.m */; };
 		04702F6C17142D9400DCA0C9 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 04702F6B17142D9400DCA0C9 /* alert.png */; };
 		04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACDBEE170B55F9003A74F4 /* testAddViewController.m */; };
@@ -38,7 +37,7 @@
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
 		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
-		04CF123916D404C8009D89E3 /* Model10.1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model10.1.xcdatamodeld */; };
+		04CF123916D404C8009D89E3 /* Model10.2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model10.2.xcdatamodeld */; };
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
 		04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A2170C7BF100CC268D /* woodenBackground.png */; };
@@ -89,8 +88,6 @@
 		044DE1BE16D3B60B004CDE0A /* noteListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = noteListCell.h; sourceTree = "<group>"; };
 		044DE1BF16D3B60B004CDE0A /* noteListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = noteListCell.m; sourceTree = "<group>"; };
 		044DE1C116D3B620004CDE0A /* noteListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = noteListCell.xib; sourceTree = "<group>"; };
-		0462F17116E30E5200BE6806 /* Pswd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pswd.h; sourceTree = "<group>"; };
-		0462F17216E30E5200BE6806 /* Pswd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pswd.m; sourceTree = "<group>"; };
 		0462F17416E30E5200BE6806 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
 		0462F17516E30E5200BE6806 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		04639DAA1717AFEB00DAA668 /* notes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = notes.entitlements; sourceTree = "<group>"; };
@@ -104,7 +101,7 @@
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
 		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
-		04CF123816D404C8009D89E3 /* Model10.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model10.1.xcdatamodel; sourceTree = "<group>"; };
+		04CF123816D404C8009D89E3 /* Model10.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model10.2.xcdatamodel; sourceTree = "<group>"; };
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
 		04D539A2170C7BF100CC268D /* woodenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackground.png; path = Pics/woodenBackground.png; sourceTree = SOURCE_ROOT; };
@@ -274,11 +271,9 @@
 		044DE1B016D3B1C8004CDE0A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				04CF123716D404C8009D89E3 /* Model10.1.xcdatamodeld */,
+				04CF123716D404C8009D89E3 /* Model10.2.xcdatamodeld */,
 				0462F17416E30E5200BE6806 /* Note.h */,
 				0462F17516E30E5200BE6806 /* Note.m */,
-				0462F17116E30E5200BE6806 /* Pswd.h */,
-				0462F17216E30E5200BE6806 /* Pswd.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -448,13 +443,12 @@
 				044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */,
 				044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */,
 				044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */,
-				04CF123916D404C8009D89E3 /* Model10.1.xcdatamodeld in Sources */,
+				04CF123916D404C8009D89E3 /* Model10.2.xcdatamodeld in Sources */,
 				041A7D7616D492B400F91496 /* enterNameCell.m in Sources */,
 				041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */,
 				041A7D8716D496DF00F91496 /* CellWithSwitcher.m in Sources */,
 				04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */,
 				04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */,
-				0462F17316E30E5200BE6806 /* Pswd.m in Sources */,
 				0462F17616E30E5200BE6806 /* Note.m in Sources */,
 				04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */,
 				04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */,
@@ -598,13 +592,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		04CF123716D404C8009D89E3 /* Model10.1.xcdatamodeld */ = {
+		04CF123716D404C8009D89E3 /* Model10.2.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				04CF123816D404C8009D89E3 /* Model10.1.xcdatamodel */,
+				04CF123816D404C8009D89E3 /* Model10.2.xcdatamodel */,
 			);
-			currentVersion = 04CF123816D404C8009D89E3 /* Model10.1.xcdatamodel */;
-			path = Model10.1.xcdatamodeld;
+			currentVersion = 04CF123816D404C8009D89E3 /* Model10.2.xcdatamodel */;
+			path = Model10.2.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

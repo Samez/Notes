@@ -9,24 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "Note.h"
 #import "noteListCell.h"
-#import "Pswd.h"
+#import "CustomAlertView.h"
 #import "addNewNoteViewController.h"
 
 @interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate>
 {
     NSIndexPath *iP;
-    Pswd *PSWD;
+    NSString *PSWD;
     BOOL simpleTabBar;
     NSMutableArray *swipedCells;
-    NSMutableArray *oldVisibleCells;
+    BOOL unsafeDeletion;
+    BOOL canDelete;
+    BOOL canTryToEnter;
+    CustomAlertView *customAlertView;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-
-@property (nonatomic, retain) NSFetchedResultsController *passwordFetchedResultsController;
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
 - (void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath;

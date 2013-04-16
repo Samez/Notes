@@ -14,6 +14,7 @@
     BOOL simplyStyle;
     BOOL backgroundIsAdaptive;
     BOOL textEntryIsSecured;
+    BOOL unsafeDeletion;
 }
 
 @property (strong, nonatomic) IBOutlet CellWithSwitcher *mySwitchCell;

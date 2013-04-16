@@ -31,3 +31,4 @@
 "WrongPasswordAlert" = "Incorrect password\n\n\n";
 "PasswordCheckAlertViewTitle" = "Confirm deletion";
 "EnterPasswordToDeleteTitle" = "Enter password\n\n\n";
+"unsafeDetetionCell" = "Unsafe deletion";

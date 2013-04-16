@@ -11,7 +11,11 @@
 
 #define _SIMPLE_TABBAR 0
 #define _ADAPTIVE_BACKGROUND 1
-#define _HIDE_PASSWORD 2
+#define _HIDE_PASSWORD 0
+#define _UNSAFE_DELETION 1
+
+#define _VISUAL_SECTION 0
+#define _SECURITY_SECTION 1
 
 @interface PreferencesViewController ()
 
@@ -34,11 +38,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
+    [self LoadSettings];
 }
 
 -(void)backgroundstyleWasChanged
 {
-    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_ADAPTIVE_BACKGROUND inSection:0]];
+    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_ADAPTIVE_BACKGROUND inSection:_VISUAL_SECTION]];
     
     backgroundIsAdaptive = [[cell stateSwitcher] isOn];
     
@@ -47,9 +52,9 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(void) tabBarStyleWasChanged
+-(void)tabBarStyleWasChanged
 {
-    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_SIMPLE_TABBAR inSection:0]];
+    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_SIMPLE_TABBAR inSection:_VISUAL_SECTION]];
     
     simplyStyle = [[cell stateSwitcher] isOn];
     
@@ -58,15 +63,27 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self restyleTabBar:[self tabBarController]];
+    
 }
 
 -(void)secureTextEntryWasChanged
 {
-    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_HIDE_PASSWORD inSection:0]];
+    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_HIDE_PASSWORD inSection:_SECURITY_SECTION]];
     
     textEntryIsSecured = [[cell stateSwitcher] isOn];
     
     [[NSUserDefaults standardUserDefaults] setBool: textEntryIsSecured forKey: @"secureTextEntry"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(void)unsafeDeletionWasChanged
+{
+    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_UNSAFE_DELETION inSection:_SECURITY_SECTION]];
+    
+    textEntryIsSecured = [[cell stateSwitcher] isOn];
+    
+    [[NSUserDefaults standardUserDefaults] setBool: textEntryIsSecured forKey: @"unsafeDeletion"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -111,7 +128,11 @@
     [[self tableView] setBackgroundView:backgroundImageView];
     
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
+
+}
+
+- (void) LoadSettings
+{
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
     {
         simplyStyle = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
@@ -126,7 +147,11 @@
     {
         textEntryIsSecured = [[NSUserDefaults standardUserDefaults] boolForKey: @"secureTextEntry"];
     }
-
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"unsafeDeletion"] != nil)
+    {
+        unsafeDeletion = [[NSUserDefaults standardUserDefaults] boolForKey:@"unsafeDeletion"];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,12 +163,24 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    NSInteger count = 0;
+    
+    switch (section)
+    {
+        case _VISUAL_SECTION:
+            count = 2;
+            break;
+        case _SECURITY_SECTION:
+            count = 2;
+            break;
+    }
+    
+    return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -161,37 +198,61 @@
         mySwitchCell = nil;
     }
     
-    switch (indexPath.row)
+    switch (indexPath.section)
     {
-        case _SIMPLE_TABBAR:
+        case _VISUAL_SECTION:
         {
-            [[MYcell myTextLabel] setText:NSLocalizedString(@"SimpleTabBarStyleCell", nil)];
-            
-            [MYcell.stateSwitcher addTarget: self action: @selector(tabBarStyleWasChanged) forControlEvents:UIControlEventValueChanged];
-            
-            [[MYcell stateSwitcher] setOn:simplyStyle];
-            
+            switch (indexPath.row)
+            {
+                case _SIMPLE_TABBAR:
+                {
+                    [[MYcell myTextLabel] setText:NSLocalizedString(@"SimpleTabBarStyleCell", nil)];
+                    
+                    [MYcell.stateSwitcher addTarget: self action: @selector(tabBarStyleWasChanged) forControlEvents:UIControlEventValueChanged];
+                    
+                    [[MYcell stateSwitcher] setOn:simplyStyle];
+                    
+                    break;
+                }
+                case _ADAPTIVE_BACKGROUND:
+                {
+                    [[MYcell myTextLabel] setText:NSLocalizedString(@"AdaptiveBackgroundCell", nil)];
+                    
+                    [MYcell.stateSwitcher addTarget:self action:@selector(backgroundstyleWasChanged) forControlEvents:UIControlEventValueChanged];
+                    
+                    [[MYcell stateSwitcher] setOn:backgroundIsAdaptive];
+                    
+                    break;
+                }   
+            }
             break;
         }
-        case _ADAPTIVE_BACKGROUND:
+        case _SECURITY_SECTION:
         {
-            [[MYcell myTextLabel] setText:NSLocalizedString(@"AdaptiveBackgroundCell", nil)];
-            
-            [MYcell.stateSwitcher addTarget:self action:@selector(backgroundstyleWasChanged) forControlEvents:UIControlEventValueChanged];
-            
-            [[MYcell stateSwitcher] setOn:backgroundIsAdaptive];
-            
+            switch(indexPath.row)
+            {
+                case _HIDE_PASSWORD:
+                {
+                    [[MYcell myTextLabel] setText:NSLocalizedString(@"HidePasswordCell", nil)];
+                    
+                    [MYcell.stateSwitcher addTarget:self action:@selector(secureTextEntryWasChanged) forControlEvents:UIControlEventValueChanged];
+                    
+                    [[MYcell stateSwitcher] setOn:textEntryIsSecured];
+                    break;
+                }
+                case _UNSAFE_DELETION:
+                {
+                    [[MYcell myTextLabel] setText:NSLocalizedString(@"unsafeDetetionCell", nil)];
+                    
+                    [MYcell.stateSwitcher addTarget:self action:@selector(unsafeDeletionWasChanged) forControlEvents:UIControlEventValueChanged];
+                    
+                    [[MYcell stateSwitcher] setOn:unsafeDeletion];
+                    break;
+                }    
+            }
             break;
         }
-        case _HIDE_PASSWORD:
-        {
-            [[MYcell myTextLabel] setText:NSLocalizedString(@"HidePasswordCell", nil)];
-            
-            [MYcell.stateSwitcher addTarget:self action:@selector(secureTextEntryWasChanged) forControlEvents:UIControlEventValueChanged];
-            
-            [[MYcell stateSwitcher] setOn:textEntryIsSecured];
-        }
-        
+
     }
     
     return MYcell;

@@ -16,4 +16,20 @@
 #define _NORMAL_TABBAR_CHANGE_VALUE 170
 #define  _SHIFT_CELL_LENGTH 30 
 
+
+@interface UIColor (Extensions)
+
++(UIColor *) sashaGray;
+
+@end
+
+@implementation UIColor (Extensions)
+
++ (UIColor *)sashaGray
+{
+    return [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3];
+}
+
+@end
+
 #endif
