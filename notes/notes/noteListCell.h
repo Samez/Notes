@@ -14,6 +14,8 @@
     BOOL alert;
 }
 
+@property(setter = setSwiped:) BOOL swiped;
+
 @property BOOL alert;
 @property (nonatomic, retain) Note *note;
 

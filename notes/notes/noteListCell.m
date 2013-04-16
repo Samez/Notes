@@ -34,13 +34,7 @@
                           delay:0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         
-                         for(UIView *view in [self subviews])
-                         {
-                             if (view != img)
-                             [view setFrame:CGRectMake(view.frame.origin.x + xPixels, view.frame.origin.y, view.frame.size.width, view.frame.size.height)];
-                         }
-        
+                             [img setFrame:CGRectMake(img.frame.origin.x - xPixels, img.frame.origin.y, img.frame.size.width, img.frame.size.height)];
                      }
                      completion:^(BOOL finished){
                          

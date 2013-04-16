@@ -29,5 +29,5 @@
 "EditButton" = "Edit";
 "DoneButton" = "Done";
 "WrongPasswordAlert" = "Incorrect password\n\n\n";
-"PasswordCheckAlertViewTitle" = "Password check";
+"PasswordCheckAlertViewTitle" = "Confirm deletion";
 "EnterPasswordToDeleteTitle" = "Enter password\n\n\n";

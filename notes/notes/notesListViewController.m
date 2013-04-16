@@ -13,13 +13,17 @@
 #import "Pswd.h"
 #import "res.h"
 #import "Note.h"
-#import "passwordAlertView.h"
+
+#import "CustomAlertView.h"
 
 @interface notesListViewController ()
 
 @property UIBarButtonItem* editButton;
 @property UIBarButtonItem* doneButton;
 @property UIBarButtonItem* deleteButton;
+@property UIBarButtonItem* addButton;
+@property UIBarButtonItem* deselectButton;
+@property UIBarButtonItem* fillBDButton;
 
 @end
 
@@ -31,6 +35,9 @@
 @synthesize passwordFetchedResultsController;
 @synthesize editButton;
 @synthesize doneButton;
+@synthesize addButton;
+@synthesize deselectButton;
+@synthesize fillBDButton;
 
 -(void)checkSettings
 {
@@ -43,7 +50,6 @@
 
 -(void)fillBD
 {
-    
     NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     
     int len = 14;
@@ -74,17 +80,32 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    /*
-    for (UITableViewCell* cell in [self.tableView visibleCells])
     {
-        if ([swipedCells containsObject:[self.tableView indexPathForCell:cell]])
+    if (oldVisibleCells == nil)
+        oldVisibleCells = [[NSMutableArray alloc] init];
+    
+    for (NSIndexPath* ip in [self.tableView indexPathsForVisibleRows])
+    {
+        if ((![oldVisibleCells containsObject:ip]) && ([swipedCells containsObject:ip]))
         {
-            [self swipeCellAtIndexPath:[self.tableView indexPathForCell:cell] at:+2 withTargetColor:[UIColor redColor]];
+            [self updateCellAtIndexPath:ip at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
+
         }
     }
-    */
+    
+    oldVisibleCells = [NSMutableArray arrayWithArray:[self.tableView indexPathsForVisibleRows]];
+    }
 }
-
+/*
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([swipedCells containsObject:indexPath])
+    {
+        [self updateCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
+        [(noteListCell*)cell swipeCellAt:+_SHIFT_CELL_LENGTH]
+    }
+}
+*/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -97,13 +118,20 @@
 
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
-    UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+    self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
     
-    [[self navigationItem] setRightBarButtonItem:addButtonItem];
+
     
-    UIBarButtonItem *fillBD = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
+    self.deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(tryToDeleteSelectedCells)];
     
-    [[self navigationItem] setLeftBarButtonItem:fillBD];
+    self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
+    
+    self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
+
+    [[self navigationItem] setRightBarButtonItem:self.addButton];
+    //[[self navigationItem] setLeftBarButtonItem:fillBD];
+    
+
     
     NSError *error = nil;
     
@@ -140,24 +168,22 @@
 
 -(BOOL)showPromptAlert
 {
-    passwordAlertView *passwordAlert = [[passwordAlertView alloc] initWithTitle:NSLocalizedString(@"PasswordCheckAlertViewTitle", nil)
-                                                            message:NSLocalizedString(@"EnterPasswordToDeleteTitle",nil)
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Cancel",nil)
-                                                  otherButtonTitles:@"OK", nil];
+    CustomAlertView *customAlertView = [[CustomAlertView alloc]initWithTitle:NSLocalizedString(@"PasswordCheckAlertViewTitle", nil)
+                                                                     message:NSLocalizedString(@"EnterPasswordToDeleteTitle", nil)
+                                                                    delegate:self
+                                                           cancelButtonTitle:@"Cancel"
+                                                           otherButtonTitles:@"Delete",nil];
     
-    UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(16,83,252,25)];
+    UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(16,85,252,25)];
     passwordField.borderStyle = UITextBorderStyleRoundedRect;
     passwordField.secureTextEntry = YES;
     passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
     passwordField.delegate = self;
     [passwordField setTag:1919];
     [passwordField becomeFirstResponder];
-    [passwordAlert addSubview:passwordField];
-        
-    [passwordAlert show];
-    
-    [passwordAlert setDelegate:self];
+    [customAlertView addSubview:passwordField];
+    [customAlertView setDelegate:self];
+	[customAlertView show];
     
     return YES;
 }
@@ -180,7 +206,8 @@
     
     swipedCells = nil;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+    self.navigationItem.rightBarButtonItem = self.addButton;
+    self.navigationItem.leftBarButtonItem = nil;
     [self.tableView setAllowsSelection:YES];
     
 }
@@ -189,10 +216,16 @@
 {
     for (int i = 0; i < [swipedCells count]; ++i)
         {
-            [self swipeCellAtIndexPath:swipedCells[i] at:-27 withTargetColor:[UIColor whiteColor]];
+            [self swipeCellAtIndexPath:swipedCells[i] at:-_SHIFT_CELL_LENGTH withTargetColor:[UIColor whiteColor]];
+            
+            noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:swipedCells[i]];
+            [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
+            
+            //[(noteListCell*)[self.tableView cellForRowAtIndexPath:swipedCells[i]] swipeCellAt:-_SHIFT_CELL_LENGTH];
         }
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+    self.navigationItem.rightBarButtonItem = addButton;
+    self.navigationItem.leftBarButtonItem = nil;
     [self.tableView setAllowsSelection:YES];
     
     swipedCells = nil;
@@ -209,11 +242,14 @@
                 if ([[textField text] isEqualToString:[PSWD password]])
                 {
                     [self deleteSwipedCells];
-                    [(passwordAlertView*)alertView setPasswordIsAccepted:YES];
+                    [(CustomAlertView*)alertView setPasswordIsAccepted:YES];
                 }
                 else
+                {
                     [alertView setMessage:NSLocalizedString(@"WrongPasswordAlert", nil)];
-            } 
+                    [textField setText:nil];
+                }
+            }
         }
 
     if (buttonIndex == 0 )
@@ -257,18 +293,17 @@
     if ([swipedCells containsObject:indexPath])
     {
         [swipedCells removeObject:indexPath];
-        [self swipeCellAtIndexPath:indexPath at:-27 withTargetColor:[UIColor whiteColor]];
-        //noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-        //[cell swipeCellAt:-27];
+        [self swipeCellAtIndexPath:indexPath at:-_SHIFT_CELL_LENGTH withTargetColor:[UIColor whiteColor]];
+        
+        noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
+        //[cell swipeCellAt:-_SHIFT_CELL_LENGTH];
     }
-    
-    noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
 
-    [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
-    
     if ([swipedCells count] == 0)
     {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+        self.navigationItem.rightBarButtonItem = self.addButton;
+        self.navigationItem.leftBarButtonItem = nil;
         [self.tableView setAllowsSelection:YES];
     }
 }
@@ -286,8 +321,8 @@
     {
         if ([swipedCells count] == 0)
         {
-            UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(tryToDeleteSelectedCells)];
-            self.navigationItem.rightBarButtonItem = deleteButton;
+            self.navigationItem.rightBarButtonItem = self.deleteButton;
+            self.navigationItem.leftBarButtonItem = self.deselectButton;
         }
 
         if (iP != nil)
@@ -303,13 +338,12 @@
             
             [swipedCells addObject:indexPath];
             
-            [self swipeCellAtIndexPath:indexPath at:+27 withTargetColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
+            [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
             //noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-            //[cell swipeCellAt:+27];
+            //[cell swipeCellAt:+_SHIFT_CELL_LENGTH];
         }
         
         noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-
         [[cell timeLabel] setTextColor:[UIColor whiteColor]];
     }
 }
@@ -321,19 +355,23 @@
                           delay:0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-                         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                         [cell setBackgroundColor:color];
-                         [cell setFrame:CGRectMake(cell.frame.origin.x + xPixels, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-                         
+
+                         [self updateCellAtIndexPath:indexPath at:xPixels withTargetColor:color];
                      }
                      completion:^(BOOL finished){
                          
                      }];
 }
 
+-(void)updateCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels withTargetColor:(UIColor*)color
+{
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [cell setBackgroundColor:color];
+    [cell setFrame:CGRectMake(cell.frame.origin.x + xPixels, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
-    
     [self showTabBar:[self tabBarController]];
 }
 
@@ -414,7 +452,6 @@
     [[cell passwordField] setDelegate:self];
     
     [[cell passwordField]  setSecureTextEntry:[[NSUserDefaults standardUserDefaults] boolForKey:@"secureTextEntry"]];
-
 }
 
 -(void)tryEnter
@@ -459,8 +496,6 @@
 
 -(void)didSelectPrivateNoteAtIndexPath:(NSIndexPath*)indexPath
 {
-    
-    
     if (iP == nil)
     {
         iP = indexPath;
@@ -619,6 +654,9 @@
     [self configureCell:MYcell atIndexPath:indexPath];
     
     MYcell.passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
+    
+    //if ([swipedCells containsObject:indexPath])
+     //   NSLog(@"%d",indexPath.row);
 
     return MYcell;
 }
@@ -658,12 +696,13 @@
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
         {
-            [self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            if ([[fetchedResultsController fetchedObjects] count] > 0)
+                [self configureCell:(noteListCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
             
             if ([[passwordFetchedResultsController fetchedObjects] count] > 0)
                 PSWD = [passwordFetchedResultsController fetchedObjects][0];

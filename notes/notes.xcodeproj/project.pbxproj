@@ -13,6 +13,7 @@
 		041A7D8016D4946F00F91496 /* enterTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D7F16D4946F00F91496 /* enterTextCell.m */; };
 		041A7D8716D496DF00F91496 /* CellWithSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D8616D496DF00F91496 /* CellWithSwitcher.m */; };
 		041A7D8B16D4974200F91496 /* CellWithSwitcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D8A16D4974200F91496 /* CellWithSwitcher.xib */; };
+		0425A938171D2D7800977913 /* CustomAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0425A936171D2D7800977913 /* CustomAlertView.m */; };
 		0434EB0916D3A18000BD9C2B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0816D3A18000BD9C2B /* UIKit.framework */; };
 		0434EB0B16D3A18000BD9C2B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0A16D3A18000BD9C2B /* Foundation.framework */; };
 		0434EB0D16D3A18000BD9C2B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0434EB0C16D3A18000BD9C2B /* CoreGraphics.framework */; };
@@ -33,7 +34,6 @@
 		04702F6C17142D9400DCA0C9 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 04702F6B17142D9400DCA0C9 /* alert.png */; };
 		04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACDBEE170B55F9003A74F4 /* testAddViewController.m */; };
 		04ACDBF1170B55F9003A74F4 /* testAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */; };
-		04B641A9171B90080056D30F /* passwordAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B641A8171B90080056D30F /* passwordAlertView.m */; };
 		04CA1FCF1713591500F7488F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04CA1FD11713591500F7488F /* Localizable.strings */; };
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
@@ -65,6 +65,8 @@
 		041A7D8516D496DF00F91496 /* CellWithSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellWithSwitcher.h; sourceTree = "<group>"; };
 		041A7D8616D496DF00F91496 /* CellWithSwitcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellWithSwitcher.m; sourceTree = "<group>"; };
 		041A7D8A16D4974200F91496 /* CellWithSwitcher.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CellWithSwitcher.xib; sourceTree = "<group>"; };
+		0425A936171D2D7800977913 /* CustomAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAlertView.m; sourceTree = "<group>"; };
+		0425A937171D2D7800977913 /* CustomAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAlertView.h; sourceTree = "<group>"; };
 		0434EB0416D3A18000BD9C2B /* notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0434EB0816D3A18000BD9C2B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0434EB0A16D3A18000BD9C2B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -96,8 +98,6 @@
 		04ACDBED170B55F9003A74F4 /* testAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testAddViewController.h; sourceTree = "<group>"; };
 		04ACDBEE170B55F9003A74F4 /* testAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testAddViewController.m; sourceTree = "<group>"; };
 		04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = testAddViewController.xib; sourceTree = "<group>"; };
-		04B641A7171B90070056D30F /* passwordAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordAlertView.h; sourceTree = "<group>"; };
-		04B641A8171B90080056D30F /* passwordAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordAlertView.m; sourceTree = "<group>"; };
 		04CA1FCE171358FB00F7488F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		04CA1FD01713591500F7488F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04CA1FD21713591800F7488F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -190,6 +190,15 @@
 			name = "Cell with switcher";
 			sourceTree = "<group>";
 		};
+		0425A939171D2D7F00977913 /* Custom alert View */ = {
+			isa = PBXGroup;
+			children = (
+				0425A937171D2D7800977913 /* CustomAlertView.h */,
+				0425A936171D2D7800977913 /* CustomAlertView.m */,
+			);
+			name = "Custom alert View";
+			sourceTree = "<group>";
+		};
 		0434EAF916D3A18000BD9C2B = {
 			isa = PBXGroup;
 			children = (
@@ -256,9 +265,7 @@
 			children = (
 				044DE19E16D3AE54004CDE0A /* notesListViewController.h */,
 				044DE19F16D3AE54004CDE0A /* notesListViewController.m */,
-				04B641AA171BAA180056D30F /* multiple delete ask password */,
-				04B641A7171B90070056D30F /* passwordAlertView.h */,
-				04B641A8171B90080056D30F /* passwordAlertView.m */,
+				0425A939171D2D7F00977913 /* Custom alert View */,
 				041A7D8116D495ED00F91496 /* Note add */,
 			);
 			name = "Notes list";
@@ -318,13 +325,6 @@
 				04CF122716D4004B009D89E3 /* gear.png */,
 			);
 			name = Icons;
-			sourceTree = "<group>";
-		};
-		04B641AA171BAA180056D30F /* multiple delete ask password */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "multiple delete ask password";
 			sourceTree = "<group>";
 		};
 		04D6D3FF16DCF7810053C4AF /* Password */ = {
@@ -458,7 +458,7 @@
 				0462F17616E30E5200BE6806 /* Note.m in Sources */,
 				04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */,
 				04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */,
-				04B641A9171B90080056D30F /* passwordAlertView.m in Sources */,
+				0425A938171D2D7800977913 /* CustomAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

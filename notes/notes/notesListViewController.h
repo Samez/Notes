@@ -18,6 +18,7 @@
     Pswd *PSWD;
     BOOL simpleTabBar;
     NSMutableArray *swipedCells;
+    NSMutableArray *oldVisibleCells;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;

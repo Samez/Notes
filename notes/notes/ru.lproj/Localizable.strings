@@ -30,5 +30,5 @@
 "EditButton" = "Изменить";
 "DoneButton" = "Готово";
 "WrongPasswordAlert" = "Неверный пароль\n\n\n";
-"PasswordCheckAlertViewTitle" = "Проверка пароля";
+"PasswordCheckAlertViewTitle" = "Подтвердите удаление";
 "EnterPasswordToDeleteTitle" = "Введите пароль\n\n\n";

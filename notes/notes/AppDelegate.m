@@ -25,12 +25,8 @@
 
 -(void) applicationDidFinishLaunching:(UIApplication *)application
 {
-    [notesListController setManagedObjectContext:[self managedObjectContext]];
-    [optionsController setManagedObjectContext:[self managedObjectContext]];
-    [window setRootViewController:[self tabBarController]];
-    
     [self LoadSettings];
-    
+    [self managedObjectContext];
     NSError *error = nil;
     
     if (![[self fetchedResultsController] performFetch:&error])
@@ -42,7 +38,7 @@
     if ([[fetchedResultsController fetchedObjects] count] == 0)
     {
         Pswd* newPassword = (Pswd*)[NSEntityDescription insertNewObjectForEntityForName:@"Pswd" inManagedObjectContext:[self managedObjectContext]];
-        [newPassword setPassword:@"Password"];
+        [newPassword setPassword:@"pass"];
         
         NSError *error = nil;
         
@@ -52,6 +48,10 @@
             abort();
         }
     }
+    
+    [notesListController setManagedObjectContext:[self managedObjectContext]];
+    [optionsController setManagedObjectContext:[self managedObjectContext]];
+    [window setRootViewController:[self tabBarController]];
     
     [[self window] makeKeyAndVisible];
 }
