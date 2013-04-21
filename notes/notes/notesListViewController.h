@@ -19,6 +19,7 @@
     BOOL simpleTabBar;
     NSMutableArray *swipedCells;
     BOOL unsafeDeletion;
+    BOOL canSwipe;
     BOOL canDelete;
     BOOL canTryToEnter;
     CustomAlertView *customAlertView;

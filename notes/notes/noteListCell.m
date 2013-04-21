@@ -73,6 +73,8 @@
 
 -(void)hidePasswordField
 {
+    [passwordField resignFirstResponder];
+    
     [UIView animateWithDuration:0.2
                           delay:0
                         options: UIViewAnimationCurveEaseOut
@@ -80,7 +82,7 @@
                          [passwordField setAlpha:0.0];
                      }
                      completion:^(BOOL finished){
-                         [passwordField resignFirstResponder];
+                         
                      }];
 }
 
@@ -107,12 +109,11 @@
     [self addSubview:img];
     
     if ([[note isPrivate] boolValue] == YES )
-    {
         [img setImage:[UIImage imageNamed:@"lock.png"]];
-    } else
-    {
+    else
         [img setImage:nil];
-    }
+    
+    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 
     UIFont *mainFont = [UIFont fontWithName:@"Helvetica-Bold" size:17];
     

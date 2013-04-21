@@ -19,7 +19,6 @@
     BOOL alertIsVisible;
     BOOL alerting;
     BOOL hidining;
-    BOOL backgroundIsAdaptive;
 }
 
 @property (weak, nonatomic) IBOutlet UITextView *myTextView;

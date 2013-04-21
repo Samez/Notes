@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CellWithSwitcher.h"
 
 @interface OptionsViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+{
+    BOOL simplyStyle;
+    BOOL textEntryIsSecured;
+    BOOL unsafeDeletion;
+}
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) IBOutlet CellWithSwitcher *mySwitchCell;
 
 @end

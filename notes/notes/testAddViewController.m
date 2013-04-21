@@ -41,21 +41,12 @@
     return self;
 }
 
--(void)checkSettings
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"adaptiveBackground"] != nil)
-    {
-        backgroundIsAdaptive = [[NSUserDefaults standardUserDefaults] boolForKey: @"adaptiveBackground"];
-    }
-}
-
 -(void)viewDidAppear:(BOOL)animated
 {
     [self hideTabBar:[self tabBarController]];
-    
+    if (!forEditing)
+        [self.myTextView becomeFirstResponder];
     [self showTrashButtonWithDuration:0.4];
-    
-    [self.myTextView becomeFirstResponder];
 }
 
 -(void)showTrashButtonWithDuration:(CGFloat)duration
@@ -132,8 +123,6 @@
 {
     [super viewDidLoad];
     
-    [self checkSettings];
-    
     myTextView.keyboardAppearance = UIKeyboardAppearanceAlert;
     myNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
     
@@ -206,35 +195,9 @@
         [trashButton setImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
     }
     
-    [self updateBackground];
+    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
 }
 
--(void)updateBackground
-{
-    
-    if (backgroundIsAdaptive)
-    {
-        switch (notesCount)
-        {
-            case 0:
-                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
-                break;
-            case 1:
-                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"twoNotesBackground.png"]]];
-                break;
-            case 2:
-                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"threeNotesBackground.png"]]];
-                break;
-            case 3:
-                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]]];
-                break;
-            default:
-                [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"fourNotesBackground.png"]]];
-                break;
-        }
-    } else
-        [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
-}
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -355,32 +318,10 @@
     return NO;
 }
 
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
-	
-	switch(type) {
-		case NSFetchedResultsChangeInsert:
-			break;
-			
-		case NSFetchedResultsChangeDelete:
-			break;
-			
-		case NSFetchedResultsChangeUpdate:
-        {
-            //TODO: !
-                [self updateBackground];
-			break;
-        }
-		case NSFetchedResultsChangeMove:
-            break;
-	}
 }
 
 - (void)hideTabBar:(UITabBarController *) tabbarcontroller

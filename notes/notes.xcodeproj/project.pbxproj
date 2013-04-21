@@ -36,7 +36,6 @@
 		04CA1FCF1713591500F7488F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04CA1FD11713591500F7488F /* Localizable.strings */; };
 		04CF122816D4004B009D89E3 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122516D4004B009D89E3 /* lock.png */; };
 		04CF122916D4004B009D89E3 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122616D4004B009D89E3 /* list.png */; };
-		04CF122A16D4004B009D89E3 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 04CF122716D4004B009D89E3 /* gear.png */; };
 		04CF123916D404C8009D89E3 /* Model10.2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04CF123716D404C8009D89E3 /* Model10.2.xcdatamodeld */; };
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
@@ -51,7 +50,7 @@
 		04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40116DCF7980053C4AF /* passwordViewController.m */; };
 		04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40B16DDCE620053C4AF /* passwordCell.m */; };
 		04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D6D40D16DDCE740053C4AF /* passwordCell.xib */; };
-		04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F142EE1714C962007F4423 /* PreferencesViewController.m */; };
+		04EDC3AA1724224600A61B7E /* gear666.png in Resources */ = {isa = PBXBuildFile; fileRef = 04EDC3A91724224600A61B7E /* gear666.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,7 +99,6 @@
 		04CA1FD21713591800F7488F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04CF122516D4004B009D89E3 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Pics/lock.png; sourceTree = SOURCE_ROOT; };
 		04CF122616D4004B009D89E3 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = list.png; path = Pics/list.png; sourceTree = SOURCE_ROOT; };
-		04CF122716D4004B009D89E3 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Pics/gear.png; sourceTree = SOURCE_ROOT; };
 		04CF123816D404C8009D89E3 /* Model10.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model10.2.xcdatamodel; sourceTree = "<group>"; };
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
@@ -117,8 +115,7 @@
 		04D6D40A16DDCE620053C4AF /* passwordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordCell.h; sourceTree = "<group>"; };
 		04D6D40B16DDCE620053C4AF /* passwordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordCell.m; sourceTree = "<group>"; };
 		04D6D40D16DDCE740053C4AF /* passwordCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = passwordCell.xib; sourceTree = "<group>"; };
-		04F142ED1714C962007F4423 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
-		04F142EE1714C962007F4423 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
+		04EDC3A91724224600A61B7E /* gear666.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear666.png; sourceTree = "<group>"; };
 		04F142F61714E31B007F4423 /* res.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = res.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -283,7 +280,6 @@
 			children = (
 				044DE1BA16D3B4C7004CDE0A /* OptionsViewController.h */,
 				044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */,
-				04F142EC1714C7F7007F4423 /* Preferences */,
 				04D6D3FF16DCF7810053C4AF /* Password */,
 			);
 			name = Options;
@@ -314,10 +310,10 @@
 				04D539A8170C977600CC268D /* threeNotesBackground.png */,
 				04D53A12170CA28900CC268D /* trash2.png */,
 				04D53A10170C9E8100CC268D /* trash.png */,
+				04EDC3A91724224600A61B7E /* gear666.png */,
 				04D5399B170C686400CC268D /* locked.png */,
 				04D53A0E170C97C200CC268D /* fourNotesBackground.png */,
 				04D539A2170C7BF100CC268D /* woodenBackground.png */,
-				04CF122716D4004B009D89E3 /* gear.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -339,15 +335,6 @@
 				04D6D40D16DDCE740053C4AF /* passwordCell.xib */,
 			);
 			name = "Password cell";
-			sourceTree = "<group>";
-		};
-		04F142EC1714C7F7007F4423 /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				04F142ED1714C962007F4423 /* PreferencesViewController.h */,
-				04F142EE1714C962007F4423 /* PreferencesViewController.m */,
-			);
-			name = Preferences;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -410,7 +397,6 @@
 				044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */,
 				04CF122816D4004B009D89E3 /* lock.png in Resources */,
 				04CF122916D4004B009D89E3 /* list.png in Resources */,
-				04CF122A16D4004B009D89E3 /* gear.png in Resources */,
 				041A7D7816D492C900F91496 /* enterNameCell.xib in Resources */,
 				041A7D7D16D4945B00F91496 /* enterTextCell.xib in Resources */,
 				041A7D8B16D4974200F91496 /* CellWithSwitcher.xib in Resources */,
@@ -428,6 +414,7 @@
 				04D53A13170CA28900CC268D /* trash2.png in Resources */,
 				04CA1FCF1713591500F7488F /* Localizable.strings in Resources */,
 				04702F6C17142D9400DCA0C9 /* alert.png in Resources */,
+				04EDC3AA1724224600A61B7E /* gear666.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,7 +438,6 @@
 				04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */,
 				0462F17616E30E5200BE6806 /* Note.m in Sources */,
 				04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */,
-				04F142EF1714C962007F4423 /* PreferencesViewController.m in Sources */,
 				0425A938171D2D7800977913 /* CustomAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

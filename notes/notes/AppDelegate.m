@@ -20,14 +20,11 @@
 @synthesize optionsController;
 @synthesize window;
 
-
-
 -(void) applicationDidFinishLaunching:(UIApplication *)application
 {
     [self LoadSettings];
 
     [notesListController setManagedObjectContext:[self managedObjectContext]];
-    [optionsController setManagedObjectContext:[self managedObjectContext]];
     
     [window setRootViewController:[self tabBarController]];
     
@@ -39,11 +36,6 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] == nil)
     {
         [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"simplyTabBarStyle"];
-    }
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"adaptiveBackground"] == nil)
-    {
-        [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"adaptiveBackground"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"secureTextEntry"] == nil)

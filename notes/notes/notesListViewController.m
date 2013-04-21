@@ -37,7 +37,6 @@
 
 -(void)checkSettings
 {
-    
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
     {
         simpleTabBar = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
@@ -72,8 +71,8 @@
         [note setText:@"lolwto"];
         [note setName:randomString];
         [note setDate:[NSDate date]];
-        //[note setIsPrivate:[NSNumber numberWithUnsignedInt:arc4random()%2]];
-        [note setIsPrivate:[NSNumber numberWithBool:YES]];
+        [note setIsPrivate:[NSNumber numberWithUnsignedInt:arc4random()%2]];
+        //[note setIsPrivate:[NSNumber numberWithBool:YES]];
     }
     
     NSError *error = nil;
@@ -89,6 +88,7 @@
     if([swipedCells containsObject:indexPath])
         {
             [cell setBackgroundColor:[UIColor sashaGray]];
+            [[(noteListCell*)cell noteNameLabel] setTextColor:[UIColor blackColor]];
             CGRect t=cell.frame ;
             t.origin.x+=_SHIFT_CELL_LENGTH;
             cell.frame=t;
@@ -142,6 +142,9 @@
     recognizer.delegate = self;
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
     [self.tableView addGestureRecognizer:recognizer];
+    
+    canSwipe = YES;
+    canDelete = YES;
 }
 
 -(BOOL)showPromptAlert
@@ -160,6 +163,7 @@
     passwordField.delegate = self;
     [passwordField setTag:1919];
     [passwordField becomeFirstResponder];
+    [passwordField setText:[[NSUserDefaults standardUserDefaults] stringForKey:@"password"]];
     [customAlertView addSubview:passwordField];
     [customAlertView setDelegate:self];
 	[customAlertView show];
@@ -169,10 +173,7 @@
 
 -(void)deleteSwipedCells
 {
-    if (canDelete)
-    {
-        canDelete = NO;
-            
+
         [UIView animateWithDuration:0.3
                               delay:0
                             options: UIViewAnimationCurveEaseOut
@@ -180,8 +181,7 @@
                              
                              for (int i = 0; i < [swipedCells count]; ++i)
                              {
-                                 
-                                 [self swipeToDeleteCellAtIndexPath:swipedCells[i] ignoreCanDelete:YES];
+                                 [managedObjectContext deleteObject:[fetchedResultsController objectAtIndexPath:swipedCells[i]]];
                              }
                          }
                          completion:^(BOOL finished){
@@ -192,7 +192,7 @@
                                  NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                                  abort();
                              }
-                             canDelete = YES;
+
                          }];
 
         
@@ -201,7 +201,7 @@
         self.navigationItem.rightBarButtonItem = self.addButton;
         self.navigationItem.leftBarButtonItem = nil;
         [self.tableView setAllowsSelection:YES];
-    }
+    
 }
 
 -(void)deselectSwipedCells
@@ -287,44 +287,47 @@
 
 - (void)handleSwipeRight:(UISwipeGestureRecognizer *)gestureRecognizer
 {
-    if (!canDelete)
-        return;
     
-    [self.tableView setAllowsSelection:NO];
-    
-    CGPoint location = [gestureRecognizer locationInView:self.tableView];
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-    
-    if (indexPath != nil)
+    if (canSwipe)
     {
-        if ((unsafeDeletion) && (![[[fetchedResultsController objectAtIndexPath:indexPath] isPrivate] boolValue]) && ([swipedCells count] == 0))
+        [self.tableView setAllowsSelection:NO];
+        
+        CGPoint location = [gestureRecognizer locationInView:self.tableView];
+        
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+        
+        [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
+        
+        if (indexPath != nil)
         {
-            [self swipeToDeleteCellAtIndexPath:indexPath ignoreCanDelete:NO];
-        }
-        else
-        {
-            if ([swipedCells count] == 0)
+            if ((unsafeDeletion) && (![[[fetchedResultsController objectAtIndexPath:indexPath] isPrivate] boolValue]) && ([swipedCells count] == 0))
             {
-                self.navigationItem.rightBarButtonItem = self.deleteButton;
-                self.navigationItem.leftBarButtonItem = self.deselectButton;
+                [self swipeToDeleteCellAtIndexPath:indexPath];
             }
-
-            if (iP != nil)
+            else
             {
-                [self didSelectPrivateNoteAtIndexPath:iP];
-            }
-            
-            if (swipedCells == nil)
-                swipedCells = [[NSMutableArray alloc] init];
+                if ([swipedCells count] == 0)
+                {
+                    self.navigationItem.rightBarButtonItem = self.deleteButton;
+                    self.navigationItem.leftBarButtonItem = self.deselectButton;
+                }
 
-            if (![swipedCells containsObject:indexPath])
-            {
+                if (iP != nil)
+                {
+                    [self didSelectPrivateNoteAtIndexPath:iP];
+                }
                 
-                [swipedCells addObject:indexPath];
-                
-                [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor sashaGray] andWithDuration:0.3];
-                
+                if (swipedCells == nil)
+                    swipedCells = [[NSMutableArray alloc] init];
+
+                if (![swipedCells containsObject:indexPath])
+                {
+                    
+                    [swipedCells addObject:indexPath];
+                    
+                    [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor sashaGray] andWithDuration:0.3];
+                    
+                }
             }
         }
     }
@@ -345,14 +348,12 @@
                      }];
 }
 
--(void)swipeToDeleteCellAtIndexPath:(NSIndexPath*)indexPath ignoreCanDelete:(BOOL)ignore
+-(void)swipeToDeleteCellAtIndexPath:(NSIndexPath*)indexPath
 {
-    if (ignore)
-        canDelete = YES;
-    
     if (canDelete)
     {
         canDelete = NO;
+        canSwipe = NO;
         [UIView animateWithDuration:0.4
                               delay:0
                             options: UIViewAnimationCurveEaseOut
@@ -360,24 +361,23 @@
                              [self updateCellAtIndexPath:indexPath at:320 withTargetColor:[UIColor sashaGray]];
                          }
                          completion:^(BOOL finished){
+
                              [managedObjectContext deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
-                             canDelete = YES;
+
+                             NSError *error = nil;
                              
-                             if (!ignore)
+                             if (![managedObjectContext save:&error])
                              {
-                                 NSError *error = nil;
-                                 
-                                 if (![managedObjectContext save:&error])
-                                 {
-                                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                                     abort();
-                                 }
-                                 
-                                 [self.tableView setAllowsSelection:YES];
+                                 NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                 abort();
                              }
-                         }];
+                             
+                             [self.tableView setAllowsSelection:YES];
+                             canDelete = YES;
+                             canSwipe = YES;
+                        }];
+
     }
-    
 }
 
 -(void)updateCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels withTargetColor:(UIColor*)color
@@ -396,13 +396,16 @@
 {
     [[self tableView] reloadData];
     [self checkSettings];
-    canDelete = YES;
     canTryToEnter = YES;
+    canSwipe = YES;
+    canDelete = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self deselectSwipedCells];
+    [self deselectPrivateRowAtIndexPath:iP];
+    iP = nil;
 }
 
 - (void)showTabBar:(UITabBarController *) tabbarcontroller
@@ -447,14 +450,30 @@
 
 - (void)showNote:(Note *)note animated:(BOOL)animated;
 {
+    noteListCell* cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:iP];
     
-        testAddViewController *nextC = [[testAddViewController alloc] init];
-        [nextC setNote:note];
-        [nextC setForEditing:YES];
-        [nextC setManagedObjectContext:managedObjectContext];
-        [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
-        
-        [[self navigationController] pushViewController:nextC animated:YES];
+    [UIView animateWithDuration:0.1 delay:0 options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         [cell setBackgroundColor:[UIColor sashaGray]];
+                         [[cell noteNameLabel] setTextColor:[UIColor whiteColor]];
+                         [[cell timeLabel] setTextColor:[UIColor whiteColor]];
+                         
+                         if ([[note isPrivate] boolValue])
+                         {
+                             [[cell passwordField] setBackgroundColor:[UIColor whiteColor]];
+                             [cell setNormalImage];
+                         }
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    testAddViewController *nextC = [[testAddViewController alloc] init];
+    [nextC setNote:note];
+    [nextC setForEditing:YES];
+    [nextC setManagedObjectContext:managedObjectContext];
+    [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
+    
+    [[self navigationController] pushViewController:nextC animated:YES];
 }
 
 -(void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -470,143 +489,117 @@
     [[cell passwordField] setDelegate:self];
     
     [[cell passwordField]  setSecureTextEntry:[[NSUserDefaults standardUserDefaults] boolForKey:@"secureTextEntry"]];
+    
+    [[cell noteNameLabel] setTextColor:[UIColor blackColor]];
 }
 
 -(void)tryEnter
 {
-    
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:iP];
 
-    
     if ([[[cell passwordField] text] isEqualToString:PSWD])
-    {
-        testAddViewController *nextC = [[testAddViewController alloc] init];
-        
-        [nextC setManagedObjectContext:managedObjectContext];
-        [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
-        [nextC setNote:[[fetchedResultsController fetchedObjects] objectAtIndex:iP.row]];
-        
-        iP = nil;
-        
-        [[self navigationController] pushViewController:nextC animated:YES];
-        
-    } else
-    {
+        [self showNote:[[fetchedResultsController fetchedObjects] objectAtIndex:iP.row] animated:YES];
+    else
         [cell setAlertImage];
-    }
 }
 
--(void)changeTableViewHeightAt:(CGFloat)deltaHeight
+-(void)changeTableViewHeightAt:(UIEdgeInsets)edgeInsets
 {
     if (canTryToEnter)
     {
         canTryToEnter = NO;
         [UIView animateWithDuration:0.25 delay:0 options: UIViewAnimationCurveEaseOut
                          animations:^{
-                             self.tableView.frame= CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.frame.size.height + deltaHeight);
+                             [self.tableView setContentInset:edgeInsets];
+                             [self.tableView setScrollIndicatorInsets:edgeInsets];
                          }
                          completion:^(BOOL finished){
                              canTryToEnter = YES;
+                             int index = [[self.tableView visibleCells] indexOfObject:[self.tableView cellForRowAtIndexPath:iP]];
+                             if (index == 0)
+                                [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                             else if (index >=5)
+                                     [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
                          }];
         
-        int index = [[self.tableView visibleCells] indexOfObject:[self.tableView cellForRowAtIndexPath:iP]];
-        
-        if (deltaHeight < 0)
-        {
-            if (index >= 5)
-            {
-                [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            } else if (index == 0)
-            {
-                [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionTop animated:YES];
-            }
-        }
-    }
 
+        
+    }
 }
 
 -(void)didSelectPrivateNoteAtIndexPath:(NSIndexPath*)indexPath
 {
-    if (!canTryToEnter)
-        return;
-        
-    if (iP == nil)
+    
+    if (canTryToEnter )
     {
-        iP = indexPath;
-        
-        [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:666];
-        
-        [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] showPasswordField];
-        
-        [self.tableView beginUpdates];
-        
-        [self.tableView endUpdates];
-        
-        if (simpleTabBar)
-            [self changeTableViewHeightAt:-_SIMPLY_TABBAR_CHANGE_VALUE];
-        else
-            [self changeTableViewHeightAt:-_NORMAL_TABBAR_CHANGE_VALUE];
-    }
-    else
-    {
-        if (![iP isEqual:indexPath])
+        if (iP == nil)
         {
-            [self deselectPrivateRowAtIndexPath:iP];
-            
+            canSwipe = NO;
             iP = indexPath;
             
             [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:666];
             
             [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] showPasswordField];
             
-        } else
-        {
-            [self deselectPrivateRowAtIndexPath:iP];
+            [self.tableView beginUpdates];
+            
+            [self.tableView endUpdates];
+            
             
             if (simpleTabBar)
-                [self changeTableViewHeightAt:_SIMPLY_TABBAR_CHANGE_VALUE];
+                [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, _SIMPLY_TABBAR_CHANGE_VALUE, 0)];
             else
-                [self changeTableViewHeightAt:_NORMAL_TABBAR_CHANGE_VALUE];
-            
-            iP = nil;
+                [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, _NORMAL_TABBAR_CHANGE_VALUE, 0)];
         }
+        else
+        {
+            if (![iP isEqual:indexPath])
+            {
+                canSwipe = NO;
+                [self deselectPrivateRowAtIndexPath:iP];
+                
+                iP = indexPath;
+                
+                [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:666];
+                
+                [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] showPasswordField];
+                
+            } else
+            {
+                canSwipe = YES;
+                [self deselectPrivateRowAtIndexPath:iP];
+                
+                if (simpleTabBar)
+                    [self changeTableViewHeightAt:UIEdgeInsetsZero];
+                else
+                    [self changeTableViewHeightAt:UIEdgeInsetsZero];
+                
+                iP = nil;
+            }
+        }
+        
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+    } else
+    {
+        return;
     }
-    
-    [self.tableView beginUpdates];
-    [self.tableView endUpdates];
 }
 
 -(void)deselectPrivateRowAtIndexPath:(NSIndexPath*)indexPath
 {
+    noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath];
     
-    [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath] passwordField] setTag:nil];
-    
-    [(noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath] hidePasswordField];
-    
-    [(noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath] setNormalImage];
-}
-
--(NSIndexPath*) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    if (self.tableView.isEditing)
-    {
-        [[self.tableView cellForRowAtIndexPath:indexPath] setSelectionStyle:UITableViewCellSelectionStyleGray];
-    }else [[self.tableView cellForRowAtIndexPath:indexPath] setSelectionStyle:UITableViewCellSelectionStyleNone];
-    return indexPath;
+    [cell hidePasswordField];
+    [[cell passwordField] setTag:nil];
+    [cell setNormalImage];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if (self.tableView.isEditing)
-    {
-        return;
-    }
-    [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
-    
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
-        
+    
+   
     if ([[note isPrivate] boolValue])
     {
         [self didSelectPrivateNoteAtIndexPath:indexPath];
@@ -614,17 +607,18 @@
     {
         if (iP != nil)
         {
-            [[(noteListCell*)[tableView cellForRowAtIndexPath:iP] passwordField] setTag:nil];
-            [(noteListCell*)[tableView cellForRowAtIndexPath:iP] hidePasswordField];
-            iP = nil;
+            [self didSelectPrivateNoteAtIndexPath:iP];
         }
+        
+        iP = indexPath;
+        
         [self showNote:note animated:YES];
     }
 }
 
 - (void)add:(id)sender
 {
-    
+
     if (iP != nil)
     {
         [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
