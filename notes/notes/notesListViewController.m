@@ -16,7 +16,6 @@
 @interface notesListViewController ()
 
 @property UIBarButtonItem* editButton;
-@property UIBarButtonItem* doneButton;
 @property UIBarButtonItem* deleteButton;
 @property UIBarButtonItem* addButton;
 @property UIBarButtonItem* deselectButton;
@@ -30,7 +29,6 @@
 @synthesize fetchedResultsController;
 @synthesize noteCell;
 @synthesize editButton;
-@synthesize doneButton;
 @synthesize addButton;
 @synthesize deselectButton;
 @synthesize fillBDButton;
@@ -107,19 +105,43 @@
 
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
-    self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
+    //self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
     
-    self.deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(tryToDeleteSelectedCells)];
+    //self.deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(tryToDeleteSelectedCells)];
     
+    
+    UIImage* image3 = [UIImage imageNamed:@"add.png"];
+    CGRect frameimg = CGRectMake(0, 0, 34, 29);
+    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
+    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
+    [someButton addTarget:self action:@selector(add:)
+         forControlEvents:UIControlEventTouchUpInside];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    
+    UIImage* image2 = [UIImage imageNamed:@"trash2.png"];
+    CGRect frameimg2 = CGRectMake(0, 0, 34, 29);
+    UIButton *someButton2 = [[UIButton alloc] initWithFrame:frameimg2];
+    [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
+    [someButton2 addTarget:self action:@selector(tryToDeleteSelectedCells)
+         forControlEvents:UIControlEventTouchUpInside];
+    [someButton2 setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem *bufButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
+    self.addButton=bufButton;
+    
+    UIBarButtonItem *bufButton2 =[[UIBarButtonItem alloc] initWithCustomView:someButton2];
+    self.deleteButton=bufButton2;
+    
+
     self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
     
     self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
 
-    [[self navigationItem] setRightBarButtonItem:self.addButton];
+    [[self navigationItem] setRightBarButtonItem:self.addButton animated:NO];
     
-    //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
+    [[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
     
-    NSError *error = nil;
+    NSError *error = nil; 
     
 	if (![[self fetchedResultsController] performFetch:&error])
     {
@@ -163,7 +185,7 @@
     passwordField.delegate = self;
     [passwordField setTag:1919];
     [passwordField becomeFirstResponder];
-    [passwordField setText:[[NSUserDefaults standardUserDefaults] stringForKey:@"password"]];
+    //[passwordField setText:[[NSUserDefaults standardUserDefaults] stringForKey:@"password"]];
     [customAlertView addSubview:passwordField];
     [customAlertView setDelegate:self];
 	[customAlertView show];
@@ -198,8 +220,8 @@
         
         swipedCells = nil;
         
-        self.navigationItem.rightBarButtonItem = self.addButton;
-        self.navigationItem.leftBarButtonItem = nil;
+        [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
+        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
         [self.tableView setAllowsSelection:YES];
     
 }
@@ -211,8 +233,8 @@
             [self swipeCellAtIndexPath:swipedCells[i] at:-_SHIFT_CELL_LENGTH withTargetColor:[UIColor whiteColor] andWithDuration:0.3];
         }
     
-    self.navigationItem.rightBarButtonItem = addButton;
-    self.navigationItem.leftBarButtonItem = nil;
+    [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     [self.tableView setAllowsSelection:YES];
     
     swipedCells = nil;
@@ -279,8 +301,8 @@
 
     if ([swipedCells count] == 0)
     {
-        self.navigationItem.rightBarButtonItem = self.addButton;
-        self.navigationItem.leftBarButtonItem = nil;
+        [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
+        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
         [self.tableView setAllowsSelection:YES];
     }
 }
@@ -308,8 +330,8 @@
             {
                 if ([swipedCells count] == 0)
                 {
-                    self.navigationItem.rightBarButtonItem = self.deleteButton;
-                    self.navigationItem.leftBarButtonItem = self.deselectButton;
+                    [self.navigationItem setLeftBarButtonItem:self.deselectButton animated:YES];
+                    [self.navigationItem setRightBarButtonItem:self.deleteButton animated:YES];
                 }
 
                 if (iP != nil)

@@ -14,6 +14,7 @@
     int rowsCount;
     NSString *bottomTitle;
     NSString *forOldPassword;
+    BOOL showingNow;
 }
 
 @property (nonatomic,retain) NSString *pass;

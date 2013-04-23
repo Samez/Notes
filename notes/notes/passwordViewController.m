@@ -30,6 +30,7 @@
         rowsCount =  0;
         bottomTitle = nil;
         forOldPassword = nil;
+        showingNow = NO;
     }
     return self;
 }
@@ -44,10 +45,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(save)];
-    
-    [[self navigationItem] setRightBarButtonItem:saveButton];
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
 
@@ -67,6 +64,12 @@
     [[self tableView] setBackgroundView:backgroundImageView];
     
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -82,16 +85,65 @@
     
 }
 
--(void)showBottomTitle:(NSString*)title
+-(void)dismissKeyboard
 {
-    bottomTitle = title;
-    
-    [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationFade];
-    
-    [[[[self tableView] footerViewForSection:0] textLabel] setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
-    [[[[self tableView] footerViewForSection:0] textLabel] setShadowColor:[UIColor clearColor]];
+    [[(passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]] passwordField] resignFirstResponder];
+    [[(passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]] passwordField] resignFirstResponder];
+    [[(passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]] passwordField] resignFirstResponder];
 }
 
+-(void)showBottomTitle:(NSString*)title
+{
+    if (!showingNow)
+    {
+        showingNow = YES;
+        bottomTitle = nil;
+        
+        if ([title isEqualToString:NSLocalizedString(@"PasswordWasChangeNotification", nil)])
+            forOldPassword = nil;
+        
+        [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
+        [UIView animateWithDuration:0.5
+                              delay:0
+                            options: UIViewAnimationCurveEaseOut
+                         animations:^{
+                             bottomTitle = title;
+                             
+                             [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
+                             
+                             if ([title isEqualToString:NSLocalizedString(@"PasswordWasChangeNotification", nil)])
+                             {
+                                 [[[[self tableView] footerViewForSection:0] textLabel] setTextColor:[UIColor greenColor]];
+                             }
+                             else
+                                 [[[[self tableView] footerViewForSection:0] textLabel] setTextColor:[UIColor redColor]];
+                             
+                             [[[[self tableView] footerViewForSection:0] textLabel] setShadowColor:[UIColor clearColor]];
+                         }
+                         completion:^(BOOL finished){
+
+                             showingNow = NO;
+                             //[self performSelector:@selector(hideBottomTitle) withObject:self afterDelay:3.0];
+                         }];
+    }
+}
+/*
+-(void)hideBottomTitle
+{
+
+        [UIView animateWithDuration:0.5
+                              delay:0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+
+                         }
+                         completion:^(BOOL finished){
+                             bottomTitle = nil;
+                             [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
+                             showingNow = NO;
+                         }];
+}
+*/
 -(void)cancel
 {
     [[self navigationController] popViewControllerAnimated:YES];
@@ -189,16 +241,30 @@
 -(void)savePass
 {
     [[NSUserDefaults standardUserDefaults] setObject:pass forKey:@"password"];
-    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (([textField tag] == _OLD)||([textField tag] == _NEW1)||([textField tag] == _NEW2))
+    switch ([textField tag])
     {
-        [textField resignFirstResponder];
-        
-        return NO;
+        case _OLD:
+        {
+            [textField resignFirstResponder];
+            [[(passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]] passwordField] becomeFirstResponder];
+            break;
+        }
+        case _NEW1:
+        {
+            [textField resignFirstResponder];
+            [[(passwordCell*)[[self tableView] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]] passwordField] becomeFirstResponder];
+            break;
+        }
+        case _NEW2:
+        {
+            [textField resignFirstResponder];
+            [self save];
+            break;
+        }
     }
     
     return YES;
@@ -258,6 +324,7 @@
                     
                     [[passCell passwordField] setDelegate:self];
                     [[passCell passwordField] setTag:_OLD];
+                    [[passCell passwordField] setReturnKeyType:UIReturnKeyNext];
                     
                     break;
                 }
@@ -267,6 +334,7 @@
                     [[passCell passwordField] setPlaceholder:NSLocalizedString(@"EnterNewPasswordLabel", nil)];
                     [[passCell passwordField] setDelegate:self];
                     [[passCell passwordField] setTag:_NEW1];
+                    [[passCell passwordField] setReturnKeyType:UIReturnKeyNext];
                     
                     break;
                 }
@@ -275,6 +343,7 @@
                     [[passCell passwordField] setPlaceholder:NSLocalizedString(@"RepeatNewPasswordLabel", nil)];
                     [[passCell passwordField] setDelegate:self];
                     [[passCell passwordField] setTag:_NEW2];
+                    [[passCell passwordField] setReturnKeyType:UIReturnKeyDone];
 
                     break;
                 }

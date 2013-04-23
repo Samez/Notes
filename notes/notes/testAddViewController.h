@@ -35,12 +35,11 @@
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (weak, nonatomic) IBOutlet UIButton *lockButton;
 @property (weak, nonatomic) IBOutlet UILabel *alertLabel;
-@property (weak, nonatomic) IBOutlet UIButton *trashButton;
 
 @property int notesCount;
 
 - (IBAction)clickLockButton:(id)sender;
-- (IBAction)clickTrashButton:(id)sender;
+- (void)clickTrashButton:(id)sender;
 
 
 @end

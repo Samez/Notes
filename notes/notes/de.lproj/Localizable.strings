@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  notes
+
+  Created by Samez on 08.04.13.
+  Copyright (c) 2013 gg. All rights reserved.
+*/
+"NotesTitle" = "Notizen";
+"EditNote" = "Bearbeiten";
+"NewNote" = "Neu";
+"CancelButton" = "Abbruch";
+"SaveButton" = "Speichern";
+"PrivateNoteRequirements" = "Titel und Text eingeben";
+"PublicNoteRequirements" = "Titel oder Text eingeben";
+"OptionsTitle" = "Optionen";
+"ChangePasswordCell" = "Passwort ändern";
+"IncorrectOldPasswordWarning" = "Das alte Passwort wurde falsch eingegeben!";
+"PasswordsAreNotEqualWarning" = " Passwörter stimmen nicht überein!";
+"TooShortPasswordWarning" = "Das Passwort ist zu kurz! Das Passwort darf nicht kürzer als 4 Zeichen sein.";
+"StandartPasswordWarning" = "Sie verwenden das Standardpasswort 'Password'. Geben Sie sicherheitshalber ein anderes Passwort ein. Das Passwort darf nicht kürzer als 4 Zeichen sein.";
+"PasswordWasChangeNotification" = "Passwort erfolgreich geändert!";
+"EnterOldPasswordLabel" = "Altes Passwort eingeben";
+"EnterNewPasswordLabel" = "Neues Passwort eingeben";
+"RepeatNewPasswordLabel" = "Neues Passwort erneut eingeben";
+"SimpleTabBarStyleCell" = "Einfache Symbolleiste";
+"HidePasswordCell" = "Kennwort ausblenden";
+"EditButton" = "Ändern";
+"DoneButton" = "Fertig";
+"WrongPasswordAlert" = "Passwort falsch\n\n\n";
+"PasswordCheckAlertViewTitle" = "Löschen bestätigen";
+"EnterPasswordToDeleteTitle" = "Passwort eingeben\n\n\n";
+"unsafeDetetionCell" = "Unsicheres Entfernen";

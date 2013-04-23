@@ -25,7 +25,6 @@
 @synthesize lockButton;
 @synthesize alertLabel;
 @synthesize notesCount;
-@synthesize trashButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,20 +45,6 @@
     [self hideTabBar:[self tabBarController]];
     if (!forEditing)
         [self.myTextView becomeFirstResponder];
-    [self showTrashButtonWithDuration:0.4];
-}
-
--(void)showTrashButtonWithDuration:(CGFloat)duration
-{
-    [UIView animateWithDuration:duration
-                          delay:0.2
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{
-                         [trashButton setAlpha:1.0];
-                     } 
-                     completion:^(BOOL finished){
-                         [trashButton setEnabled:YES];
-                     }];
 }
 
 -(void)showAlertMessageWithDuration:(CGFloat)duration
@@ -123,6 +108,20 @@
 {
     [super viewDidLoad];
     
+    if (forEditing)
+    {
+        UIView *buttonContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 34, 29)];
+        buttonContainer.backgroundColor = [UIColor clearColor];
+        UIButton *button0 = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button0 setFrame:CGRectMake(0, 0, 34, 29)];
+        [button0 setBackgroundImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
+        [button0 addTarget:self action:@selector(clickTrashButton:) forControlEvents:UIControlEventTouchUpInside];
+        [button0 setShowsTouchWhenHighlighted:YES];
+        [buttonContainer addSubview:button0];
+        
+        self.navigationItem.titleView = buttonContainer;
+    }
+    
     myTextView.keyboardAppearance = UIKeyboardAppearanceAlert;
     myNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
     
@@ -154,6 +153,7 @@
 
     [[self navigationItem] setRightBarButtonItem:saveButtonItem];
     
+    
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
 
     [myTextView setDelegate:self];
@@ -165,7 +165,6 @@
     if (!forEditing)
     {
         [timeText setHidden:YES];
-        [trashButton setHidden:YES];
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
 
     } else
@@ -176,11 +175,7 @@
             [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
         else
             [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
-        
-        [trashButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"trash2.png"]]];
-        [trashButton setAlpha:0.0];
-        [trashButton setEnabled:NO];
-    
+
         NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
         [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
         NSString * timeString = [date_format stringFromDate: [note date]];
@@ -191,8 +186,6 @@
         [myTextView setText:[note text]];
         
         [myNameField setText:[note name]];
-        
-        [trashButton setImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
     }
     
     [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
@@ -201,7 +194,6 @@
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    
     NSUInteger oldLength = [[textField text] length];
     NSUInteger replacementLength = [string length];
     NSUInteger rangeLength = range.length;
@@ -224,7 +216,7 @@
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
 }
 
-- (IBAction)clickTrashButton:(id)sender
+- (void)clickTrashButton:(id)sender
 {
     [managedObjectContext deleteObject:note];
     
@@ -350,7 +342,6 @@
     [self setLockButton:nil];
 
     [self setAlertLabel:nil];
-    [self setTrashButton:nil];
     
     [super viewDidUnload];
 }
