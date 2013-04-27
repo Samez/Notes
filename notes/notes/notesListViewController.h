@@ -23,6 +23,7 @@
     BOOL canDelete;
     BOOL canTryToEnter;
     CustomAlertView *customAlertView;
+    UIColor *swipeColor;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;

@@ -13,6 +13,10 @@
 
 @interface testAddViewController ()
 
+@property UIView* trashButton;
+@property UIBarButtonItem* cancelButton;
+@property UIBarButtonItem* saveButton;
+
 @end
 
 @implementation testAddViewController
@@ -25,6 +29,9 @@
 @synthesize lockButton;
 @synthesize alertLabel;
 @synthesize notesCount;
+@synthesize trashButton;
+@synthesize cancelButton;
+@synthesize saveButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,11 +47,21 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.navigationItem setRightBarButtonItem:saveButton animated:YES];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [self hideTabBar:[self tabBarController]];
+    
     if (!forEditing)
         [self.myTextView becomeFirstResponder];
+    
+    if (forEditing)
+        self.navigationItem.titleView = trashButton;
 }
 
 -(void)showAlertMessageWithDuration:(CGFloat)duration
@@ -104,23 +121,32 @@
     [myNameField resignFirstResponder];
 }
 
+-(void)setupButtons
+{
+    UIView *buttonContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 34, 29)];
+    buttonContainer.backgroundColor = [UIColor clearColor];
+    UIButton *button0 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button0 setFrame:CGRectMake(0, 0, 34, 29)];
+    [button0 setBackgroundImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
+    [button0 addTarget:self action:@selector(clickTrashButton:) forControlEvents:UIControlEventTouchUpInside];
+    [button0 setShowsTouchWhenHighlighted:YES];
+    [buttonContainer addSubview:button0];
+    
+    self.trashButton = buttonContainer;
+    
+    [[self.navigationItem leftBarButtonItem] setAction:@selector(cancel)];
+    
+    cancelButton = [self.navigationItem leftBarButtonItem];//[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelButton",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    
+    
+    saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveButton",nil) style:UIBarButtonItemStylePlain target:self action:@selector(save)];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if (forEditing)
-    {
-        UIView *buttonContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 34, 29)];
-        buttonContainer.backgroundColor = [UIColor clearColor];
-        UIButton *button0 = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button0 setFrame:CGRectMake(0, 0, 34, 29)];
-        [button0 setBackgroundImage:[UIImage imageNamed:@"trash2.png"] forState:UIControlStateNormal];
-        [button0 addTarget:self action:@selector(clickTrashButton:) forControlEvents:UIControlEventTouchUpInside];
-        [button0 setShowsTouchWhenHighlighted:YES];
-        [buttonContainer addSubview:button0];
-        
-        self.navigationItem.titleView = buttonContainer;
-    }
+
+    [self setupButtons];
     
     myTextView.keyboardAppearance = UIKeyboardAppearanceAlert;
     myNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
@@ -145,14 +171,6 @@
         [[self navigationItem] setTitle:NSLocalizedString(@"NewNote", nil)];
     }
 
-    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelButton",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
-    
-    [[self navigationItem] setLeftBarButtonItem:cancelButtonItem];
-    
-    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveButton",nil) style:UIBarButtonItemStyleDone target:self action:@selector(save)];
-
-    [[self navigationItem] setRightBarButtonItem:saveButtonItem];
-    
     
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
 
@@ -178,6 +196,11 @@
 
         NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
         [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
+        
+        NSString *identifier = [[NSLocale currentLocale] localeIdentifier];
+        
+        [date_format setLocale:[[NSLocale alloc] initWithLocaleIdentifier:identifier]];
+        
         NSString * timeString = [date_format stringFromDate: [note date]];
         
         [timeText setText:timeString];
@@ -190,7 +213,6 @@
     
     [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
 }
-
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -233,25 +255,23 @@
 
 - (void)cancel
 {
-	if (!forEditing)
+
+    if (!forEditing)
         [[self managedObjectContext] deleteObject:note];
     
     [[self navigationController] popToRootViewControllerAnimated:YES];
+    
 }
 
--(void)save
+-(BOOL)checkFields
 {
-    
-    [myTextView resignFirstResponder];
-    [myNameField resignFirstResponder];
-    
     if (isPrivate)
     {
         if (([[myNameField text] length] == 0) || ([[myTextView text] length] == 0))
         {
             [alertLabel setText:NSLocalizedString(@"PrivateNoteRequirements", nil)];
             [self showAlertMessageWithDuration:0.6];
-            return;
+            return NO;
         }
     } else
     {
@@ -259,9 +279,20 @@
         {
             [alertLabel setText:NSLocalizedString(@"PublicNoteRequirements", nil)];
             [self showAlertMessageWithDuration:0.6];
-            return;
+            return NO;
         }
     }
+    
+    return YES;
+}
+
+-(void)save
+{
+    [myTextView resignFirstResponder];
+    [myNameField resignFirstResponder];
+    
+    if (![self checkFields])
+        return;
     
     [note setIsPrivate:[NSNumber numberWithBool:isPrivate]];
     
@@ -272,7 +303,7 @@
     else
         [note setName:nil];
     
-    if(!forEditing)
+    if(!forEditing || [[NSUserDefaults standardUserDefaults] boolForKey:@"needUpdateTime"])
         [note setDate:[NSDate date]];
     
     NSError *error = nil;
@@ -284,6 +315,7 @@
     }
     
     [[self navigationController] popToRootViewControllerAnimated:YES];
+    
 }
 
 - (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString*)aText
@@ -297,11 +329,8 @@
     {
         [aTextView resignFirstResponder];
         return NO;
-    }
-    else
-    {
+    } else
         return YES;
-    }
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -336,11 +365,11 @@
     [UIView commitAnimations];
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload
+{
     [self setMyNameField:nil];
     [self setTimeText:nil];
     [self setLockButton:nil];
-
     [self setAlertLabel:nil];
     
     [super viewDidUnload];

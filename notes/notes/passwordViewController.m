@@ -46,9 +46,7 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
-
-    [[self navigationItem] setLeftBarButtonItem:cancelButton];
+    [[self.navigationItem leftBarButtonItem] setAction:@selector(cancel)];
     
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     

@@ -133,6 +133,10 @@
     
     [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
     
+    NSString *identifier = [[NSLocale currentLocale] localeIdentifier];
+    
+    [date_format setLocale:[[NSLocale alloc] initWithLocaleIdentifier:identifier]];
+    
     NSString * timeString = [date_format stringFromDate: note.date];
     
     [timeLabel setText:timeString];

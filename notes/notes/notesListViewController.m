@@ -33,7 +33,7 @@
 @synthesize deselectButton;
 @synthesize fillBDButton;
 
--(void)checkSettings
+-(void)loadSettings
 {
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
     {
@@ -48,6 +48,12 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"unsafeDeletion"] != nil)
     {
         unsafeDeletion = [[NSUserDefaults standardUserDefaults] boolForKey:@"unsafeDeletion"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"swipeColor"] != nil)
+    {
+        NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"swipeColor"];
+        swipeColor = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
     }
 }
 
@@ -93,23 +99,8 @@
         }
 }
 
-- (void)viewDidLoad
+-(void)setupButtons
 {
-    [super viewDidLoad];
-    
-    [self checkSettings];
-    
-    [self.tableView setDelegate:self];
-    
-    [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
-
-    [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
-    
-    //self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add:)];
-    
-    //self.deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(tryToDeleteSelectedCells)];
-    
-    
     UIImage* image3 = [UIImage imageNamed:@"add.png"];
     CGRect frameimg = CGRectMake(0, 0, 34, 29);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
@@ -123,7 +114,7 @@
     UIButton *someButton2 = [[UIButton alloc] initWithFrame:frameimg2];
     [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
     [someButton2 addTarget:self action:@selector(tryToDeleteSelectedCells)
-         forControlEvents:UIControlEventTouchUpInside];
+          forControlEvents:UIControlEventTouchUpInside];
     [someButton2 setShowsTouchWhenHighlighted:YES];
     
     UIBarButtonItem *bufButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
@@ -132,28 +123,18 @@
     UIBarButtonItem *bufButton2 =[[UIBarButtonItem alloc] initWithCustomView:someButton2];
     self.deleteButton=bufButton2;
     
-
+    
     self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
     
     self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
-
+    
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:NO];
     
-    [[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
-    
-    NSError *error = nil; 
-    
-	if (![[self fetchedResultsController] performFetch:&error])
-    {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-	}
-    
-    if([[NSUserDefaults standardUserDefaults] valueForKey:@"password"] != nil)
-        PSWD = [[NSUserDefaults standardUserDefaults] valueForKey:@"password"];
-    
-    iP = nil;
-    
+    //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
+}
+
+-(void)setupRecognizers
+{
     UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                      action:@selector(handleSwipeLeft:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
@@ -164,6 +145,30 @@
     recognizer.delegate = self;
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
     [self.tableView addGestureRecognizer:recognizer];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // ??? [self.tableView setDelegate:self];
+    
+    [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
+
+    [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
+    
+    NSError *error = nil; 
+    
+	if (![[self fetchedResultsController] performFetch:&error])
+    {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();
+	}
+    
+    [self setupButtons];
+    [self setupRecognizers];
+    
+    iP = nil;
     
     canSwipe = YES;
     canDelete = YES;
@@ -179,13 +184,13 @@
     
     UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(16,85,252,25)];
     passwordField.borderStyle = UITextBorderStyleRoundedRect;
-    passwordField.secureTextEntry = YES;
+    passwordField.secureTextEntry = [[NSUserDefaults standardUserDefaults] boolForKey:@"secureTextEntry"];
     passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
     passwordField.returnKeyType = UIReturnKeyDone;
     passwordField.delegate = self;
     [passwordField setTag:1919];
     [passwordField becomeFirstResponder];
-    //[passwordField setText:[[NSUserDefaults standardUserDefaults] stringForKey:@"password"]];
+
     [customAlertView addSubview:passwordField];
     [customAlertView setDelegate:self];
 	[customAlertView show];
@@ -242,43 +247,56 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex==1)
-        for (UIView* view in alertView.subviews)
+    switch(buttonIndex)
+    {
+        case 0:
         {
-            if ([view isKindOfClass:[UITextField class]])
+            [self deselectSwipedCells];
+            break;
+        }
+            
+        case 1:
+        {
+            for (UIView* view in alertView.subviews)
             {
-                UITextField* textField = (UITextField*)view;
-                if ([[textField text] isEqualToString:PSWD])
+                if ([view isKindOfClass:[UITextField class]])
                 {
-                    [self deleteSwipedCells];
-                    [(CustomAlertView*)alertView setPasswordIsAccepted:YES];
-                }
-                else
-                {
-                    [alertView setMessage:NSLocalizedString(@"WrongPasswordAlert", nil)];
-                    [textField setText:nil];
+                    UITextField* textField = (UITextField*)view;
+                    if ([[textField text] isEqualToString:PSWD])
+                    {
+                        [self deleteSwipedCells];
+                        [(CustomAlertView*)alertView setPasswordIsAccepted:YES];
+                    }
+                    else
+                    {
+                        [alertView setMessage:NSLocalizedString(@"WrongPasswordAlert", nil)];
+                        [textField setText:nil];
+                    }
                 }
             }
+            break;
         }
-
-    if (buttonIndex == 0 )
-        [self deselectSwipedCells];
+            
+    }
 }
 
 -(void)tryToDeleteSelectedCells
 {
     BOOL havePrivateNote = NO;
     
-    for (int i = 0; i < [swipedCells count]; ++i)
+    int i = 0;
+    
+    while ((i < [swipedCells count]) && !havePrivateNote)
     {
         if ([[(Note*)[fetchedResultsController objectAtIndexPath:swipedCells[i]] isPrivate] boolValue])
-            havePrivateNote = YES;
+        {
+            havePrivateNote = YES; // ???
+            [self showPromptAlert];
+            return;
+        }
     }
-    
-    if (havePrivateNote)
-        [self showPromptAlert];
-    else
-        [self deleteSwipedCells];
+
+    [self deleteSwipedCells];
 }
 
 - (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
@@ -309,7 +327,6 @@
 
 - (void)handleSwipeRight:(UISwipeGestureRecognizer *)gestureRecognizer
 {
-    
     if (canSwipe)
     {
         [self.tableView setAllowsSelection:NO];
@@ -347,7 +364,7 @@
                     
                     [swipedCells addObject:indexPath];
                     
-                    [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:[UIColor sashaGray] andWithDuration:0.3];
+                    [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:swipeColor andWithDuration:0.3];
                     
                 }
             }
@@ -380,7 +397,7 @@
                               delay:0
                             options: UIViewAnimationCurveEaseOut
                          animations:^{
-                             [self updateCellAtIndexPath:indexPath at:320 withTargetColor:[UIColor sashaGray]];
+                             [self updateCellAtIndexPath:indexPath at:320 withTargetColor:swipeColor];
                          }
                          completion:^(BOOL finished){
 
@@ -406,6 +423,12 @@
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     [cell setBackgroundColor:color];
+    
+    if ([color isEqual:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.8]])
+        [[(noteListCell*)cell timeLabel] setTextColor:[UIColor whiteColor]];
+    else if ([color isEqual:[UIColor whiteColor]])
+        [[(noteListCell*)cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
+    
     [cell setFrame:CGRectMake(cell.frame.origin.x + xPixels, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
 }
 
@@ -417,7 +440,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [[self tableView] reloadData];
-    [self checkSettings];
+    [self loadSettings];
     canTryToEnter = YES;
     canSwipe = YES;
     canDelete = YES;
@@ -621,7 +644,6 @@
 {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
     
-   
     if ([[note isPrivate] boolValue])
     {
         [self didSelectPrivateNoteAtIndexPath:indexPath];
@@ -640,7 +662,6 @@
 
 - (void)add:(id)sender
 {
-
     if (iP != nil)
     {
         [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];

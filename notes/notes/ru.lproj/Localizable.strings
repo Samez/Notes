@@ -19,7 +19,7 @@
 "PasswordsAreNotEqualWarning" = "Пароли не совпадают!";
 "TooShortPasswordWarning" = "Вы ввели слишком короткий пароль! Пароль не может быть короче 4 символов.";
 "StandartPasswordWarning" = "Вы используете стандартный пароль - 'Password'. Для обеспечения безопасности введите новый пароль. Пароль не может быть короче 4 символов";
-"PasswordWasChangeNotification" = "Пароль был успешно сменен!";
+"PasswordWasChangeNotification" = "Пароль успешно изменен!";
 "EnterOldPasswordLabel" = "Введите старый пароль";
 "EnterNewPasswordLabel" = "Введите новый пароль";
 "RepeatNewPasswordLabel" = "Введите новый пароль повторно";
@@ -32,3 +32,5 @@
 "PasswordCheckAlertViewTitle" = "Подтвердите удаление";
 "EnterPasswordToDeleteTitle" = "Введите пароль\n\n\n";
 "unsafeDetetionCell" = "Небезопасное удаление";
+"CellsToDeleteColor" = "Цвет выделения"; //???
+"UpdateTimeIfDidEdit" = "Обновлять время"; //??? 

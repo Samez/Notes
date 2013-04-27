@@ -28,12 +28,16 @@
 		0434EB1D16D3A18000BD9C2B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB1C16D3A18000BD9C2B /* Default.png */; };
 		0434EB1F16D3A18000BD9C2B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB1E16D3A18000BD9C2B /* Default@2x.png */; };
 		0434EB2116D3A18000BD9C2B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */; };
+		043706771729C64A00CB55AD /* TwoCaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 043706761729C64A00CB55AD /* TwoCaseCell.m */; };
+		043706791729C67C00CB55AD /* TwoCaseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043706781729C67C00CB55AD /* TwoCaseCell.xib */; };
 		044DE1A116D3AE54004CDE0A /* notesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE19F16D3AE54004CDE0A /* notesListViewController.m */; };
 		044DE1B816D3B237004CDE0A /* Window.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1B716D3B237004CDE0A /* Window.xib */; };
 		044DE1BC16D3B4C7004CDE0A /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */; };
 		044DE1C016D3B60B004CDE0A /* noteListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 044DE1BF16D3B60B004CDE0A /* noteListCell.m */; };
 		044DE1C216D3B620004CDE0A /* noteListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044DE1C116D3B620004CDE0A /* noteListCell.xib */; };
 		0462F17616E30E5200BE6806 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 0462F17516E30E5200BE6806 /* Note.m */; };
+		046D1F53172C2D40006CAFC7 /* Switchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 046D1F52172C2D3F006CAFC7 /* Switchy.m */; };
+		046D1F57172C4B9D006CAFC7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046D1F56172C4B9D006CAFC7 /* QuartzCore.framework */; };
 		04702F6C17142D9400DCA0C9 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 04702F6B17142D9400DCA0C9 /* alert.png */; };
 		04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACDBEE170B55F9003A74F4 /* testAddViewController.m */; };
 		04ACDBF1170B55F9003A74F4 /* testAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */; };
@@ -84,6 +88,9 @@
 		0434EB1C16D3A18000BD9C2B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		0434EB1E16D3A18000BD9C2B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		043706751729C64A00CB55AD /* TwoCaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoCaseCell.h; sourceTree = "<group>"; };
+		043706761729C64A00CB55AD /* TwoCaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoCaseCell.m; sourceTree = "<group>"; };
+		043706781729C67C00CB55AD /* TwoCaseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwoCaseCell.xib; sourceTree = "<group>"; };
 		044DE19E16D3AE54004CDE0A /* notesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = notesListViewController.h; sourceTree = "<group>"; };
 		044DE19F16D3AE54004CDE0A /* notesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = notesListViewController.m; sourceTree = "<group>"; };
 		044DE1B716D3B237004CDE0A /* Window.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Window.xib; sourceTree = "<group>"; };
@@ -95,6 +102,9 @@
 		0462F17416E30E5200BE6806 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
 		0462F17516E30E5200BE6806 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		04639DAA1717AFEB00DAA668 /* notes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = notes.entitlements; sourceTree = "<group>"; };
+		046D1F51172C2D3F006CAFC7 /* Switchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Switchy.h; sourceTree = "<group>"; };
+		046D1F52172C2D3F006CAFC7 /* Switchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Switchy.m; sourceTree = "<group>"; };
+		046D1F56172C4B9D006CAFC7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		04702F6B17142D9400DCA0C9 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = alert.png; path = Pics/alert.png; sourceTree = SOURCE_ROOT; };
 		04ACDBED170B55F9003A74F4 /* testAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testAddViewController.h; sourceTree = "<group>"; };
 		04ACDBEE170B55F9003A74F4 /* testAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testAddViewController.m; sourceTree = "<group>"; };
@@ -128,6 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				046D1F57172C4B9D006CAFC7 /* QuartzCore.framework in Frameworks */,
 				0434EB0916D3A18000BD9C2B /* UIKit.framework in Frameworks */,
 				0434EB0B16D3A18000BD9C2B /* Foundation.framework in Frameworks */,
 				0434EB0D16D3A18000BD9C2B /* CoreGraphics.framework in Frameworks */,
@@ -200,6 +211,7 @@
 		0434EAF916D3A18000BD9C2B = {
 			isa = PBXGroup;
 			children = (
+				046D1F56172C4B9D006CAFC7 /* QuartzCore.framework */,
 				0434EB1016D3A18000BD9C2B /* notes */,
 				0434EB0716D3A18000BD9C2B /* Frameworks */,
 				0434EB0516D3A18000BD9C2B /* Products */,
@@ -233,6 +245,8 @@
 				0434EB1916D3A18000BD9C2B /* AppDelegate.h */,
 				0434EB1A16D3A18000BD9C2B /* AppDelegate.m */,
 				044DE1B716D3B237004CDE0A /* Window.xib */,
+				046D1F51172C2D3F006CAFC7 /* Switchy.h */,
+				046D1F52172C2D3F006CAFC7 /* Switchy.m */,
 				044DE19C16D3AE3A004CDE0A /* Notes list */,
 				044DE1B916D3B493004CDE0A /* Options */,
 				044DE1B016D3B1C8004CDE0A /* Model */,
@@ -256,6 +270,16 @@
 				0434EB2016D3A18000BD9C2B /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		043706741729C61E00CB55AD /* TwoCaseCell */ = {
+			isa = PBXGroup;
+			children = (
+				043706751729C64A00CB55AD /* TwoCaseCell.h */,
+				043706761729C64A00CB55AD /* TwoCaseCell.m */,
+				043706781729C67C00CB55AD /* TwoCaseCell.xib */,
+			);
+			name = TwoCaseCell;
 			sourceTree = "<group>";
 		};
 		044DE19C16D3AE3A004CDE0A /* Notes list */ = {
@@ -292,6 +316,7 @@
 		044DE1BD16D3B53D004CDE0A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				043706741729C61E00CB55AD /* TwoCaseCell */,
 				04D6D40916DDCE4A0053C4AF /* Password cell */,
 				041A7D8916D4971500F91496 /* Cell with switcher */,
 				041A7D7B16D4943F00F91496 /* Enter text of note cell */,
@@ -422,6 +447,7 @@
 				042731D817259AF400B921E7 /* list2.png in Resources */,
 				04C233071726F5910059AF18 /* add@2x.png in Resources */,
 				04C233081726F5910059AF18 /* add.png in Resources */,
+				043706791729C67C00CB55AD /* TwoCaseCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +472,8 @@
 				0462F17616E30E5200BE6806 /* Note.m in Sources */,
 				04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */,
 				0425A938171D2D7800977913 /* CustomAlertView.m in Sources */,
+				043706771729C64A00CB55AD /* TwoCaseCell.m in Sources */,
+				046D1F53172C2D40006CAFC7 /* Switchy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

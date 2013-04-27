@@ -52,6 +52,17 @@
     {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"unsafeDeletion"];
     }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"swipeColor"] == nil)
+    {
+        NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:[UIColor sashaGray]];
+        [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"swipeColor"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"needUpdateTime"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"needUpdateTime"];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
