@@ -38,6 +38,8 @@
 		0462F17616E30E5200BE6806 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 0462F17516E30E5200BE6806 /* Note.m */; };
 		046D1F53172C2D40006CAFC7 /* Switchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 046D1F52172C2D3F006CAFC7 /* Switchy.m */; };
 		046D1F57172C4B9D006CAFC7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046D1F56172C4B9D006CAFC7 /* QuartzCore.framework */; };
+		046D1F59172C8F76006CAFC7 /* woodenBackgroundWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 046D1F58172C8F76006CAFC7 /* woodenBackgroundWhite.png */; };
+		046D1F5D172D8E4B006CAFC7 /* TimeIntervalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046D1F5C172D8E4B006CAFC7 /* TimeIntervalViewController.m */; };
 		04702F6C17142D9400DCA0C9 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 04702F6B17142D9400DCA0C9 /* alert.png */; };
 		04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACDBEE170B55F9003A74F4 /* testAddViewController.m */; };
 		04ACDBF1170B55F9003A74F4 /* testAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */; };
@@ -92,7 +94,7 @@
 		043706761729C64A00CB55AD /* TwoCaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoCaseCell.m; sourceTree = "<group>"; };
 		043706781729C67C00CB55AD /* TwoCaseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwoCaseCell.xib; sourceTree = "<group>"; };
 		044DE19E16D3AE54004CDE0A /* notesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = notesListViewController.h; sourceTree = "<group>"; };
-		044DE19F16D3AE54004CDE0A /* notesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = notesListViewController.m; sourceTree = "<group>"; };
+		044DE19F16D3AE54004CDE0A /* notesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = notesListViewController.m; sourceTree = "<group>"; wrapsLines = 1; };
 		044DE1B716D3B237004CDE0A /* Window.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Window.xib; sourceTree = "<group>"; };
 		044DE1BA16D3B4C7004CDE0A /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsViewController.h; sourceTree = "<group>"; };
 		044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsViewController.m; sourceTree = "<group>"; };
@@ -105,6 +107,9 @@
 		046D1F51172C2D3F006CAFC7 /* Switchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Switchy.h; sourceTree = "<group>"; };
 		046D1F52172C2D3F006CAFC7 /* Switchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Switchy.m; sourceTree = "<group>"; };
 		046D1F56172C4B9D006CAFC7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		046D1F58172C8F76006CAFC7 /* woodenBackgroundWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackgroundWhite.png; path = Pics/woodenBackgroundWhite.png; sourceTree = SOURCE_ROOT; };
+		046D1F5B172D8E4B006CAFC7 /* TimeIntervalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeIntervalViewController.h; sourceTree = "<group>"; };
+		046D1F5C172D8E4B006CAFC7 /* TimeIntervalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeIntervalViewController.m; sourceTree = "<group>"; };
 		04702F6B17142D9400DCA0C9 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = alert.png; path = Pics/alert.png; sourceTree = SOURCE_ROOT; };
 		04ACDBED170B55F9003A74F4 /* testAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testAddViewController.h; sourceTree = "<group>"; };
 		04ACDBEE170B55F9003A74F4 /* testAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testAddViewController.m; sourceTree = "<group>"; };
@@ -308,6 +313,7 @@
 			children = (
 				044DE1BA16D3B4C7004CDE0A /* OptionsViewController.h */,
 				044DE1BB16D3B4C7004CDE0A /* OptionsViewController.m */,
+				046D1F5A172D8E2F006CAFC7 /* Time interval */,
 				04D6D3FF16DCF7810053C4AF /* Password */,
 			);
 			name = Options;
@@ -334,6 +340,7 @@
 				04D5399A170C686400CC268D /* unlocked.png */,
 				04C233051726F5910059AF18 /* add@2x.png */,
 				04C233061726F5910059AF18 /* add.png */,
+				046D1F58172C8F76006CAFC7 /* woodenBackgroundWhite.png */,
 				04D539A6170C977500CC268D /* oneNoteBackground.png */,
 				04702F6B17142D9400DCA0C9 /* alert.png */,
 				04D53A12170CA28900CC268D /* trash2.png */,
@@ -346,6 +353,15 @@
 				04D539A2170C7BF100CC268D /* woodenBackground.png */,
 			);
 			name = Icons;
+			sourceTree = "<group>";
+		};
+		046D1F5A172D8E2F006CAFC7 /* Time interval */ = {
+			isa = PBXGroup;
+			children = (
+				046D1F5B172D8E4B006CAFC7 /* TimeIntervalViewController.h */,
+				046D1F5C172D8E4B006CAFC7 /* TimeIntervalViewController.m */,
+			);
+			name = "Time interval";
 			sourceTree = "<group>";
 		};
 		04D6D3FF16DCF7810053C4AF /* Password */ = {
@@ -448,6 +464,7 @@
 				04C233071726F5910059AF18 /* add@2x.png in Resources */,
 				04C233081726F5910059AF18 /* add.png in Resources */,
 				043706791729C67C00CB55AD /* TwoCaseCell.xib in Resources */,
+				046D1F59172C8F76006CAFC7 /* woodenBackgroundWhite.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +491,7 @@
 				0425A938171D2D7800977913 /* CustomAlertView.m in Sources */,
 				043706771729C64A00CB55AD /* TwoCaseCell.m in Sources */,
 				046D1F53172C2D40006CAFC7 /* Switchy.m in Sources */,
+				046D1F5D172D8E4B006CAFC7 /* TimeIntervalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

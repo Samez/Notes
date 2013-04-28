@@ -38,7 +38,8 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     forOldPassword = nil;
-    
+    bottomTitle = nil;
+    [[self tableView] reloadSections:[NSIndexSet indexSetWithIndex:0 ] withRowAnimation:UITableViewRowAnimationNone];
     [super viewWillDisappear:animated];
 }
 

@@ -91,8 +91,13 @@
 {
     if([swipedCells containsObject:indexPath])
         {
-            [cell setBackgroundColor:[UIColor sashaGray]];
+            [cell setBackgroundColor:swipeColor];
+                
             [[(noteListCell*)cell noteNameLabel] setTextColor:[UIColor blackColor]];
+            
+            if ([swipeColor isEqual:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.8]])
+                [[(noteListCell*)cell timeLabel] setTextColor:[UIColor whiteColor]];
+                
             CGRect t=cell.frame ;
             t.origin.x+=_SHIFT_CELL_LENGTH;
             cell.frame=t;
@@ -123,14 +128,13 @@
     UIBarButtonItem *bufButton2 =[[UIBarButtonItem alloc] initWithCustomView:someButton2];
     self.deleteButton=bufButton2;
     
-    
     self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
     
     self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
     
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:NO];
     
-    //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
+    [[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
 }
 
 -(void)setupRecognizers
@@ -293,7 +297,8 @@
             havePrivateNote = YES; // ???
             [self showPromptAlert];
             return;
-        }
+        } else
+            i++;
     }
 
     [self deleteSwipedCells];
@@ -505,6 +510,7 @@
                          
                          if ([[note isPrivate] boolValue])
                          {
+                             //
                              [[cell passwordField] setBackgroundColor:[UIColor whiteColor]];
                              [cell setNormalImage];
                          }
@@ -543,7 +549,10 @@
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:iP];
 
     if ([[[cell passwordField] text] isEqualToString:PSWD])
+    {
         [self showNote:[[fetchedResultsController fetchedObjects] objectAtIndex:iP.row] animated:YES];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastTime"];
+    }
     else
         [cell setAlertImage];
 }
@@ -574,8 +583,7 @@
 
 -(void)didSelectPrivateNoteAtIndexPath:(NSIndexPath*)indexPath
 {
-    
-    if (canTryToEnter )
+    if (canTryToEnter)
     {
         if (iP == nil)
         {
@@ -646,7 +654,23 @@
     
     if ([[note isPrivate] boolValue])
     {
-        [self didSelectPrivateNoteAtIndexPath:indexPath];
+        BOOL canShow = NO;
+        
+        NSDate *lastTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastTime"];
+        
+        NSDate *newDate = [NSDate dateWithTimeInterval:[[NSUserDefaults standardUserDefaults] integerForKey:@"PasswordRequestInterval"] sinceDate:lastTime];
+        
+        if ([newDate compare:[NSDate date]] == NSOrderedDescending)
+            canShow = YES;
+        
+        if (canShow)
+        {
+            iP = indexPath;
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastTime"];
+            [self showNote:note animated:YES];
+        } else
+            [self didSelectPrivateNoteAtIndexPath:indexPath];
+        
     } else
     {
         if (iP != nil)

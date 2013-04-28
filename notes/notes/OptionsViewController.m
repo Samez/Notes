@@ -16,10 +16,12 @@
 
 #define _SECURITY_SECTION 2
     #define _HIDE_PASSWORD 0
-    #define _PSWD 1
+    #define _PSWD_REQUEST_INTERVAL 1
+    #define _PSWD 2
 
 #import "OptionsViewController.h"
 #import "passwordViewController.h"
+#import "TimeIntervalViewController.h"
 #import "res.h"
 #import "TwoCaseCell.h"
 #import "Switchy.h"
@@ -42,9 +44,36 @@
     return self;
 }
 
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *title = nil;
+    
+    switch (section)
+    {
+        case _VISUAL_SECTION:
+        {
+            //title = @"Внешний вид";
+            break;
+        }
+        case _SORT_SECTION:
+        {
+            //title = @"";
+            break;
+        }
+        case _SECURITY_SECTION:
+        {
+            //title = @"Безопасность";
+            break;
+        }
+    }
+    
+    return title;
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [self LoadSettings];
+    [self.tableView reloadData];
 }
 
 - (void) LoadSettings
@@ -137,7 +166,7 @@
 
 -(void)unsafeDeletionWasChanged
 {
-    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_UNSAFE_DELETION inSection:_SECURITY_SECTION]];
+    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_UNSAFE_DELETION inSection:_SORT_SECTION]];
     
     textEntryIsSecured = [[cell stateSwitcher] isOn];
     
@@ -187,8 +216,9 @@
     
     [[self tableView] setBackgroundView:backgroundImageView];
     
+    [self.tableView setBackgroundColor:[UIColor blackColor]];
+    
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -213,7 +243,7 @@
             count = 2;
             break;
         case _SECURITY_SECTION:
-            count = 2;
+            count = 3;
             break;
         case _SORT_SECTION:
             count = 2;
@@ -268,6 +298,7 @@
                     [[MYcell myTextLabel] setText:NSLocalizedString(@"CellsToDeleteColor", nil)];
                     [[MYcell stateSwitcher] setOnTintColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.8]];
                     [[MYcell stateSwitcher] setTintColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
+                    [[MYcell stateSwitcher] setThumbTintColor:[UIColor whiteColor]];
                     
                     CGRect rect = CGRectMake(-500, -500, 1, 1);
                     UIGraphicsBeginImageContext(rect.size);
@@ -302,6 +333,48 @@
                     [MYcell.stateSwitcher addTarget:self action:@selector(secureTextEntryWasChanged) forControlEvents:UIControlEventValueChanged];
                     
                     [[MYcell stateSwitcher] setOn:textEntryIsSecured];
+                    break;
+                }
+                case _PSWD_REQUEST_INTERVAL:
+                {
+                    UITableViewCell *intervalCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+                    
+                    [[intervalCell textLabel] setText:NSLocalizedString(@"PasswordRequestIntervalCell", nil)];
+                    
+                    [[intervalCell detailTextLabel] setText:NSLocalizedString(@"PasswordRequestInterval", nil)];
+                    
+                    [intervalCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                    
+                    switch([[NSUserDefaults standardUserDefaults] integerForKey:@"PasswordRequestInterval"])
+                    {
+                        case 0:
+                        {
+                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RIEveryTime", nil)];
+                            break;
+                        }
+                        case 60:
+                        {
+                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RI1min", nil)];
+                            break;
+                        }
+                        case 60*5:
+                        {
+                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RI5min", nil)];
+                            break;
+                        }
+                        case 60*10:
+                        {
+                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RI10min", nil)];
+                            break;
+                        }
+                        case 60*30:
+                        {
+                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RI30min", nil)];
+                            break;
+                        }
+                    }
+                    
+                    return intervalCell;
                     break;
                 }
                 case _PSWD:
@@ -349,6 +422,8 @@
     }
     
     [MYcell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    UIFont *myFont = [ UIFont fontWithName: @"Helvetica-Bold" size: 17.0];
+    [[MYcell myTextLabel] setFont:myFont];
     return MYcell;
 }
 
@@ -370,6 +445,11 @@
                 case _PSWD:
                 {
                     nextViewController = [[passwordViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                    break;
+                }
+                case _PSWD_REQUEST_INTERVAL:
+                {
+                    nextViewController = [[TimeIntervalViewController alloc] initWithStyle:UITableViewStyleGrouped];
                     break;
                 }
             }

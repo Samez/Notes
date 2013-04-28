@@ -28,6 +28,8 @@
     
     [window setRootViewController:[self tabBarController]];
     
+    [application setApplicationSupportsShakeToEdit:YES];
+    
     [[self window] makeKeyAndVisible];
 }
 
@@ -62,6 +64,16 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"needUpdateTime"] == nil)
     {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"needUpdateTime"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PasswordRequestInterval"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"PasswordRequestInterval"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastTime"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate dateWithTimeIntervalSince1970:0] forKey:@"lastTime"];
     }
 }
 

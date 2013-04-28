@@ -49,8 +49,22 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.navigationItem setLeftBarButtonItem:cancelButton animated:YES];
     [self.navigationItem setRightBarButtonItem:saveButton animated:YES];
+    
+    if (forEditing)
+        self.navigationItem.titleView = trashButton;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    [myTextView setText:nil];
+    //[myNameField setText:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -59,9 +73,8 @@
     
     if (!forEditing)
         [self.myTextView becomeFirstResponder];
-    
-    if (forEditing)
-        self.navigationItem.titleView = trashButton;
+
+    [self becomeFirstResponder];
 }
 
 -(void)showAlertMessageWithDuration:(CGFloat)duration
@@ -134,9 +147,11 @@
     
     self.trashButton = buttonContainer;
     
+    //self.navigationItem.titleView = trashButton;
+    
     [[self.navigationItem leftBarButtonItem] setAction:@selector(cancel)];
     
-    cancelButton = [self.navigationItem leftBarButtonItem];//[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelButton",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelButton",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
     
     
     saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveButton",nil) style:UIBarButtonItemStylePlain target:self action:@selector(save)];
@@ -147,6 +162,8 @@
     [super viewDidLoad];
 
     [self setupButtons];
+    
+    [self becomeFirstResponder];
     
     myTextView.keyboardAppearance = UIKeyboardAppearanceAlert;
     myNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
@@ -255,12 +272,10 @@
 
 - (void)cancel
 {
-
     if (!forEditing)
         [[self managedObjectContext] deleteObject:note];
     
     [[self navigationController] popToRootViewControllerAnimated:YES];
-    
 }
 
 -(BOOL)checkFields

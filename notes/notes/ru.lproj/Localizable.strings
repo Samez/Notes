@@ -31,6 +31,12 @@
 "WrongPasswordAlert" = "Неверный пароль\n\n\n";
 "PasswordCheckAlertViewTitle" = "Подтвердите удаление";
 "EnterPasswordToDeleteTitle" = "Введите пароль\n\n\n";
-"unsafeDetetionCell" = "Небезопасное удаление";
-"CellsToDeleteColor" = "Цвет выделения"; //???
-"UpdateTimeIfDidEdit" = "Обновлять время"; //??? 
+"unsafeDetetionCell" = "Удаление жестом"; //???
+"CellsToDeleteColor" = "Цвет выделения";
+"UpdateTimeIfDidEdit" = "Обновлять время"; //???
+"PasswordRequestIntervalCell" = "Запоминать пароль";
+"RIEveryTime" = "Никогда";
+"RI1min" = "1 мин.";
+"RI5min" = "5 мин.";
+"RI10min" = "10 мин.";
+"RI30min" = "30 мин.";
