@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "res.h"
+#import "LocalyticsSession.h"
 
 @implementation AppDelegate
 
@@ -30,7 +31,26 @@
     
     [application setApplicationSupportsShakeToEdit:YES];
     
+    [[LocalyticsSession shared] startSession:@"76ff7f96b13702a3e4d0fe0-ebd89cd8-b0f7-11e2-882a-005cf8cbabd8"];
+    
+    [[LocalyticsSession shared] setLoggingEnabled:YES];
+    
     [[self window] makeKeyAndVisible];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [[LocalyticsSession shared] close];
+    [[LocalyticsSession shared] upload];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    [[LocalyticsSession shared] resume];
+    [[LocalyticsSession shared] upload];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate dateWithTimeIntervalSince1970:1] forKey:@"lastTime"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void) LoadSettings
@@ -80,6 +100,11 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     [self saveContext];
+    [[LocalyticsSession shared] close];
+    [[LocalyticsSession shared] upload];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate dateWithTimeIntervalSince1970:1] forKey:@"lastTime"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveContext

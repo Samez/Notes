@@ -12,6 +12,7 @@
 #import "testAddViewController.h"
 #import "res.h"
 #import "Note.h"
+#import "LocalyticsSession.h"
 
 @interface notesListViewController ()
 
@@ -87,6 +88,7 @@
         abort();
     }
 }
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([swipedCells containsObject:indexPath])
@@ -155,9 +157,13 @@
 {
     [super viewDidLoad];
     
-    // ??? [self.tableView setDelegate:self];
-    
     [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
+    
+    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    [footerView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteBoard.png"]]];
+    self.tableView.tableFooterView = footerView;
+    //[self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleNone)];
+    //[self.tableView setContentInset:(UIEdgeInsetsMake(0, 0, -500, 0))];
 
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
@@ -213,6 +219,7 @@
                              for (int i = 0; i < [swipedCells count]; ++i)
                              {
                                  [managedObjectContext deleteObject:[fetchedResultsController objectAtIndexPath:swipedCells[i]]];
+                                 [[LocalyticsSession shared] tagEvent:@"Old note was deleted"];
                              }
                          }
                          completion:^(BOOL finished){
@@ -232,7 +239,6 @@
         [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
         [self.navigationItem setLeftBarButtonItem:nil animated:YES];
         [self.tableView setAllowsSelection:YES];
-    
 }
 
 -(void)deselectSwipedCells
@@ -294,7 +300,7 @@
     {
         if ([[(Note*)[fetchedResultsController objectAtIndexPath:swipedCells[i]] isPrivate] boolValue])
         {
-            havePrivateNote = YES; // ???
+            havePrivateNote = YES;
             [self showPromptAlert];
             return;
         } else
@@ -334,8 +340,6 @@
 {
     if (canSwipe)
     {
-        [self.tableView setAllowsSelection:NO];
-        
         CGPoint location = [gestureRecognizer locationInView:self.tableView];
         
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
@@ -344,6 +348,8 @@
         
         if (indexPath != nil)
         {
+            [self.tableView setAllowsSelection:NO];
+            
             if ((unsafeDeletion) && (![[[fetchedResultsController objectAtIndexPath:indexPath] isPrivate] boolValue]) && ([swipedCells count] == 0))
             {
                 [self swipeToDeleteCellAtIndexPath:indexPath];
@@ -407,7 +413,9 @@
                          completion:^(BOOL finished){
 
                              [managedObjectContext deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
-
+                             
+                             [[LocalyticsSession shared] tagEvent:@"Old note was deleted"];
+                             
                              NSError *error = nil;
                              
                              if (![managedObjectContext save:&error])
@@ -420,7 +428,6 @@
                              canDelete = YES;
                              canSwipe = YES;
                         }];
-
     }
 }
 
@@ -550,6 +557,7 @@
 
     if ([[[cell passwordField] text] isEqualToString:PSWD])
     {
+        [self changeTableViewHeightAt:UIEdgeInsetsZero];
         [self showNote:[[fetchedResultsController fetchedObjects] objectAtIndex:iP.row] animated:YES];
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastTime"];
     }
@@ -575,9 +583,6 @@
                              else if (index >=5)
                                      [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
                          }];
-        
-
-        
     }
 }
 

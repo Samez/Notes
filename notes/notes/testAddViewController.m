@@ -8,6 +8,7 @@
 
 #import "testAddViewController.h"
 #import "res.h"
+#import "LocalyticsSession.h"
 
 #define MAXLENGTH 25
 
@@ -56,11 +57,6 @@
         self.navigationItem.titleView = trashButton;
 }
 
-- (BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
-
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
     [myTextView setText:nil];
@@ -73,8 +69,18 @@
     
     if (!forEditing)
         [self.myTextView becomeFirstResponder];
-
+    
     [self becomeFirstResponder];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [myTextView setNeedsDisplay];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self hideAlertMessageWithDuration:0.2 needReshow:NO];
 }
 
 -(void)showAlertMessageWithDuration:(CGFloat)duration
@@ -120,12 +126,7 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self hideAlertMessageWithDuration:0.5 needReshow:NO];
-}
-
--(void)textViewDidBeginEditing:(UITextView *)textView
-{
-    [self hideAlertMessageWithDuration:0.5 needReshow:NO];
+    [self hideAlertMessageWithDuration:0.2 needReshow:NO];
 }
 
 -(void)dismissKeyboard
@@ -192,10 +193,12 @@
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
 
     [myTextView setDelegate:self];
-    [myTextView setScrollEnabled:NO];
+    //[myTextView setScrollEnabled:NO];
     [myTextView setReturnKeyType:UIReturnKeyNext];
     
     [myNameField setDelegate:self];
+    
+//    [myTextView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"textFieldBackgroundMin.png"]]];
     
     if (!forEditing)
     {
@@ -233,6 +236,7 @@
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+    
     NSUInteger oldLength = [[textField text] length];
     NSUInteger replacementLength = [string length];
     NSUInteger rangeLength = range.length;
@@ -247,7 +251,7 @@
 {
     isPrivate = !isPrivate;
     
-    [self hideAlertMessageWithDuration:0.5 needReshow:NO];
+    [self hideAlertMessageWithDuration:0.2 needReshow:NO];
     
     if (!isPrivate)
         [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
@@ -267,13 +271,19 @@
         abort();
     }
     
+    [[LocalyticsSession shared] tagEvent:@"Old note was deleted"];
+    
     [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 - (void)cancel
 {
     if (!forEditing)
+    {
         [[self managedObjectContext] deleteObject:note];
+    
+        [[LocalyticsSession shared] tagEvent:@"Creating a new note has been canceled"];
+    }
     
     [[self navigationController] popToRootViewControllerAnimated:YES];
 }
@@ -313,13 +323,16 @@
     
     [note setText:[myTextView text]];
     
-    if ([[myNameField text] length] != 0)
+    if([[myNameField text] length] != 0)
         [note setName:[myNameField text]];
     else
         [note setName:nil];
-    
+
     if(!forEditing || [[NSUserDefaults standardUserDefaults] boolForKey:@"needUpdateTime"])
         [note setDate:[NSDate date]];
+    
+    if (forEditing)
+        [[LocalyticsSession shared] tagEvent:@"Old note was updated"];
     
     NSError *error = nil;
     
@@ -329,23 +342,9 @@
         abort();
     }
     
+    [[LocalyticsSession shared] tagEvent:@"New note was added"];
+    
     [[self navigationController] popToRootViewControllerAnimated:YES];
-    
-}
-
-- (BOOL)textView:(UITextView *)aTextView shouldChangeTextInRange:(NSRange)aRange replacementText:(NSString*)aText
-{
-    NSString* newText = [[aTextView text] stringByReplacingCharactersInRange:aRange withString:aText];
-
-    CGSize tallerSize = CGSizeMake(aTextView.frame.size.width-15,aTextView.frame.size.height*2);
-    CGSize newSize = [newText sizeWithFont:aTextView.font constrainedToSize:tallerSize lineBreakMode:UILineBreakModeWordWrap];
-    
-    if (newSize.height > aTextView.frame.size.height)
-    {
-        [aTextView resignFirstResponder];
-        return NO;
-    } else
-        return YES;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -357,7 +356,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)hideTabBar:(UITabBarController *) tabbarcontroller

@@ -10,6 +10,7 @@
 #import "Note.h"
 #import "enterNameCell.h"
 #import "enterTextCell.h"
+#import "MyTextView.h"
 
 @interface testAddViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate, NSFetchedResultsControllerDelegate>
 {
@@ -21,7 +22,7 @@
     BOOL hidining;
 }
 
-@property (weak, nonatomic) IBOutlet UITextView *myTextView;
+@property (weak, nonatomic) IBOutlet MyTextView *myTextView;
 @property (weak, nonatomic) IBOutlet UITextField *myNameField;
 
 @property (weak, nonatomic) IBOutlet UILabel *timeText;

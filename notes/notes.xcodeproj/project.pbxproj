@@ -58,6 +58,13 @@
 		04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40116DCF7980053C4AF /* passwordViewController.m */; };
 		04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40B16DDCE620053C4AF /* passwordCell.m */; };
 		04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D6D40D16DDCE740053C4AF /* passwordCell.xib */; };
+		04EBB6A5172EF0AF00197C14 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A4172EF0AF00197C14 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		04EBB6A7172EF0C300197C14 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A6172EF0C300197C14 /* libsqlite3.dylib */; };
+		04EBB6A9172EF0CB00197C14 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A8172EF0CB00197C14 /* libz.dylib */; };
+		04EBB6AE172EF12600197C14 /* libLocalyticsAMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6AA172EF12600197C14 /* libLocalyticsAMP.a */; };
+		04EBB6AF172EF12700197C14 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 04EBB6AB172EF12600197C14 /* LICENSE */; };
+		04ECD1891732E4D5008F3CF7 /* whiteBoard.png in Resources */ = {isa = PBXBuildFile; fileRef = 04ECD1881732E4D5008F3CF7 /* whiteBoard.png */; };
+		04ECD1901732F0CF008F3CF7 /* MyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ECD18F1732F0CF008F3CF7 /* MyTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +142,16 @@
 		04D6D40A16DDCE620053C4AF /* passwordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordCell.h; sourceTree = "<group>"; };
 		04D6D40B16DDCE620053C4AF /* passwordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordCell.m; sourceTree = "<group>"; };
 		04D6D40D16DDCE740053C4AF /* passwordCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = passwordCell.xib; sourceTree = "<group>"; };
+		04EBB6A4172EF0AF00197C14 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		04EBB6A6172EF0C300197C14 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		04EBB6A8172EF0CB00197C14 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		04EBB6AA172EF12600197C14 /* libLocalyticsAMP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLocalyticsAMP.a; sourceTree = "<group>"; };
+		04EBB6AB172EF12600197C14 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		04EBB6AC172EF12600197C14 /* LocalyticsAmpSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsAmpSession.h; sourceTree = "<group>"; };
+		04EBB6AD172EF12600197C14 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsSession.h; sourceTree = "<group>"; };
+		04ECD1881732E4D5008F3CF7 /* whiteBoard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whiteBoard.png; path = Pics/whiteBoard.png; sourceTree = SOURCE_ROOT; };
+		04ECD18E1732F0CF008F3CF7 /* MyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTextView.h; sourceTree = "<group>"; };
+		04ECD18F1732F0CF008F3CF7 /* MyTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTextView.m; sourceTree = "<group>"; };
 		04F142F61714E31B007F4423 /* res.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = res.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,11 +160,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04EBB6A9172EF0CB00197C14 /* libz.dylib in Frameworks */,
+				04EBB6A7172EF0C300197C14 /* libsqlite3.dylib in Frameworks */,
+				04EBB6A5172EF0AF00197C14 /* AdSupport.framework in Frameworks */,
 				046D1F57172C4B9D006CAFC7 /* QuartzCore.framework in Frameworks */,
 				0434EB0916D3A18000BD9C2B /* UIKit.framework in Frameworks */,
 				0434EB0B16D3A18000BD9C2B /* Foundation.framework in Frameworks */,
 				0434EB0D16D3A18000BD9C2B /* CoreGraphics.framework in Frameworks */,
 				0434EB0F16D3A18000BD9C2B /* CoreData.framework in Frameworks */,
+				04EBB6AE172EF12600197C14 /* libLocalyticsAMP.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +211,7 @@
 				04ACDBED170B55F9003A74F4 /* testAddViewController.h */,
 				04ACDBEE170B55F9003A74F4 /* testAddViewController.m */,
 				04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */,
+				04ECD1911732F2C8008F3CF7 /* My text view */,
 			);
 			name = "Note add";
 			sourceTree = "<group>";
@@ -216,7 +238,6 @@
 		0434EAF916D3A18000BD9C2B = {
 			isa = PBXGroup;
 			children = (
-				046D1F56172C4B9D006CAFC7 /* QuartzCore.framework */,
 				0434EB1016D3A18000BD9C2B /* notes */,
 				0434EB0716D3A18000BD9C2B /* Frameworks */,
 				0434EB0516D3A18000BD9C2B /* Products */,
@@ -234,6 +255,10 @@
 		0434EB0716D3A18000BD9C2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04EBB6A8172EF0CB00197C14 /* libz.dylib */,
+				04EBB6A6172EF0C300197C14 /* libsqlite3.dylib */,
+				04EBB6A4172EF0AF00197C14 /* AdSupport.framework */,
+				046D1F56172C4B9D006CAFC7 /* QuartzCore.framework */,
 				0434EB0816D3A18000BD9C2B /* UIKit.framework */,
 				0434EB0A16D3A18000BD9C2B /* Foundation.framework */,
 				0434EB0C16D3A18000BD9C2B /* CoreGraphics.framework */,
@@ -246,6 +271,10 @@
 			isa = PBXGroup;
 			children = (
 				04639DAA1717AFEB00DAA668 /* notes.entitlements */,
+				04EBB6AA172EF12600197C14 /* libLocalyticsAMP.a */,
+				04EBB6AB172EF12600197C14 /* LICENSE */,
+				04EBB6AC172EF12600197C14 /* LocalyticsAmpSession.h */,
+				04EBB6AD172EF12600197C14 /* LocalyticsSession.h */,
 				04F142F61714E31B007F4423 /* res.h */,
 				0434EB1916D3A18000BD9C2B /* AppDelegate.h */,
 				0434EB1A16D3A18000BD9C2B /* AppDelegate.m */,
@@ -339,6 +368,7 @@
 				04CF122616D4004B009D89E3 /* list.png */,
 				04D5399A170C686400CC268D /* unlocked.png */,
 				04C233051726F5910059AF18 /* add@2x.png */,
+				04ECD1881732E4D5008F3CF7 /* whiteBoard.png */,
 				04C233061726F5910059AF18 /* add.png */,
 				046D1F58172C8F76006CAFC7 /* woodenBackgroundWhite.png */,
 				04D539A6170C977500CC268D /* oneNoteBackground.png */,
@@ -381,6 +411,15 @@
 				04D6D40D16DDCE740053C4AF /* passwordCell.xib */,
 			);
 			name = "Password cell";
+			sourceTree = "<group>";
+		};
+		04ECD1911732F2C8008F3CF7 /* My text view */ = {
+			isa = PBXGroup;
+			children = (
+				04ECD18E1732F0CF008F3CF7 /* MyTextView.h */,
+				04ECD18F1732F0CF008F3CF7 /* MyTextView.m */,
+			);
+			name = "My text view";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -465,6 +504,8 @@
 				04C233081726F5910059AF18 /* add.png in Resources */,
 				043706791729C67C00CB55AD /* TwoCaseCell.xib in Resources */,
 				046D1F59172C8F76006CAFC7 /* woodenBackgroundWhite.png in Resources */,
+				04EBB6AF172EF12700197C14 /* LICENSE in Resources */,
+				04ECD1891732E4D5008F3CF7 /* whiteBoard.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +533,7 @@
 				043706771729C64A00CB55AD /* TwoCaseCell.m in Sources */,
 				046D1F53172C2D40006CAFC7 /* Switchy.m in Sources */,
 				046D1F5D172D8E4B006CAFC7 /* TimeIntervalViewController.m in Sources */,
+				04ECD1901732F0CF008F3CF7 /* MyTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +628,10 @@
 				GCC_PREFIX_HEADER = "notes/notes-Prefix.pch";
 				INFOPLIST_FILE = "notes/notes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/notes\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -602,6 +648,10 @@
 				GCC_PREFIX_HEADER = "notes/notes-Prefix.pch";
 				INFOPLIST_FILE = "notes/notes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/notes\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
