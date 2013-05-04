@@ -33,7 +33,7 @@
     
     [[LocalyticsSession shared] startSession:@"76ff7f96b13702a3e4d0fe0-ebd89cd8-b0f7-11e2-882a-005cf8cbabd8"];
     
-    [[LocalyticsSession shared] setLoggingEnabled:YES];
+    [[LocalyticsSession shared] setLoggingEnabled:NO];
     
     [[self window] makeKeyAndVisible];
 }
@@ -95,6 +95,9 @@
     {
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate dateWithTimeIntervalSince1970:0] forKey:@"lastTime"];
     }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PasswordRequestInterval"] == nil)
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"PasswordRequestInterval"];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

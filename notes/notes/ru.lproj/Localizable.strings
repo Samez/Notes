@@ -10,6 +10,7 @@
 "EditNote" = "";
 "NewNote" = "Новая";
 "CancelButton" = "Отмена";
+"DeleteButton" = "Удалить";
 "SaveButton" = "Сохранить";
 "PrivateNoteRequirements" = "Введите название и текст";
 "PublicNoteRequirements" = "Введите название или текст";
@@ -36,6 +37,7 @@
 "UpdateTimeIfDidEdit" = "Обновлять время"; //???
 "PasswordRequestIntervalCell" = "Запоминать пароль";
 "RIEveryTime" = "Никогда";
+"RTForOneSession" = "Сессия";
 "RI1min" = "1 мин.";
 "RI5min" = "5 мин.";
 "RI10min" = "10 мин.";

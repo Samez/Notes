@@ -12,6 +12,7 @@
 #define _PASSWORD_MIN_LENGTH 4
 
 #import "passwordViewController.h"
+#import "LocalyticsSession.h"
 
 @interface passwordViewController ()
 
@@ -82,6 +83,7 @@
         [self showBottomTitle:NSLocalizedString(@"StandartPasswordWarning", nil)];
     }
     
+    [[LocalyticsSession shared] tagScreen:@"Password"];
 }
 
 -(void)dismissKeyboard

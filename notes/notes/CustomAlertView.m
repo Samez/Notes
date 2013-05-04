@@ -97,7 +97,7 @@
 	//////////////HATCHED BACKGROUND
     CGFloat buttonOffset = 92.5f; //Offset buttonOffset by half point for crisp lines
 	CGContextSaveGState(context); //Save Context State Before Clipping "hatchPath"
-	CGRect hatchFrame = CGRectMake(0.0f, buttonOffset, activeBounds.size.width, (activeBounds.size.height - buttonOffset+1.0f));
+	CGRect hatchFrame = CGRectMake(0.0f, buttonOffset-19, activeBounds.size.width, (activeBounds.size.height - buttonOffset+1.0f)+19);
 	CGContextClipToRect(context, hatchFrame);
 	
 	CGFloat spacer = 4.0f;

@@ -25,6 +25,7 @@
 #import "res.h"
 #import "TwoCaseCell.h"
 #import "Switchy.h"
+#import "LocalyticsSession.h"
 
 @interface OptionsViewController ()
 
@@ -42,6 +43,11 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [[LocalyticsSession shared] tagScreen:@"Options"];
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -350,6 +356,11 @@
                         case 0:
                         {
                             [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RIEveryTime", nil)];
+                            break;
+                        }
+                        case 60*60*24*7:
+                        {
+                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RTForOneSession", nil)];
                             break;
                         }
                         case 60:

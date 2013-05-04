@@ -7,6 +7,7 @@
 //
 
 #import "TimeIntervalViewController.h"
+#import "LocalyticsSession.h"
 
 @interface TimeIntervalViewController ()
 
@@ -21,6 +22,11 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [[LocalyticsSession shared] tagScreen:@"Time interval"];
 }
 
 - (void)viewDidLoad
@@ -51,7 +57,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return 6;
 }
 
 -(NSInteger)intervalIndex
@@ -65,24 +71,29 @@
             index = 0;
             break;
         }
-        case 60:
+        case 60*60*24*7:
         {
             index = 1;
             break;
         }
-        case 60*5:
+        case 60:
         {
             index = 2;
             break;
         }
-        case 60*10:
+        case 60*5:
         {
             index = 3;
             break;
         }
-        case 60*30:
+        case 60*10:
         {
             index = 4;
+            break;
+        }
+        case 60*30:
+        {
+            index = 5;
             break;
         }
     }
@@ -101,20 +112,25 @@
         }
         case 1:
         {
-            [[cell textLabel] setText:NSLocalizedString(@"RI1min", nil)];
+            [[cell textLabel]setText:NSLocalizedString(@"RTForOneSession", nil)];
             break;
         }
         case 2:
         {
-            [[cell textLabel] setText:NSLocalizedString(@"RI5min", nil)];
+            [[cell textLabel] setText:NSLocalizedString(@"RI1min", nil)];
             break;
         }
         case 3:
         {
-            [[cell textLabel] setText:NSLocalizedString(@"RI10min", nil)];
+            [[cell textLabel] setText:NSLocalizedString(@"RI5min", nil)];
             break;
         }
         case 4:
+        {
+            [[cell textLabel] setText:NSLocalizedString(@"RI10min", nil)];
+            break;
+        }
+        case 5:
         {
             [[cell textLabel] setText:NSLocalizedString(@"RI30min", nil)];
             break;
@@ -150,7 +166,7 @@
     
     UITableViewCell *cell = nil;
     
-    for (int i = 0; i < 5; ++i)
+    for (int i = 0; i < 6; ++i)
     {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         if (i != indexPath.row)
@@ -170,20 +186,25 @@
         }
         case 1:
         {
-            interval = 60;
+            interval = 60*60*24*7;
             break;
         }
         case 2:
         {
-            interval = 60*5;
+            interval = 60;
             break;
         }
         case 3:
         {
-            interval = 60*10;
+            interval = 60*5;
             break;
         }
         case 4:
+        {
+            interval = 60*10;
+            break;
+        }
+        case 5:
         {
             interval = 60*30;
             break;

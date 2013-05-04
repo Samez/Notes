@@ -159,7 +159,7 @@
     
     [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
     
-    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
     [footerView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteBoard.png"]]];
     self.tableView.tableFooterView = footerView;
     //[self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleNone)];
@@ -189,8 +189,8 @@
     customAlertView = [[CustomAlertView alloc]initWithTitle:NSLocalizedString(@"PasswordCheckAlertViewTitle", nil)
                                                                      message:NSLocalizedString(@"EnterPasswordToDeleteTitle", nil)
                                                                     delegate:self
-                                                           cancelButtonTitle:@"Cancel"
-                                                           otherButtonTitles:@"Delete",nil];
+                                                           cancelButtonTitle:NSLocalizedString(@"CancelButton", nil)
+                                                           otherButtonTitles:NSLocalizedString(@"DeleteButton", nil),nil];
     
     UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(16,85,252,25)];
     passwordField.borderStyle = UITextBorderStyleRoundedRect;
@@ -447,6 +447,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [self showTabBar:[self tabBarController]];
+    [[LocalyticsSession shared] tagScreen:@"Notes list"];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -576,12 +577,12 @@
                              [self.tableView setScrollIndicatorInsets:edgeInsets];
                          }
                          completion:^(BOOL finished){
-                             canTryToEnter = YES;
                              int index = [[self.tableView visibleCells] indexOfObject:[self.tableView cellForRowAtIndexPath:iP]];
                              if (index == 0)
                                 [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionTop animated:YES];
                              else if (index >=5)
                                      [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                             canTryToEnter = YES;
                          }];
     }
 }

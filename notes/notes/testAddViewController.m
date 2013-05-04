@@ -71,6 +71,7 @@
         [self.myTextView becomeFirstResponder];
     
     [self becomeFirstResponder];
+    [[LocalyticsSession shared] tagScreen:@"New note / edit note"];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -295,7 +296,7 @@
         if (([[myNameField text] length] == 0) || ([[myTextView text] length] == 0))
         {
             [alertLabel setText:NSLocalizedString(@"PrivateNoteRequirements", nil)];
-            [self showAlertMessageWithDuration:0.6];
+            [self showAlertMessageWithDuration:0.3];
             return NO;
         }
     } else
@@ -303,7 +304,7 @@
         if (([[myNameField text]length] == 0) && ([[myTextView text] length] == 0))
         {
             [alertLabel setText:NSLocalizedString(@"PublicNoteRequirements", nil)];
-            [self showAlertMessageWithDuration:0.6];
+            [self showAlertMessageWithDuration:0.3];
             return NO;
         }
     }

@@ -9,6 +9,7 @@
 "EditNote" = "Edit";
 "NewNote" = "New";
 "CancelButton" = "Cancel";
+"DeleteButton" = "Delete";
 "SaveButton" = "Save";
 "PrivateNoteRequirements" = "Enter a title and text";
 "PublicNoteRequirements" = "Enter a title or text";
