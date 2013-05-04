@@ -73,7 +73,7 @@
         }
         
         Note *note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:[self managedObjectContext]];
-        [note setText:@"lolwto"];
+        [note setText:@"1.	Получить матрицы парных сравнений критериев и матрицы парных сравнений альтернатив в рамках каждого критерия от всех экспертов. Если имеется n критериев на заданном уровне иерархии, то создается матрица А размерности  , именуемую матрицей парных сравнений, которая отражает суждение лица, принимающего решение, относительно важности разных критериев. Парное сравнение выполняется таким образом, что критерий в строке i (i=1, 2, …, n) оценивается относительно каждого из критериев, представленных n столбцами. Обозначим через aij элемент матрицы А, находящийся на пересечении i –строки и j – столбц"];
         [note setName:randomString];
         [note setDate:[NSDate date]];
         [note setIsPrivate:[NSNumber numberWithUnsignedInt:arc4random()%2]];
@@ -162,9 +162,7 @@
     UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
     [footerView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteBoard.png"]]];
     self.tableView.tableFooterView = footerView;
-    //[self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleNone)];
-    //[self.tableView setContentInset:(UIEdgeInsetsMake(0, 0, -500, 0))];
-
+    
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
     
     NSError *error = nil; 
@@ -200,6 +198,8 @@
     passwordField.delegate = self;
     [passwordField setTag:1919];
     [passwordField becomeFirstResponder];
+    
+    [passwordField setText:[[NSUserDefaults standardUserDefaults] stringForKey:@"password"]];
 
     [customAlertView addSubview:passwordField];
     [customAlertView setDelegate:self];
@@ -457,6 +457,11 @@
     canTryToEnter = YES;
     canSwipe = YES;
     canDelete = YES;
+    
+    if ([[fetchedResultsController fetchedObjects] count] == 0)
+        [self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleNone)];
+    else
+        [self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleSingleLine)];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -506,9 +511,11 @@
         return 50;
 }
 
-- (void)showNote:(Note *)note animated:(BOOL)animated;
+- (void)showNoteAtIndexPath:(NSIndexPath*)indexPath animated:(BOOL)animated;
 {
-    noteListCell* cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:iP];
+    
+    noteListCell* cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    Note *note = (Note*)[[fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row];
     
     [UIView animateWithDuration:0.1 delay:0 options: UIViewAnimationCurveEaseOut
                      animations:^{
@@ -517,11 +524,10 @@
                          [[cell timeLabel] setTextColor:[UIColor whiteColor]];
                          
                          if ([[note isPrivate] boolValue])
-                         {
-                             //
-                             [[cell passwordField] setBackgroundColor:[UIColor whiteColor]];
-                             [cell setNormalImage];
-                         }
+                             {
+                                 [[cell passwordField] setBackgroundColor:[UIColor whiteColor]];
+                                 [cell setNormalImage];
+                             }
                      }
                      completion:^(BOOL finished){
                      }];
@@ -559,7 +565,7 @@
     if ([[[cell passwordField] text] isEqualToString:PSWD])
     {
         [self changeTableViewHeightAt:UIEdgeInsetsZero];
-        [self showNote:[[fetchedResultsController fetchedObjects] objectAtIndex:iP.row] animated:YES];
+        [self showNoteAtIndexPath:iP animated:YES];
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastTime"];
     }
     else
@@ -647,11 +653,14 @@
 
 -(void)deselectPrivateRowAtIndexPath:(NSIndexPath*)indexPath
 {
+
+    
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath];
     
     [cell hidePasswordField];
     [[cell passwordField] setTag:nil];
     [cell setNormalImage];
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -671,9 +680,9 @@
         
         if (canShow)
         {
-            iP = indexPath;
+            //iP = indexPath;
             [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastTime"];
-            [self showNote:note animated:YES];
+            [self showNoteAtIndexPath:indexPath animated:YES];
         } else
             [self didSelectPrivateNoteAtIndexPath:indexPath];
         
@@ -684,9 +693,9 @@
             [self didSelectPrivateNoteAtIndexPath:iP];
         }
         
-        iP = indexPath;
+        //iP = indexPath;
         
-        [self showNote:note animated:YES];
+        [self showNoteAtIndexPath:indexPath animated:YES];
     }
 }
 
@@ -804,10 +813,13 @@
 	switch(type) {
 		case NSFetchedResultsChangeInsert:
 			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleSingleLine)];
 			break;
 			
 		case NSFetchedResultsChangeDelete:
 			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            if ([[fetchedResultsController fetchedObjects] count] == 0)
+                [self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleNone)];
 			break;
 			
 		case NSFetchedResultsChangeUpdate:

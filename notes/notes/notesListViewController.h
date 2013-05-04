@@ -31,7 +31,7 @@
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
-- (void)showNote:(Note *)note animated:(BOOL)animated;
+- (void)showNoteAtIndexPath:(NSIndexPath*)indexPath animated:(BOOL)animated;
 - (void)configureCell:(noteListCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 -(void)tryEnter;
 

@@ -57,12 +57,6 @@
         self.navigationItem.titleView = trashButton;
 }
 
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
-{
-    [myTextView setText:nil];
-    //[myNameField setText:nil];
-}
-
 -(void)viewDidAppear:(BOOL)animated
 {
     [self hideTabBar:[self tabBarController]];
@@ -70,7 +64,6 @@
     if (!forEditing)
         [self.myTextView becomeFirstResponder];
     
-    [self becomeFirstResponder];
     [[LocalyticsSession shared] tagScreen:@"New note / edit note"];
 }
 
