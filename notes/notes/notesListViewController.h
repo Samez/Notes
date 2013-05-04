@@ -16,7 +16,6 @@
 {
     NSIndexPath *iP;
     NSString *PSWD;
-    BOOL simpleTabBar;
     NSMutableArray *swipedCells;
     BOOL unsafeDeletion;
     BOOL canSwipe;

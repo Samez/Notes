@@ -58,9 +58,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated
-{
-    [self hideTabBar:[self tabBarController]];
-    
+{    
     if (!forEditing)
         [self.myTextView becomeFirstResponder];
     
@@ -142,12 +140,9 @@
     
     self.trashButton = buttonContainer;
     
-    //self.navigationItem.titleView = trashButton;
-    
     [[self.navigationItem leftBarButtonItem] setAction:@selector(cancel)];
     
     cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelButton",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
-    
     
     saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveButton",nil) style:UIBarButtonItemStylePlain target:self action:@selector(save)];
 }
@@ -183,16 +178,12 @@
         [[self navigationItem] setTitle:NSLocalizedString(@"NewNote", nil)];
     }
 
-    
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
 
     [myTextView setDelegate:self];
-    //[myTextView setScrollEnabled:NO];
     [myTextView setReturnKeyType:UIReturnKeyNext];
-    
+
     [myNameField setDelegate:self];
-    
-//    [myTextView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"textFieldBackgroundMin.png"]]];
     
     if (!forEditing)
     {
@@ -230,7 +221,6 @@
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    
     NSUInteger oldLength = [[textField text] length];
     NSUInteger replacementLength = [string length];
     NSUInteger rangeLength = range.length;
@@ -350,26 +340,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-}
-
-- (void)hideTabBar:(UITabBarController *) tabbarcontroller
-{
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];
-    
-    for(UIView *view in tabbarcontroller.view.subviews)
-    {
-        if([view isKindOfClass:[UITabBar class]])
-        {
-            [view setFrame:CGRectMake(view.frame.origin.x, _HIDDEN_TABBAR_HEIGHT, view.frame.size.width, view.frame.size.height)];
-        }
-        else
-        {
-            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, _HIDDEN_TABBAR_HEIGHT)];
-        }
-    }
-    
-    [UIView commitAnimations];
 }
 
 - (void)viewDidUnload

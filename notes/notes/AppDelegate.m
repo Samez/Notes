@@ -54,17 +54,7 @@
 }
 
 - (void) LoadSettings
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] == nil)
-    {
-        [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"simplyTabBarStyle"];
-    }
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"secureTextEntry"] == nil)
-    {
-        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"secureTextEntry"];
-    }
-    
+{    
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"password"] == nil)
     {
         [[NSUserDefaults standardUserDefaults] setObject:@"pass" forKey:@"password"];
@@ -79,11 +69,6 @@
     {
         NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:[UIColor sashaGray]];
         [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"swipeColor"];
-    }
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"needUpdateTime"] == nil)
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"needUpdateTime"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PasswordRequestInterval"] == nil)

@@ -36,11 +36,6 @@
 
 -(void)loadSettings
 {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
-    {
-        simpleTabBar = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
-    }
-    
     if ([[NSUserDefaults standardUserDefaults] objectForKey: @"password"] != nil)
     {
         PSWD = [[NSUserDefaults standardUserDefaults] objectForKey: @"password"];
@@ -192,7 +187,7 @@
     
     UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(16,85,252,25)];
     passwordField.borderStyle = UITextBorderStyleRoundedRect;
-    passwordField.secureTextEntry = [[NSUserDefaults standardUserDefaults] boolForKey:@"secureTextEntry"];
+    passwordField.secureTextEntry = YES;
     passwordField.keyboardAppearance = UIKeyboardAppearanceAlert;
     passwordField.returnKeyType = UIReturnKeyDone;
     passwordField.delegate = self;
@@ -210,7 +205,6 @@
 
 -(void)deleteSwipedCells
 {
-
         [UIView animateWithDuration:0.3
                               delay:0
                             options: UIViewAnimationCurveEaseOut
@@ -446,7 +440,6 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self showTabBar:[self tabBarController]];
     [[LocalyticsSession shared] tagScreen:@"Notes list"];
 }
 
@@ -471,40 +464,8 @@
     iP = nil;
 }
 
-- (void)showTabBar:(UITabBarController *) tabbarcontroller
-{
-    
-    int height = 0;
-    
-    if (simpleTabBar)
-        height = _SIMLPE_TABBAR_HEIGHT;
-    else
-        height = _STANDART_TABBAR_HEIGHT;
-    
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];
-    
-    for(UIView *view in [[tabbarcontroller view] subviews])
-    {
-        
-        if([view isKindOfClass:[UITabBar class]])
-        {
-            [view setFrame:CGRectMake(view.frame.origin.x, height, view.frame.size.width, view.frame.size.height)];
-            
-        }
-        else
-        {
-            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, height)];
-        }
-    }
-    
-    [UIView commitAnimations];
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if ([iP isEqual:indexPath])
         return 85;
     else
@@ -553,7 +514,7 @@
     
     [[cell passwordField] setDelegate:self];
     
-    [[cell passwordField]  setSecureTextEntry:[[NSUserDefaults standardUserDefaults] boolForKey:@"secureTextEntry"]];
+    [[cell passwordField]  setSecureTextEntry:YES];
     
     [[cell noteNameLabel] setTextColor:[UIColor blackColor]];
 }
@@ -609,12 +570,8 @@
             [self.tableView beginUpdates];
             
             [self.tableView endUpdates];
-            
-            
-            if (simpleTabBar)
-                [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, _SIMPLY_TABBAR_CHANGE_VALUE, 0)];
-            else
-                [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, _NORMAL_TABBAR_CHANGE_VALUE, 0)];
+
+            [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, 170, 0)];
         }
         else
         {
@@ -633,12 +590,9 @@
             {
                 canSwipe = YES;
                 [self deselectPrivateRowAtIndexPath:iP];
-                
-                if (simpleTabBar)
-                    [self changeTableViewHeightAt:UIEdgeInsetsZero];
-                else
-                    [self changeTableViewHeightAt:UIEdgeInsetsZero];
-                
+
+                [self changeTableViewHeightAt:UIEdgeInsetsZero];
+ 
                 iP = nil;
             }
         }
@@ -653,14 +607,11 @@
 
 -(void)deselectPrivateRowAtIndexPath:(NSIndexPath*)indexPath
 {
-
-    
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath];
     
     [cell hidePasswordField];
     [[cell passwordField] setTag:nil];
     [cell setNormalImage];
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -680,7 +631,6 @@
         
         if (canShow)
         {
-            //iP = indexPath;
             [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastTime"];
             [self showNoteAtIndexPath:indexPath animated:YES];
         } else
@@ -692,9 +642,7 @@
         {
             [self didSelectPrivateNoteAtIndexPath:iP];
         }
-        
-        //iP = indexPath;
-        
+
         [self showNoteAtIndexPath:indexPath animated:YES];
     }
 }

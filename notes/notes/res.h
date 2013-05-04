@@ -9,10 +9,8 @@
 #ifndef notes_res_h
 #define notes_res_h
 
-#define _SIMLPE_TABBAR_HEIGHT 531
 #define _STANDART_TABBAR_HEIGHT 521
 #define _HIDDEN_TABBAR_HEIGHT 570
-#define _SIMPLY_TABBAR_CHANGE_VALUE 180
 #define _NORMAL_TABBAR_CHANGE_VALUE 170
 #define  _SHIFT_CELL_LENGTH 30 
 

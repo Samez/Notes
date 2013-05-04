@@ -8,16 +8,13 @@
 
 #define _VISUAL_SECTION 0
     #define _SWIPED_CELLS_COLOR 0
-    #define _SIMPLE_TABBAR 1
 
 #define _SORT_SECTION 1
-    #define _UPDATE_TIME 0
-    #define _UNSAFE_DELETION 1
+    #define _UNSAFE_DELETION 0
 
 #define _SECURITY_SECTION 2
-    #define _HIDE_PASSWORD 0
-    #define _PSWD_REQUEST_INTERVAL 1
-    #define _PSWD 2
+    #define _PSWD_REQUEST_INTERVAL 0
+    #define _PSWD 1
 
 #import "OptionsViewController.h"
 #import "passwordViewController.h"
@@ -34,7 +31,6 @@
 @implementation OptionsViewController
 
 @synthesize mySwitchCell;
-@synthesize twoCaseCell;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -84,16 +80,6 @@
 
 - (void) LoadSettings
 {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"simplyTabBarStyle"] != nil)
-    {
-        simplyStyle = [[NSUserDefaults standardUserDefaults] boolForKey: @"simplyTabBarStyle"];
-    }
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey: @"secureTextEntry"] != nil)
-    {
-        textEntryIsSecured = [[NSUserDefaults standardUserDefaults] boolForKey: @"secureTextEntry"];
-    }
-    
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"unsafeDeletion"] != nil)
     {
         unsafeDeletion = [[NSUserDefaults standardUserDefaults] boolForKey:@"unsafeDeletion"];
@@ -109,22 +95,6 @@
         else
             swipeColorIsRed = YES;
     }
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"needUpdateTime"] != nil)
-    {
-        needUpdateTime = [[NSUserDefaults standardUserDefaults] boolForKey:@"needUpdateTime"];
-    }
-}
-
--(void)needUpdateTimeWasChanged
-{
-    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_UPDATE_TIME inSection:_SORT_SECTION]];
-    
-    needUpdateTime = [[cell stateSwitcher] isOn];
-    
-    [[NSUserDefaults standardUserDefaults] setBool: needUpdateTime forKey: @"needUpdateTime"];
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void)swipeColorWasChanged
@@ -146,66 +116,15 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(void)tabBarStyleWasChanged
-{
-    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_SIMPLE_TABBAR inSection:_VISUAL_SECTION]];
-    
-    simplyStyle = [[cell stateSwitcher] isOn];
-    
-    [[NSUserDefaults standardUserDefaults] setBool: simplyStyle forKey: @"simplyTabBarStyle"];
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [self restyleTabBar:[self tabBarController]];
-}
-
--(void)secureTextEntryWasChanged
-{
-    CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_HIDE_PASSWORD inSection:_SECURITY_SECTION]];
-    
-    textEntryIsSecured = [[cell stateSwitcher] isOn];
-    
-    [[NSUserDefaults standardUserDefaults] setBool: textEntryIsSecured forKey: @"secureTextEntry"];
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
 -(void)unsafeDeletionWasChanged
 {
     CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_UNSAFE_DELETION inSection:_SORT_SECTION]];
     
-    textEntryIsSecured = [[cell stateSwitcher] isOn];
+    unsafeDeletion = [[cell stateSwitcher] isOn];
     
-    [[NSUserDefaults standardUserDefaults] setBool: textEntryIsSecured forKey: @"unsafeDeletion"];
+    [[NSUserDefaults standardUserDefaults] setBool: unsafeDeletion forKey: @"unsafeDeletion"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
--(void)restyleTabBar:(UITabBarController*)tabbarcontroller
-{
-    int height = 0;
-    
-    if (simplyStyle)
-        height = _SIMLPE_TABBAR_HEIGHT;
-    else
-        height = _STANDART_TABBAR_HEIGHT;
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.2];
-    
-    for(UIView *view in tabbarcontroller.view.subviews)
-    {
-        if([view isKindOfClass:[UITabBar class]])
-        {
-            [view setFrame:CGRectMake(view.frame.origin.x, height, view.frame.size.width, view.frame.size.height)];
-        }
-        else
-        {
-            [view setFrame:CGRectMake(view.frame.origin.x, view.frame.origin.y, 320, height)];
-        }
-    }
-    
-    [UIView commitAnimations];
 }
 
 - (void)viewDidLoad
@@ -246,13 +165,13 @@
     switch (section)
     {
         case _VISUAL_SECTION:
-            count = 2;
+            count = 1;
             break;
         case _SECURITY_SECTION:
-            count = 3;
+            count = 2;
             break;
         case _SORT_SECTION:
-            count = 2;
+            count = 1;
             break;
     }
     
@@ -289,16 +208,6 @@
         {
             switch (indexPath.row)
             {
-                case _SIMPLE_TABBAR:
-                {
-                    [[MYcell myTextLabel] setText:NSLocalizedString(@"SimpleTabBarStyleCell", nil)];
-                    
-                    [MYcell.stateSwitcher addTarget: self action: @selector(tabBarStyleWasChanged) forControlEvents:UIControlEventValueChanged];
-                    
-                    [[MYcell stateSwitcher] setOn:simplyStyle];
-                    
-                    break;
-                }
                 case _SWIPED_CELLS_COLOR:
                 {
                     [[MYcell myTextLabel] setText:NSLocalizedString(@"CellsToDeleteColor", nil)];
@@ -332,15 +241,6 @@
         {
             switch(indexPath.row)
             {
-                case _HIDE_PASSWORD:
-                {
-                    [[MYcell myTextLabel] setText:NSLocalizedString(@"HidePasswordCell", nil)];
-                    
-                    [MYcell.stateSwitcher addTarget:self action:@selector(secureTextEntryWasChanged) forControlEvents:UIControlEventValueChanged];
-                    
-                    [[MYcell stateSwitcher] setOn:textEntryIsSecured];
-                    break;
-                }
                 case _PSWD_REQUEST_INTERVAL:
                 {
                     UITableViewCell *intervalCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
@@ -406,17 +306,6 @@
             
             switch (indexPath.row)
             {
-                case _UPDATE_TIME:
-                {
-                    [[MYcell myTextLabel] setText:NSLocalizedString(@"UpdateTimeIfDidEdit", nil)];
-                    
-                    [MYcell.stateSwitcher addTarget:self action:@selector(needUpdateTimeWasChanged) forControlEvents:UIControlEventValueChanged];
-                    
-                    [[MYcell stateSwitcher] setOn:needUpdateTime];
-                }
-                break;
-            
-            
                 case _UNSAFE_DELETION:
                 {
                     [[MYcell myTextLabel] setText:NSLocalizedString(@"unsafeDetetionCell", nil)];
@@ -429,7 +318,6 @@
             }
             break;
         }
-
     }
     
     [MYcell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -474,9 +362,8 @@
     }
 }
 
-
-- (void)viewDidUnload {
-    [self setTwoCaseCell:nil];
+- (void)viewDidUnload
+{
     [super viewDidUnload];
 }
 @end
