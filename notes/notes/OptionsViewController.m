@@ -31,6 +31,7 @@
 @implementation OptionsViewController
 
 @synthesize mySwitchCell;
+@synthesize NLC;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -127,9 +128,26 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+-(void)toNotes
+{
+    [UIView transitionFromView:self.view
+                        toView:NLC.view
+                      duration:0.8
+                       options:UIViewAnimationOptionTransitionFlipFromRight
+                    completion:nil];
+    [UIView transitionFromView:self.navigationItem.titleView
+                        toView:NLC.navigationItem.titleView
+                      duration:0.8
+                       options:UIViewAnimationOptionTransitionFlipFromRight
+                    completion:nil];
+    [self.navigationController popViewControllerAnimated:NO];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(toNotes)]];
     
     [self setTitle:NSLocalizedString(@"OptionsTitle", nil)];
     

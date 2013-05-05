@@ -17,11 +17,9 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (weak, nonatomic) IBOutlet UITabBarController *tabBarController;
-
 @property (weak, nonatomic) IBOutlet notesListViewController *notesListController;
 
-@property (weak, nonatomic) IBOutlet OptionsViewController *optionsController;
+@property (weak, nonatomic) IBOutlet UINavigationController *notesNavController;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

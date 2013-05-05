@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CellWithSwitcher.h"
+#import "notesListViewController.h"
 
 @interface OptionsViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 {
@@ -16,5 +17,6 @@
 }
 
 @property (strong, nonatomic) IBOutlet CellWithSwitcher *mySwitchCell;
+@property notesListViewController *NLC;
 
 @end

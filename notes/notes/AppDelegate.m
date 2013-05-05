@@ -16,10 +16,9 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
-@synthesize tabBarController;
 @synthesize notesListController;
-@synthesize optionsController;
 @synthesize window;
+@synthesize notesNavController;
 
 -(void) applicationDidFinishLaunching:(UIApplication *)application
 {
@@ -27,7 +26,7 @@
 
     [notesListController setManagedObjectContext:[self managedObjectContext]];
     
-    [window setRootViewController:[self tabBarController]];
+    [window setRootViewController:notesNavController];
     
     [application setApplicationSupportsShakeToEdit:YES];
     

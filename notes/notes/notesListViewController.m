@@ -13,7 +13,9 @@
 #import "res.h"
 #import "Note.h"
 #import "LocalyticsSession.h"
+#import "OptionsViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
 @interface notesListViewController ()
 
 @property UIBarButtonItem* editButton;
@@ -21,6 +23,7 @@
 @property UIBarButtonItem* addButton;
 @property UIBarButtonItem* deselectButton;
 @property UIBarButtonItem* fillBDButton;
+@property UIBarButtonItem* optionsButton;
 
 @end
 
@@ -101,15 +104,38 @@
         }
 }
 
+-(void)goToOptions
+{
+    UIViewController *src = self;
+    
+    OptionsViewController *OVC = [[OptionsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    [OVC setNLC:self];
+    
+    [UIView transitionFromView:src.view
+                        toView:OVC.view
+                      duration:0.8
+                       options:UIViewAnimationOptionTransitionFlipFromRight
+                    completion:nil];
+    [UIView transitionFromView:src.navigationItem.titleView
+                        toView:OVC.navigationItem.titleView
+                      duration:0.8
+                       options:UIViewAnimationOptionTransitionFlipFromRight
+                    completion:nil];
+    [src.navigationController pushViewController:OVC animated:NO];
+}
+
 -(void)setupButtons
 {
     UIImage* image3 = [UIImage imageNamed:@"add.png"];
-    CGRect frameimg = CGRectMake(0, 0, 34, 29);
-    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
-    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
-    [someButton addTarget:self action:@selector(add:)
+    CGRect frameimg3 = CGRectMake(0, 0, 34, 29);
+    UIButton *someButton3 = [[UIButton alloc] initWithFrame:frameimg3];
+    [someButton3 setBackgroundImage:image3 forState:UIControlStateNormal];
+    [someButton3 addTarget:self action:@selector(add:)
          forControlEvents:UIControlEventTouchUpInside];
-    [someButton setShowsTouchWhenHighlighted:YES];
+    [someButton3 setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem *bufButton3 =[[UIBarButtonItem alloc] initWithCustomView:someButton3];
+    self.addButton=bufButton3;
     
     UIImage* image2 = [UIImage imageNamed:@"trash2.png"];
     CGRect frameimg2 = CGRectMake(0, 0, 34, 29);
@@ -119,19 +145,30 @@
           forControlEvents:UIControlEventTouchUpInside];
     [someButton2 setShowsTouchWhenHighlighted:YES];
     
-    UIBarButtonItem *bufButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
-    self.addButton=bufButton;
-    
     UIBarButtonItem *bufButton2 =[[UIBarButtonItem alloc] initWithCustomView:someButton2];
     self.deleteButton=bufButton2;
     
+    UIImage* image = [UIImage imageNamed:@"gear2.png"];
+    CGRect frameimg = CGRectMake(0, 0, 24, 24);
+    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
+    [someButton setBackgroundImage:image forState:UIControlStateNormal];
+    [someButton addTarget:self action:@selector(goToOptions)
+         forControlEvents:UIControlEventTouchUpInside];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem *bufButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
+    self.optionsButton=bufButton;
+    
+
     self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
     
     self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
     
+    [[self navigationItem] setLeftBarButtonItem:self.optionsButton animated:NO];
+    
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:NO];
     
-    [[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
+    //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
 }
 
 -(void)setupRecognizers
@@ -231,8 +268,8 @@
         swipedCells = nil;
         
         [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
-        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-        [self.tableView setAllowsSelection:YES];
+        [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
+        //[self.tableView setAllowsSelection:YES];
 }
 
 -(void)deselectSwipedCells
@@ -243,10 +280,17 @@
         }
     
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    [self.tableView setAllowsSelection:YES];
+    [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
+    //[self.tableView setAllowsSelection:YES];
     
     swipedCells = nil;
+}
+
+-(void)selectSwipedCellAtIndexPath:(NSIndexPath*)indexPath
+{
+    [swipedCells addObject:indexPath];
+        
+    [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:swipeColor andWithDuration:0.3];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -304,15 +348,8 @@
     [self deleteSwipedCells];
 }
 
-- (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
+-(void)deselectSwipedCellAtIndexPath:(NSIndexPath*)indexPath
 {
-    CGPoint location = [gestureRecognizer locationInView:self.tableView];
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-    
-    if (swipedCells == nil)
-        swipedCells = [[NSMutableArray alloc] init];
-
     if ([swipedCells containsObject:indexPath])
     {
         [swipedCells removeObject:indexPath];
@@ -321,14 +358,24 @@
         noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
         [[cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
     }
-
+    
     if ([swipedCells count] == 0)
     {
         [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
-        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-        [self.tableView setAllowsSelection:YES];
+        [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
     }
+
 }
+
+- (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
+{
+    CGPoint location = [gestureRecognizer locationInView:self.tableView];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    
+    [self deselectSwipedCellAtIndexPath:indexPath];
+
+    }
 
 - (void)handleSwipeRight:(UISwipeGestureRecognizer *)gestureRecognizer
 {
@@ -338,12 +385,8 @@
         
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
         
-        [[self tableView] deselectRowAtIndexPath:indexPath animated:YES];
-        
         if (indexPath != nil)
-        {
-            [self.tableView setAllowsSelection:NO];
-            
+        {   
             if ((unsafeDeletion) && (![[[fetchedResultsController objectAtIndexPath:indexPath] isPrivate] boolValue]) && ([swipedCells count] == 0))
             {
                 [self swipeToDeleteCellAtIndexPath:indexPath];
@@ -355,22 +398,13 @@
                     [self.navigationItem setLeftBarButtonItem:self.deselectButton animated:YES];
                     [self.navigationItem setRightBarButtonItem:self.deleteButton animated:YES];
                 }
-
-                if (iP != nil)
-                {
-                    [self didSelectPrivateNoteAtIndexPath:iP];
-                }
                 
                 if (swipedCells == nil)
                     swipedCells = [[NSMutableArray alloc] init];
 
                 if (![swipedCells containsObject:indexPath])
                 {
-                    
-                    [swipedCells addObject:indexPath];
-                    
-                    [self swipeCellAtIndexPath:indexPath at:+_SHIFT_CELL_LENGTH withTargetColor:swipeColor andWithDuration:0.3];
-                    
+                    [self selectSwipedCellAtIndexPath:indexPath];
                 }
             }
         }
@@ -418,7 +452,7 @@
                                  abort();
                              }
                              
-                             [self.tableView setAllowsSelection:YES];
+                             //[self.tableView setAllowsSelection:YES];
                              canDelete = YES;
                              canSwipe = YES;
                         }];
@@ -571,7 +605,7 @@
             
             [self.tableView endUpdates];
 
-            [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, 170, 0)];
+            [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, 180, 0)];
         }
         else
         {
@@ -616,6 +650,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([swipedCells count] != 0)
+    {
+        if (![swipedCells containsObject:indexPath])
+        {
+            [self selectSwipedCellAtIndexPath:indexPath];
+        } else
+        {
+            [self deselectSwipedCellAtIndexPath:indexPath];
+        }
+    }
+    else
+    {
     Note *note = (Note*)[fetchedResultsController objectAtIndexPath:indexPath];
     
     if ([[note isPrivate] boolValue])
@@ -644,6 +690,7 @@
         }
 
         [self showNoteAtIndexPath:indexPath animated:YES];
+    }
     }
 }
 
