@@ -106,6 +106,8 @@
 
 -(void)goToOptions
 {
+    returnedFromOptions = YES;
+    
     UIViewController *src = self;
     
     OptionsViewController *OVC = [[OptionsViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -164,11 +166,14 @@
     
     self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
     
+    //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
+}
+
+-(void)setButtons
+{
     [[self navigationItem] setLeftBarButtonItem:self.optionsButton animated:NO];
     
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:NO];
-    
-    //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
 }
 
 -(void)setupRecognizers
@@ -206,6 +211,8 @@
 	}
     
     [self setupButtons];
+    [self setButtons];
+    
     [self setupRecognizers];
     
     iP = nil;
@@ -474,13 +481,27 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    if (returnedFromOptions)
+    {
+        [self performSelector:@selector(setButtons) withObject:nil afterDelay:0.8];
+        returnedFromOptions = NO;
+    }
+    
     [[LocalyticsSession shared] tagScreen:@"Notes list"];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [[self tableView] reloadData];
+    
     [self loadSettings];
+    
     canTryToEnter = YES;
     canSwipe = YES;
     canDelete = YES;
@@ -489,6 +510,9 @@
         [self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleNone)];
     else
         [self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleSingleLine)];
+    
+    if (!returnedFromOptions)
+        [self setButtons];
 }
 
 -(void)viewWillDisappear:(BOOL)animated

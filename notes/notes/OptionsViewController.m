@@ -42,8 +42,14 @@
     return self;
 }
 
+-(void)setButton
+{
+    [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(toNotes)]];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
+    [self performSelector:@selector(setButton) withObject:nil afterDelay:0.8];
     [[LocalyticsSession shared] tagScreen:@"Options"];
 }
 
@@ -147,7 +153,7 @@
 {
     [super viewDidLoad];
     
-    [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(toNotes)]];
+    self.navigationItem.hidesBackButton = YES;
     
     [self setTitle:NSLocalizedString(@"OptionsTitle", nil)];
     
