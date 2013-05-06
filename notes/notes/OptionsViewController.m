@@ -26,12 +26,15 @@
 
 @interface OptionsViewController ()
 
+@property UIBarButtonItem* goToNotesListButton;
+
 @end
 
 @implementation OptionsViewController
 
 @synthesize mySwitchCell;
 @synthesize NLC;
+@synthesize goToNotesListButton;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -44,7 +47,21 @@
 
 -(void)setButton
 {
-    [[self navigationItem] setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(toNotes)]];
+    [[self navigationItem] setLeftBarButtonItem:goToNotesListButton];
+}
+
+-(void)setupButtons
+{
+    UIImage* image = [UIImage imageNamed:@"list2.png"];
+    CGRect frameimg = CGRectMake(0, 0, 24, 24);
+    UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
+    [someButton setBackgroundImage:image forState:UIControlStateNormal];
+    [someButton addTarget:self action:@selector(toNotes)
+         forControlEvents:UIControlEventTouchUpInside];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem *bufButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
+    self.goToNotesListButton=bufButton;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -153,19 +170,21 @@
 {
     [super viewDidLoad];
     
+    [self setupButtons];
+    
     self.navigationItem.hidesBackButton = YES;
     
     [self setTitle:NSLocalizedString(@"OptionsTitle", nil)];
     
     [[[self navigationController]navigationBar] setBarStyle:UIBarStyleBlack];
     
-    [[self tableView] setBackgroundColor:[UIColor clearColor]];
+//    [[self tableView] setBackgroundColor:[UIColor clearColor]];
     
     UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"woodenBackground.png"]];
     
     [[self tableView] setBackgroundView:backgroundImageView];
     
-    [self.tableView setBackgroundColor:[UIColor blackColor]];
+//    [self.tableView setBackgroundColor:[UIColor blackColor]];
     
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }

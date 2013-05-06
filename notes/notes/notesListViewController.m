@@ -160,7 +160,6 @@
     
     UIBarButtonItem *bufButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.optionsButton=bufButton;
-    
 
     self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
     
@@ -276,7 +275,6 @@
         
         [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
         [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
-        //[self.tableView setAllowsSelection:YES];
 }
 
 -(void)deselectSwipedCells
@@ -288,7 +286,6 @@
     
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
     [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
-    //[self.tableView setAllowsSelection:YES];
     
     swipedCells = nil;
 }
@@ -381,8 +378,8 @@
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
     
     [self deselectSwipedCellAtIndexPath:indexPath];
-
-    }
+    
+}
 
 - (void)handleSwipeRight:(UISwipeGestureRecognizer *)gestureRecognizer
 {
@@ -459,7 +456,6 @@
                                  abort();
                              }
                              
-                             //[self.tableView setAllowsSelection:YES];
                              canDelete = YES;
                              canSwipe = YES;
                         }];
