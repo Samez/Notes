@@ -38,6 +38,7 @@
 		046D1F5D172D8E4B006CAFC7 /* TimeIntervalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046D1F5C172D8E4B006CAFC7 /* TimeIntervalViewController.m */; };
 		04702F6C17142D9400DCA0C9 /* alert.png in Resources */ = {isa = PBXBuildFile; fileRef = 04702F6B17142D9400DCA0C9 /* alert.png */; };
 		047A62731737318A00128F7A /* list2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 047A62721737318A00128F7A /* list2@2x.png */; };
+		04A501731737D886009DA6C3 /* myNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A501721737D886009DA6C3 /* myNavigationBar.m */; };
 		04ACDBF0170B55F9003A74F4 /* testAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ACDBEE170B55F9003A74F4 /* testAddViewController.m */; };
 		04ACDBF1170B55F9003A74F4 /* testAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */; };
 		04C233071726F5910059AF18 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C233051726F5910059AF18 /* add@2x.png */; };
@@ -121,6 +122,8 @@
 		046D1F5C172D8E4B006CAFC7 /* TimeIntervalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeIntervalViewController.m; sourceTree = "<group>"; };
 		04702F6B17142D9400DCA0C9 /* alert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = alert.png; path = Pics/alert.png; sourceTree = SOURCE_ROOT; };
 		047A62721737318A00128F7A /* list2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "list2@2x.png"; path = "Pics/list2@2x.png"; sourceTree = SOURCE_ROOT; };
+		04A501711737D886009DA6C3 /* myNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myNavigationBar.h; sourceTree = "<group>"; };
+		04A501721737D886009DA6C3 /* myNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myNavigationBar.m; sourceTree = "<group>"; };
 		04ACDBED170B55F9003A74F4 /* testAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testAddViewController.h; sourceTree = "<group>"; };
 		04ACDBEE170B55F9003A74F4 /* testAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testAddViewController.m; sourceTree = "<group>"; };
 		04ACDBEF170B55F9003A74F4 /* testAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = testAddViewController.xib; sourceTree = "<group>"; };
@@ -329,6 +332,8 @@
 			children = (
 				044DE19E16D3AE54004CDE0A /* notesListViewController.h */,
 				044DE19F16D3AE54004CDE0A /* notesListViewController.m */,
+				04A501711737D886009DA6C3 /* myNavigationBar.h */,
+				04A501721737D886009DA6C3 /* myNavigationBar.m */,
 				041A7D8116D495ED00F91496 /* Note add */,
 				0425A939171D2D7F00977913 /* Custom alert View */,
 			);
@@ -578,6 +583,7 @@
 				043706771729C64A00CB55AD /* TwoCaseCell.m in Sources */,
 				046D1F5D172D8E4B006CAFC7 /* TimeIntervalViewController.m in Sources */,
 				04ECD1901732F0CF008F3CF7 /* MyTextView.m in Sources */,
+				04A501731737D886009DA6C3 /* myNavigationBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

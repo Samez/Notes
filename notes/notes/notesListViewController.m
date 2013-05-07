@@ -14,7 +14,7 @@
 #import "Note.h"
 #import "LocalyticsSession.h"
 #import "OptionsViewController.h"
-
+#import "myNavigationBar.h"
 #import <QuartzCore/QuartzCore.h>
 @interface notesListViewController ()
 
@@ -59,7 +59,7 @@
 -(void)fillBD
 {
     NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    
+
     int len = 14;
     
     for (int i = 0; i<15; ++i)
@@ -108,22 +108,16 @@
 {
     returnedFromOptions = YES;
     
-    UIViewController *src = self;
-    
     OptionsViewController *OVC = [[OptionsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     [OVC setNLC:self];
     
-    [UIView transitionFromView:src.view
+    [UIView transitionFromView:self.view
                         toView:OVC.view
                       duration:0.8
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     completion:nil];
-    [UIView transitionFromView:src.navigationItem.titleView
-                        toView:OVC.navigationItem.titleView
-                      duration:0.8
-                       options:UIViewAnimationOptionTransitionFlipFromRight
-                    completion:nil];
-    [src.navigationController pushViewController:OVC animated:NO];
+
+    [self.navigationController pushViewController:OVC animated:NO];
 }
 
 -(void)setupButtons
@@ -477,6 +471,8 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    
     if (returnedFromOptions)
     {
         [self performSelector:@selector(setButtons) withObject:nil afterDelay:0.8];
@@ -495,6 +491,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [[self tableView] reloadData];
+    
+
     
     [self loadSettings];
     

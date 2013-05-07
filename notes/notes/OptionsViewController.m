@@ -23,6 +23,7 @@
 #import "TwoCaseCell.h"
 #import "Switchy.h"
 #import "LocalyticsSession.h"
+#import "notesListViewController.h"
 
 @interface OptionsViewController ()
 
@@ -66,6 +67,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self performSelector:@selector(setButton) withObject:nil afterDelay:0.8];
     [[LocalyticsSession shared] tagScreen:@"Options"];
 }
@@ -153,17 +155,14 @@
 
 -(void)toNotes
 {
+
     [UIView transitionFromView:self.view
                         toView:NLC.view
                       duration:0.8
                        options:UIViewAnimationOptionTransitionFlipFromRight
                     completion:nil];
-    [UIView transitionFromView:self.navigationItem.titleView
-                        toView:NLC.navigationItem.titleView
-                      duration:0.8
-                       options:UIViewAnimationOptionTransitionFlipFromRight
-                    completion:nil];
-    [self.navigationController popViewControllerAnimated:NO];
+    
+    [self.navigationController popToViewController:NLC animated:NO];
 }
 
 - (void)viewDidLoad

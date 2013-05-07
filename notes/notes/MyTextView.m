@@ -7,7 +7,6 @@
 //
 
 #import "MyTextView.h"
-
 @implementation MyTextView
 
 - (id)initWithFrame:(CGRect)frame
@@ -20,6 +19,7 @@
 }
 - (void)drawRect:(CGRect)rect {
     
+    [self setBackgroundColor:[UIColor whiteColor]];
     //Get the current drawing context
     CGContextRef context = UIGraphicsGetCurrentContext();
     //Set the line color and width
@@ -28,12 +28,14 @@
     //Start a new Path
     CGContextBeginPath(context);
     
+    
+
     //Find the number of lines in our textView + add a bit more height to draw lines in the empty part of the view
     NSUInteger numberOfLines = (self.contentSize.height + self.bounds.size.height) / self.font.leading;
     
     //Set the line offset from the baseline. (I'm sure there's a concrete way to calculate this.)
     CGFloat baselineOffset = 23.0f;
-    
+
     //iterate over numberOfLines and draw each line
     for (int x = 0; x < numberOfLines; x++) {
         //0.5f offset lines up line with pixel boundary

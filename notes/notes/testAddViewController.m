@@ -9,6 +9,7 @@
 #import "testAddViewController.h"
 #import "res.h"
 #import "LocalyticsSession.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define MAXLENGTH 25
 
@@ -49,19 +50,23 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated
-{
+{ 
     [self.navigationItem setLeftBarButtonItem:cancelButton animated:YES];
     [self.navigationItem setRightBarButtonItem:saveButton animated:YES];
     
     if (forEditing)
         self.navigationItem.titleView = trashButton;
+    
+    self.myTextView.layer.cornerRadius = 5;
+    self.myTextView.layer.masksToBounds=YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {    
     if (!forEditing)
         [self.myTextView becomeFirstResponder];
-    
+    [myTextView setNeedsDisplay];
+
     [[LocalyticsSession shared] tagScreen:@"New note / edit note"];
 }
 
@@ -70,9 +75,37 @@
     [myTextView setNeedsDisplay];
 }
 
+-(void)setMyTextViewHeight:(CGFloat)height
+{
+    [UIView animateWithDuration:0.5 delay:0.2 options:UIViewAnimationCurveEaseInOut
+                     animations:^{
+                         [self.myTextView setFrame:CGRectMake(11, 63, myTextView.frame.size.width, height)];
+                     } completion:^(BOOL finished) {
+
+                     }];
+}
+
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self hideAlertMessageWithDuration:0.2 needReshow:NO];
+    //[self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, 180, 0)];
+    [self setMyTextViewHeight:200];
+}
+
+
+
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    //[self.myTextView setContentInset:UIEdgeInsetsZero];
+    CGFloat height = myTextView.contentSize.height;
+    
+    if (height > 400)
+        height = 400;
+    else
+        if (height < 200)
+            height = 200;
+    
+    [self setMyTextViewHeight:height];
 }
 
 -(void)showAlertMessageWithDuration:(CGFloat)duration
@@ -192,6 +225,7 @@
 
     } else
     {
+        [timeText setHidden:YES];
         notesCount--;
         
         if ([[note isPrivate] boolValue])
@@ -209,7 +243,7 @@
         NSString * timeString = [date_format stringFromDate: [note date]];
         
         [timeText setText:timeString];
-        [timeText setHidden:NO];
+        //[timeText setHidden:NO];
         
         [myTextView setText:[note text]];
         
@@ -217,6 +251,21 @@
     }
     
     [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
+    
+    CGFloat height = myTextView.contentSize.height;
+    
+    if( forEditing)
+    {
+        if (height > 400)
+            height = 400;
+        else
+            if (height < 200)
+                height = 200;
+        
+        [self setMyTextViewHeight:height];
+    }
+    
+    [myTextView setNeedsDisplay];
 }
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
