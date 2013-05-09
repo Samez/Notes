@@ -19,8 +19,10 @@
 }
 - (void)drawRect:(CGRect)rect {
     
+    [super drawRect:rect];
     [self setBackgroundColor:[UIColor whiteColor]];
     //Get the current drawing context
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     //Set the line color and width
     CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.2f].CGColor);

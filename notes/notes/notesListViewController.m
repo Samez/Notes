@@ -14,7 +14,6 @@
 #import "Note.h"
 #import "LocalyticsSession.h"
 #import "OptionsViewController.h"
-#import "myNavigationBar.h"
 #import <QuartzCore/QuartzCore.h>
 @interface notesListViewController ()
 
@@ -539,7 +538,6 @@
                          if ([[note isPrivate] boolValue])
                              {
                                  [[cell passwordField] setBackgroundColor:[UIColor whiteColor]];
-                                 [cell setNormalImage];
                              }
                      }
                      completion:^(BOOL finished){
@@ -582,7 +580,9 @@
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastTime"];
     }
     else
-        [cell setAlertImage];
+        [cell alertShake];
+
+    // !!
 }
 
 -(void)changeTableViewHeightAt:(UIEdgeInsets)edgeInsets
@@ -663,7 +663,6 @@
     
     [cell hidePasswordField];
     [[cell passwordField] setTag:nil];
-    [cell setNormalImage];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

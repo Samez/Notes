@@ -12,7 +12,7 @@
 #define _STANDART_TABBAR_HEIGHT 521
 #define _HIDDEN_TABBAR_HEIGHT 570
 #define _NORMAL_TABBAR_CHANGE_VALUE 170
-#define  _SHIFT_CELL_LENGTH 30 
+#define  _SHIFT_CELL_LENGTH 32
 
 
 @interface UIColor (Extensions)

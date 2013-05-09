@@ -11,12 +11,10 @@
 
 @interface noteListCell : UITableViewCell <UITextFieldDelegate>
 {
-    BOOL alert;
+    BOOL swiped;
 }
 
-@property(setter = setSwiped:) BOOL swiped;
-
-@property BOOL alert;
+@property BOOL swiped;
 @property (nonatomic, retain) Note *note;
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
@@ -27,8 +25,7 @@
 -(void)setN:(Note*)newNote;
 -(void)hidePasswordField;
 -(void)showPasswordField;
--(void)setAlertImage;
--(void)setNormalImage;
--(void)swipeCellAt:(CGFloat)xPixels;
+-(void)swipeLockAt:(CGFloat)pixels;
+-(void)alertShake;
 
 @end

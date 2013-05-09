@@ -34,6 +34,7 @@
 @synthesize trashButton;
 @synthesize cancelButton;
 @synthesize saveButton;
+@synthesize backView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -77,26 +78,26 @@
 
 -(void)setMyTextViewHeight:(CGFloat)height
 {
-    [UIView animateWithDuration:0.5 delay:0.2 options:UIViewAnimationCurveEaseInOut
+    [UIView animateWithDuration:0.2 delay:0 options:nil
                      animations:^{
-                         [self.myTextView setFrame:CGRectMake(11, 63, myTextView.frame.size.width, height)];
+                         [self.myTextView setFrame:CGRectMake(11, 50, myTextView.frame.size.width, height)];
                      } completion:^(BOOL finished) {
-
+[self.myTextView setContentInset:UIEdgeInsetsZero];
                      }];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self hideAlertMessageWithDuration:0.2 needReshow:NO];
-    //[self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, 180, 0)];
-    [self setMyTextViewHeight:200];
+    //[self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, 198, 0)];
+    [self setMyTextViewHeight:198];
 }
-
-
 
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
     //[self.myTextView setContentInset:UIEdgeInsetsZero];
+    [self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, -9999, 0)];
+
     CGFloat height = myTextView.contentSize.height;
     
     if (height > 400)
@@ -183,6 +184,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [backView setBackgroundColor:[UIColor whiteColor]];
+    backView.layer.cornerRadius = 5;
+    backView.layer.masksToBounds = YES;
+    
+    [[self view] addSubview:backView];
+    [[self view] addSubview:myTextView];
+    [[self view] addSubview:myNameField];
+    [[self view] addSubview:lockButton];
 
     [self setupButtons];
     
@@ -249,8 +259,8 @@
         
         [myNameField setText:[note name]];
     }
-    
-    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
+    [[self view] setBackgroundColor:[UIColor blackColor]];
+    //[[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
     
     CGFloat height = myTextView.contentSize.height;
     
@@ -398,6 +408,7 @@
     [self setLockButton:nil];
     [self setAlertLabel:nil];
     
+    [self setBackView:nil];
     [super viewDidUnload];
 }
 

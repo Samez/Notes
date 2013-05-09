@@ -7,6 +7,8 @@
 //
 
 #import "noteListCell.h"
+#import <QuartzCore/QuartzCore.h>
+#import "res.h"
 
 @implementation noteListCell
 
@@ -15,7 +17,7 @@
 @synthesize timeLabel;
 @synthesize noteNameLabel;
 @synthesize passwordField;
-@synthesize alert;
+@synthesize swiped;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -23,52 +25,39 @@
     if (self)
     {
         [passwordField setDelegate:self];
-        alert = NO;
+        swiped= NO;
+        swiped = NO;
     }
     return self;
 }
 
--(void)swipeCellAt:(CGFloat)xPixels
+-(void)swipeLockAt:(CGFloat)pixels
 {
-    [UIView animateWithDuration:0.2
+
+    [UIView animateWithDuration:0.3
                           delay:0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-                             [img setFrame:CGRectMake(img.frame.origin.x - xPixels, img.frame.origin.y, img.frame.size.width, img.frame.size.height)];
+                             [img setFrame:CGRectMake(285 - pixels, img.frame.origin.y, img.frame.size.width, img.frame.size.height)];
                      }
-                     completion:^(BOOL finished){
-                         
-                     }];
+                     completion:nil];
+    
 }
 
--(void)setAlertImage
+-(void)alertShake
 {
-    if (alert)
-        [self setNormalImage];
-    
     [passwordField becomeFirstResponder];
-    
     [passwordField setText:nil];
     
-    [img setAlpha:0];
-    [img setImage:[UIImage imageNamed:@"alert.png"]];
-    
-    [UIView animateWithDuration:0.5
-                          delay:0
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{
-                         [img setAlpha:1];
-                     }
-                     completion:^(BOOL finished){
-                         alert = YES;
-                     }];
-}
-
--(void)setNormalImage
-{
-    [img setImage:[UIImage imageNamed:@"lock.png"]];
-    
-    alert = NO;
+    CABasicAnimation *shake = [CABasicAnimation animationWithKeyPath:@"position"];
+    [shake setDuration:0.1];
+    [shake setRepeatCount:2];
+    [shake setAutoreverses:YES];
+    [shake setFromValue:[NSValue valueWithCGPoint:
+                         CGPointMake(img.center.x - 5,img.center.y)]];
+    [shake setToValue:[NSValue valueWithCGPoint:
+                       CGPointMake(img.center.x + 5, img.center.y)]];
+    [img.layer addAnimation:shake forKey:@"position"];
 }
 
 -(void)hidePasswordField
