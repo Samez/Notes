@@ -37,7 +37,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *lockButton;
 @property (weak, nonatomic) IBOutlet UILabel *alertLabel;
 
-@property int notesCount;
+@property (strong, nonatomic) IBOutlet UIView *backgroundView;
+@property (weak, nonatomic) IBOutlet UIView *paperView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)clickLockButton:(id)sender;
 - (void)clickTrashButton:(id)sender;

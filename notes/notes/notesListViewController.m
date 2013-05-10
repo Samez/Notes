@@ -551,7 +551,6 @@
     [nextC setNote:note];
     [nextC setForEditing:YES];
     [nextC setManagedObjectContext:managedObjectContext];
-    [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
     
     [[self navigationController] pushViewController:nextC animated:YES];
 }
@@ -725,7 +724,6 @@
     testAddViewController *nextC = [[testAddViewController alloc] init];
     
     [nextC setManagedObjectContext:managedObjectContext];
-    [nextC setNotesCount:[[fetchedResultsController fetchedObjects] count]];
     [nextC setNote:nil];
     
     [[self navigationController] pushViewController:nextC animated:YES];

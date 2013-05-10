@@ -29,7 +29,6 @@
 @synthesize timeText;
 @synthesize lockButton;
 @synthesize alertLabel;
-@synthesize notesCount;
 @synthesize trashButton;
 @synthesize cancelButton;
 @synthesize saveButton;
@@ -153,10 +152,6 @@
 
     [self setupButtons];
     
-    [self becomeFirstResponder];
-    
-    myTextView.keyboardAppearance = UIKeyboardAppearanceAlert;
-    myNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     
@@ -179,11 +174,6 @@
     }
 
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
-
-    [myTextView setDelegate:self];
-    [myTextView setReturnKeyType:UIReturnKeyNext];
-
-    [myNameField setDelegate:self];
     
     if (!forEditing)
     {
@@ -192,8 +182,6 @@
 
     } else
     {
-        notesCount--;
-        
         if ([[note isPrivate] boolValue])
             [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
         else
@@ -212,13 +200,17 @@
         [timeText setHidden:NO];
         
         [myTextView setText:[note text]];
-        
         [myNameField setText:[note name]];
     }
     
-    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
+    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"woodenBackground.png"]]];
+    //[self.paperView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"paper.png"]]];
+    [self.myTextView addObserver:self forKeyPath:@"contentSize" options:0 context:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [self observeValueForKeyPath:@"contentSize" ofObject:self.myTextView change:nil context:nil];
+    
 }
-
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSUInteger oldLength = [[textField text] length];
@@ -349,7 +341,91 @@
     [self setLockButton:nil];
     [self setAlertLabel:nil];
     
+    [self setBackgroundView:nil];
+    [self setPaperView:nil];
+    [self setScrollView:nil];
     [super viewDidUnload];
+}
+
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object==self.myTextView)
+    {
+        [self.myTextView removeObserver:self forKeyPath:@"contentSize"];
+        CGRect t=self.myTextView.frame;
+        t.size=self.myTextView.contentSize;
+        self.myTextView.frame=t;
+        if(self.myTextView.frame.size.height<self.scrollView.bounds.size.height-self.myTextView.frame.origin.y)
+        {
+            CGRect t=self.myTextView.frame;
+            t.size.height=self.scrollView.bounds.size.height-self.myTextView.frame.origin.y;
+            self.myTextView.frame=t;
+        }
+        self.scrollView.contentSize=CGSizeMake(self.scrollView.contentSize.width, self.myTextView.frame.origin.y+self.myTextView.contentSize.height);
+        [self.myTextView addObserver:self forKeyPath:@"contentSize" options:0 context:nil];
+        
+    }
+}
+
+-(void) keyboardWillShow:(NSNotification*) notification
+{
+    NSLog(@"show");
+    self.view.superview.backgroundColor=[UIColor redColor];
+    BOOL needResize=NO;
+    if ([myTextView isFirstResponder]|| [myNameField isFirstResponder])
+    {
+        needResize=YES;
+    }
+    if (!needResize) return;
+    
+    NSDictionary* dict=[notification userInfo];
+    CGRect t=self.view.frame;
+    
+    CGFloat keyboardPathLength=[[dict objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].origin.y-[[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
+    
+    CGFloat keyboardTopOnTable=[self.view.superview convertPoint:[[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin fromView:nil].y;
+    CGFloat tableBottom=self.view.superview.frame.size.height;
+    CGFloat animationDuration=(tableBottom-keyboardTopOnTable)/(keyboardPathLength)*[[dict objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    CGFloat delay=[[dict objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue]-animationDuration;
+    NSLog(@"%f %f %f",keyboardTopOnTable,animationDuration ,delay);
+    
+    t.size.height=keyboardTopOnTable;
+    if (animationDuration==INFINITY){
+        self.view.frame=t;
+    }else{
+        
+        [UIView animateWithDuration:animationDuration delay:delay options:0 animations:^{
+            self.view.frame=t;
+        } completion:nil];
+    }
+}
+
+-(void) keyboardWillHide:(NSNotification*) notification
+{
+    NSLog(@"hide");
+    BOOL needResize=NO;
+    if ([myTextView isFirstResponder]|| [myNameField isFirstResponder])
+    {
+        needResize=YES;
+    }
+    if (!needResize) return;
+    
+    NSDictionary* dict=[notification userInfo];
+    //NSLog(@"%@",dict);
+    CGRect t=self.view.frame;
+    
+    CGFloat keyboardPathLength=[[dict objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].origin.y-[[dict objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].origin.y;
+    
+    
+    CGFloat keyboardTopOnTable=[self.view.superview convertPoint:[[dict objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].origin fromView:nil].y;
+    CGFloat tableBottom=self.view.superview.frame.size.height;
+    CGFloat animationDuration=(keyboardTopOnTable-tableBottom)/(keyboardPathLength)*[[dict objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    t.size.height=tableBottom;
+    
+    NSLog(@"%f",animationDuration);
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.view.frame=t;
+    }];
 }
 
 @end
