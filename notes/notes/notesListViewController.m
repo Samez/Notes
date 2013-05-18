@@ -125,6 +125,17 @@
 
 -(void)setupButtons
 {
+    UIImage* image4 = [UIImage imageNamed:@"cancel.png"];
+    CGRect frameimg4 = CGRectMake(0, 0, 36, 24);
+    UIButton *someButton4 = [[UIButton alloc] initWithFrame:frameimg4];
+    [someButton4 setBackgroundImage:image4 forState:UIControlStateNormal];
+    [someButton4 addTarget:self action:@selector(deselectSwipedCells)
+          forControlEvents:UIControlEventTouchUpInside];
+    [someButton4 setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem *bufButton4 =[[UIBarButtonItem alloc] initWithCustomView:someButton4];
+    self.deselectButton=bufButton4;
+    
     UIImage* image3 = [UIImage imageNamed:@"add.png"];
     CGRect frameimg3 = CGRectMake(0, 0, 34, 29);
     UIButton *someButton3 = [[UIButton alloc] initWithFrame:frameimg3];
@@ -158,7 +169,7 @@
     UIBarButtonItem *bufButton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.optionsButton=bufButton;
 
-    self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
+    //self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
     
     self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
     
@@ -279,23 +290,27 @@
 
 -(BOOL)searchViewWillStartSearching:(SearchView *)sender
 {
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    [self.navigationItem setRightBarButtonItem:nil animated:YES];
     if (iP != nil)
     {
         [self didSelectPrivateNoteAtIndexPath:iP];
     }
+    
+    if ([swipedCells count] != 0)
+        [self deselectSwipedCells];
+    
     return YES;
 }
 
 -(BOOL)searchViewWillEndSearching:(SearchView *)sender
 {
-    [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
-    [self.navigationItem setRightBarButtonItem:self.addButton animated:YES];
     if (iP != nil)
     {
         [self didSelectPrivateNoteAtIndexPath:iP];
     }
+    
+    if ([swipedCells count] != 0)
+        [self deselectSwipedCells];
+    
     return YES;
 }
 
@@ -361,7 +376,7 @@
         
         [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
         [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
-        [self.navigationItem setTitleView:searchView];
+        //[self.navigationItem setTitleView:searchView];
 }
 
 -(void)deselectSwipedCells
@@ -373,7 +388,7 @@
     
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
     [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
-    [self.navigationItem setTitleView:searchView];
+    //[self.navigationItem setTitleView:searchView];
     
     swipedCells = nil;
 }
@@ -455,7 +470,7 @@
     {
         [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
         [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
-        [self.navigationItem setTitleView:searchView];
+        //[self.navigationItem setTitleView:searchView];
     }
 
 }
@@ -490,7 +505,7 @@
                 {
                     [self.navigationItem setLeftBarButtonItem:self.deselectButton animated:YES];
                     [self.navigationItem setRightBarButtonItem:self.deleteButton animated:YES];
-                    [self.navigationItem setTitleView:nil];
+                    //[self.navigationItem setTitleView:nil];
                 }
                 
                 if (swipedCells == nil)

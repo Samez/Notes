@@ -7,6 +7,7 @@
 //
 
 #import "SearchView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation SearchView
 
@@ -45,6 +46,7 @@
     {
         [searchField becomeFirstResponder];
         [self.delegate searchViewWillStartSearching:self];
+        
         [UIView animateWithDuration:0.3
                               delay:0
                             options: UIViewAnimationCurveEaseOut
@@ -61,6 +63,7 @@
                              searchingNow = YES;
                              [[NSNotificationCenter defaultCenter] postNotificationName:@"searchingBegin" object:self];
                          }];
+
     } else
     {
         [self.delegate searchViewWillEndSearching:self];
@@ -68,7 +71,6 @@
                               delay:0
                             options: UIViewAnimationCurveEaseOut
                          animations:^{
-
                              [searchField setAlpha:0.0];
                              [searchField resignFirstResponder];
                              searchField.frame = narrowFieldFrame;
@@ -108,9 +110,11 @@
     searchField.placeholder = @"search field";
     [searchField setBorderStyle:UITextBorderStyleRoundedRect];
     [searchField setAlpha:0.0];
-    searchField.rightViewMode = UITextFieldViewModeAlways;
+    //searchField.rightViewMode = UITextFieldViewModeAlways;
+    //[searchField setClearButtonMode:UITextFieldViewModeAlways];
     searchField.keyboardAppearance = UIKeyboardAppearanceAlert;
     searchField.returnKeyType = UIReturnKeyDone;
+    [searchField setSpellCheckingType:UITextSpellCheckingTypeNo];
     [self addSubview:searchField];
     [self addSubview:searchButton];
     [searchField setDelegate:self];
