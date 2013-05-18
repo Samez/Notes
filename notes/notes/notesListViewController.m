@@ -15,6 +15,10 @@
 #import "LocalyticsSession.h"
 #import "OptionsViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MyButton.h"
+#import "SearchView.h"
+
+
 @interface notesListViewController ()
 
 @property UIBarButtonItem* editButton;
@@ -142,9 +146,9 @@
     
     UIBarButtonItem *bufButton2 =[[UIBarButtonItem alloc] initWithCustomView:someButton2];
     self.deleteButton=bufButton2;
-    
+
     UIImage* image = [UIImage imageNamed:@"gear2.png"];
-    CGRect frameimg = CGRectMake(0, 0, 24, 24);
+    CGRect frameimg = CGRectMake(0, 0, 36, 24);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton addTarget:self action:@selector(goToOptions)
@@ -161,11 +165,26 @@
     //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
 }
 
+-(void)empty
+{
+    
+}
+
 -(void)setButtons
 {
-    [[self navigationItem] setLeftBarButtonItem:self.optionsButton animated:NO];
-    
-    [[self navigationItem] setRightBarButtonItem:self.addButton animated:NO];
+    [[self navigationItem] setLeftBarButtonItem:self.optionsButton animated:YES];
+    [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
+    CGFloat delay = 0.0;
+    if (returnedFromOptions)
+        delay = 0.1;
+    [self performSelector:@selector(setNavigationItemTitleView) withObject:nil afterDelay:delay];
+    if (returnedFromOptions)
+        returnedFromOptions = NO;
+}
+
+-(void)setNavigationItemTitleView
+{
+    [[self navigationItem] setTitleView:searchView];
 }
 
 -(void)setupRecognizers
@@ -185,8 +204,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    searchingNow = NO;
     
-    [self setTitle:NSLocalizedString(@"NotesTitle", nil)];
+    myPredicate = nil;
+    searchView = [[SearchView alloc] initWithFrame:CGRectMake(0, 0, 220, 25)];
+    [searchView setDelegate:self];
     
     UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
     [footerView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"whiteBoard.png"]]];
@@ -211,6 +233,77 @@
     
     canSwipe = YES;
     canDelete = YES;
+    
+    UIDevice *device = [UIDevice currentDevice];
+	[device beginGeneratingDeviceOrientationNotifications];
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self
+		   selector:@selector(orientationChanged:)
+			   name:UIDeviceOrientationDidChangeNotification
+			 object:device];
+    
+    orientation = device.orientation;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(searchingBegin)
+                                                 name:@"searchingBegin"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(searchingEnd)
+                                                 name:@"searchingEnd"
+                                               object:nil];
+    
+}
+
+-(void)searchingBegin
+{
+    CGFloat height = 0.0;
+    
+    if ((orientation == 1) || (orientation == 2))
+        height = 216;
+    else
+        if ((orientation == 3) || (orientation == 4))
+            height = 162;
+    
+    [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, height, 0)];
+    [self.tableView setScrollIndicatorInsets:UIEdgeInsetsMake(0, 0, height, 0)];
+}
+
+-(void)searchingEnd
+{
+    [self.tableView setContentInset:UIEdgeInsetsZero];
+    [self.tableView setScrollIndicatorInsets:UIEdgeInsetsZero];
+    [self refetchWithPredicateString:nil];
+}
+
+-(BOOL)searchViewWillStartSearching:(SearchView *)sender
+{
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
+    if (iP != nil)
+    {
+        [self didSelectPrivateNoteAtIndexPath:iP];
+    }
+    return YES;
+}
+
+-(BOOL)searchViewWillEndSearching:(SearchView *)sender
+{
+    [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
+    [self.navigationItem setRightBarButtonItem:self.addButton animated:YES];
+    if (iP != nil)
+    {
+        [self didSelectPrivateNoteAtIndexPath:iP];
+    }
+    return YES;
+}
+
+- (void)orientationChanged:(NSNotification *)notification
+{    
+    orientation = [[notification object] orientation];
+    
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
 }
 
 -(BOOL)showPromptAlert
@@ -268,6 +361,7 @@
         
         [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
         [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
+        [self.navigationItem setTitleView:searchView];
 }
 
 -(void)deselectSwipedCells
@@ -279,6 +373,7 @@
     
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
     [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
+    [self.navigationItem setTitleView:searchView];
     
     swipedCells = nil;
 }
@@ -360,6 +455,7 @@
     {
         [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
         [self.navigationItem setLeftBarButtonItem:self.optionsButton animated:YES];
+        [self.navigationItem setTitleView:searchView];
     }
 
 }
@@ -394,6 +490,7 @@
                 {
                     [self.navigationItem setLeftBarButtonItem:self.deselectButton animated:YES];
                     [self.navigationItem setRightBarButtonItem:self.deleteButton animated:YES];
+                    [self.navigationItem setTitleView:nil];
                 }
                 
                 if (swipedCells == nil)
@@ -410,7 +507,6 @@
 
 -(void)swipeCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels withTargetColor:(UIColor*)color andWithDuration:(CGFloat)duration
 {
-    
     [UIView animateWithDuration:duration
                           delay:0
                         options: UIViewAnimationCurveEaseOut
@@ -475,7 +571,6 @@
     if (returnedFromOptions)
     {
         [self performSelector:@selector(setButtons) withObject:nil afterDelay:0.8];
-        returnedFromOptions = NO;
     }
     
     [[LocalyticsSession shared] tagScreen:@"Notes list"];
@@ -485,13 +580,12 @@
 {
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     [self.navigationItem setRightBarButtonItem:nil animated:YES];
+    [self.navigationItem setTitleView:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [[self tableView] reloadData];
-    
-
     
     [self loadSettings];
     
@@ -513,6 +607,10 @@
     [self deselectSwipedCells];
     [self deselectPrivateRowAtIndexPath:iP];
     iP = nil;
+    if ([searchView searchingNow])
+        [searchView buttonClick];
+    [self.navigationItem setLeftBarButtonItem:nil animated:NO];
+    [self.navigationItem setRightBarButtonItem:nil animated:NO];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -596,11 +694,23 @@
                              [self.tableView setScrollIndicatorInsets:edgeInsets];
                          }
                          completion:^(BOOL finished){
+                             int maxIndex = 0;
+                             
+                             if ((orientation == 1) || (orientation == 2))
+                             {
+                                 maxIndex = 5;
+                             } else
+                                 if ((orientation == 3) || (orientation == 4))
+                                 {
+                                     maxIndex = 2;
+                                 }
+                             
                              int index = [[self.tableView visibleCells] indexOfObject:[self.tableView cellForRowAtIndexPath:iP]];
                              if (index == 0)
                                 [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionTop animated:YES];
-                             else if (index >=5)
+                             else if (index >= maxIndex)
                                      [self.tableView scrollToRowAtIndexPath:iP atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                             
                              canTryToEnter = YES;
                          }];
     }
@@ -622,8 +732,17 @@
             [self.tableView beginUpdates];
             
             [self.tableView endUpdates];
-
-            [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, 180, 0)];
+            
+            
+            CGFloat height = 0.0;
+            
+            if ((orientation == 1) || (orientation == 2))
+                height = 216;
+            else
+                if ((orientation == 3) || (orientation == 4))
+                    height = 162;
+            
+            [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, height, 0)];
         }
         else
         {
@@ -862,17 +981,42 @@
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
         NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
         
+        if(myPredicate.length != 0)
+        {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", myPredicate];
+            [fetchRequest setPredicate:predicate];
+        }
+        
         [fetchRequest setSortDescriptors:sortDescriptors];
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
+        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:nil];
         aFetchedResultsController.delegate = self;
         self.fetchedResultsController = aFetchedResultsController;
-        
     }
 	
 	return fetchedResultsController;
+}
+
+-(void)searchView:(SearchView *)sender changeTextTo:(NSString *)text
+{
+    [self refetchWithPredicateString:text];
+}
+
+-(void)refetchWithPredicateString:(NSString*)predicate
+{
+    fetchedResultsController.delegate = nil;
+    fetchedResultsController = nil;
+    
+    myPredicate = predicate;
+    
+    NSError *error;
+    if (![[self fetchedResultsController] performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)viewDidUnload
@@ -880,4 +1024,6 @@
     [self setNoteCell:nil];
     [super viewDidUnload];
 }
+
+
 @end

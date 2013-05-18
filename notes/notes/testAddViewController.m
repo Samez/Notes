@@ -10,6 +10,7 @@
 #import "res.h"
 #import "LocalyticsSession.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MyButton.h"
 
 #define MAXLENGTH 25
 
@@ -46,6 +47,7 @@
         alertIsVisible = NO;
         alerting = NO;
         hidining = NO;
+        orientation = 0;
     }
     return self;
 }
@@ -57,17 +59,13 @@
     
     if (forEditing)
         self.navigationItem.titleView = trashButton;
-    
-    self.myTextView.layer.cornerRadius = 5;
-    self.myTextView.layer.masksToBounds=YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {    
     if (!forEditing)
         [self.myTextView becomeFirstResponder];
-    [myTextView setNeedsDisplay];
-
+    
     [[LocalyticsSession shared] tagScreen:@"New note / edit note"];
 }
 
@@ -76,37 +74,18 @@
     [myTextView setNeedsDisplay];
 }
 
--(void)setMyTextViewHeight:(CGFloat)height
+-(void)setMyTextViewHeight:(CGFloat)height withDuration:(CGFloat)duration
 {
-    [UIView animateWithDuration:0.2 delay:0 options:nil
+    [UIView animateWithDuration:duration delay:0 options:nil
                      animations:^{
-                         [self.myTextView setFrame:CGRectMake(11, 50, myTextView.frame.size.width, height)];
+                         [self.myTextView setFrame:CGRectMake(11, 45, myTextView.frame.size.width, height)];
                      } completion:^(BOOL finished) {
-[self.myTextView setContentInset:UIEdgeInsetsZero];
                      }];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self hideAlertMessageWithDuration:0.2 needReshow:NO];
-    //[self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, 198, 0)];
-    [self setMyTextViewHeight:198];
-}
-
--(void)textViewDidEndEditing:(UITextView *)textView
-{
-    //[self.myTextView setContentInset:UIEdgeInsetsZero];
-    [self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, -9999, 0)];
-
-    CGFloat height = myTextView.contentSize.height;
-    
-    if (height > 400)
-        height = 400;
-    else
-        if (height < 200)
-            height = 200;
-    
-    [self setMyTextViewHeight:height];
 }
 
 -(void)showAlertMessageWithDuration:(CGFloat)duration
@@ -184,17 +163,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [backView setBackgroundColor:[UIColor whiteColor]];
     backView.layer.cornerRadius = 5;
     backView.layer.masksToBounds = YES;
     
-    [[self view] addSubview:backView];
+    backView.frame = CGRectMake(11, 11, self.view.frame.size.width - 22, self.myTextView.frame.origin.y+self.myTextView.frame.size.height);
+    
     [[self view] addSubview:myTextView];
     [[self view] addSubview:myNameField];
-    [[self view] addSubview:lockButton];
-
-    [self setupButtons];
     
     [self becomeFirstResponder];
     
@@ -231,18 +208,18 @@
     if (!forEditing)
     {
         [timeText setHidden:YES];
-        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
+        //[lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
 
     } else
     {
         [timeText setHidden:YES];
         notesCount--;
-        
+        /*
         if ([[note isPrivate] boolValue])
             [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
         else
             [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
-
+        */
         NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
         [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
         
@@ -259,23 +236,143 @@
         
         [myNameField setText:[note name]];
     }
-    [[self view] setBackgroundColor:[UIColor blackColor]];
-    //[[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"oneNoteBackground.png"]]];
+    //[[self view] setBackgroundColor:[UIColor blackColor]];
+    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"woodenBackground.png"]]];
     
-    CGFloat height = myTextView.contentSize.height;
+    UIDevice *device = [UIDevice currentDevice];					
+	[device beginGeneratingDeviceOrientationNotifications];			
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];	
+	[nc addObserver:self											
+		   selector:@selector(orientationChanged:)
+			   name:UIDeviceOrientationDidChangeNotification
+			 object:device];
     
-    if( forEditing)
+    orientation = device.orientation;
+    
+    CGFloat height = 0.0;
+    
+    if ((orientation == 3) || (orientation == 4))
     {
+        height = self.view.frame.size.height - myTextView.frame.origin.y - 11;
+        backView.frame = CGRectMake(backView.frame.origin.x,backView.frame.origin.y ,backView.frame.size.width, height);
+        height = 212;
+    } else
+        if ((orientation == 1) || (orientation == 2))
+        {
+            if(forEditing)
+            {
+                height = myTextView.contentSize.height;
+                
+                if (height > 400)
+                    height = 400;
+                else
+                    if (height < 200)
+                        height = 200;
+            } else
+                height = 200;
+            
+        }
+
+    myTextView.frame = CGRectMake(myTextView.frame.origin.x,myTextView.frame.origin.y ,myTextView.frame.size.width, height);
+    
+    self.myTextView.layer.cornerRadius = 5;
+    self.myTextView.layer.masksToBounds=YES;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [myTextView setNeedsDisplay];
+    
+    UIImage *firstImage;
+    UIImage *secondImage;
+    
+    if (isPrivate)
+    {
+        firstImage  = [UIImage imageNamed:@"locked.png"];
+        secondImage = [UIImage imageNamed:@"unlocked.png"];
+    } else
+    {
+        firstImage  = [UIImage imageNamed:@"unlocked.png"];
+        secondImage = [UIImage imageNamed:@"locked.png"];
+    }
+    
+    UIView *container    = [UIButton flipButtonWithFirstImage:firstImage
+                                                  secondImage:secondImage
+                                              firstTransition:UIViewAnimationTransitionFlipFromRight
+                                             secondTransition:UIViewAnimationTransitionFlipFromRight
+                                               animationCurve:UIViewAnimationCurveEaseInOut
+                                                     duration:0.4
+                                                       target:self
+                                                     selector:@selector(clickLockButton:)];
+    
+    [lockButton addSubview:container];
+    
+    [[self view] addSubview:lockButton];
+    
+    [self setupButtons];
+}
+
+-(void) keyboardWillShow:(NSNotification*) notification
+{
+    if ((orientation == 3)||(orientation == 4))
+    {
+        [self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, 158, 0)];
+    } else
+        {
+            [self.myTextView setContentInset:UIEdgeInsetsZero];
+        }
+    
+    if ((orientation == 1)||(orientation == 2))
+    {
+        [self setMyTextViewHeight:200 withDuration:0.2];
+    }
+}
+
+-(void) keyboardWillHide:(NSNotification*) notification
+{
+    [self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, myTextView.contentSize.height, 0)];
+    
+    if ((orientation == 1)||(orientation == 2))
+    {
+        CGFloat height = myTextView.contentSize.height;
+        
         if (height > 400)
             height = 400;
         else
             if (height < 200)
                 height = 200;
         
-        [self setMyTextViewHeight:height];
+        [self setMyTextViewHeight:height withDuration:0.2];
     }
     
-    [myTextView setNeedsDisplay];
+    [self.myTextView setContentInset:UIEdgeInsetsZero];
+}
+
+
+- (void)orientationChanged:(NSNotification *)notification
+{
+    orientation = [[notification object] orientation];
+    
+    if ((orientation == 3)||(orientation == 4))
+    {
+        myTextView.frame = CGRectMake(myTextView.frame.origin.x, myTextView.frame.origin.y, myTextView.frame.size.width, (self.view.frame.size.height - myTextView.frame.origin.y - 11));
+    }
+    
+    if ((orientation == 1)||(orientation == 2))
+    {
+        CGFloat height = myTextView.contentSize.height;
+        
+        if (height > 400)
+            height = 400;
+        else
+            if (height < 200)
+                height = 200;
+        
+        myTextView.frame = CGRectMake(myTextView.frame.origin.x, myTextView.frame.origin.y, myTextView.frame.size.width, height);
+        
+        backView.frame = CGRectMake(backView.frame.origin.x, backView.frame.origin.y, backView.frame.size.width, 200);
+    }
+    
 }
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -295,28 +392,47 @@
     isPrivate = !isPrivate;
     
     [self hideAlertMessageWithDuration:0.2 needReshow:NO];
-    
-    if (!isPrivate)
-        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
-    else
-        [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
+
 }
 
 - (void)clickTrashButton:(id)sender
 {
-    [managedObjectContext deleteObject:note];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:@"Complete deletion"
+                                  delegate:self
+                                  cancelButtonTitle:@"Cancel"
+                                  destructiveButtonTitle:@"Delete "
+                                  otherButtonTitles:nil,nil];
     
-    NSError *error = nil;
-    
-    if (![[self managedObjectContext] save:&error])
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch(buttonIndex)
     {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        case 0:
+        {
+            [managedObjectContext deleteObject:note];
+            
+            NSError *error = nil;
+            
+            if (![[self managedObjectContext] save:&error])
+            {
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+            
+            [[LocalyticsSession shared] tagEvent:@"Old note was deleted"];
+            
+            [[self navigationController] popToRootViewControllerAnimated:YES];
+            break;
+        }
+        case 1:
+        {
+            break;
+        }
     }
-    
-    [[LocalyticsSession shared] tagEvent:@"Old note was deleted"];
-    
-    [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 - (void)cancel

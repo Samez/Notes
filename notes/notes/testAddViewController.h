@@ -13,7 +13,7 @@
 #import "MyTextView.h"
 #import "MyTextField.h"
 
-@interface testAddViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate, NSFetchedResultsControllerDelegate>
+@interface testAddViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate, NSFetchedResultsControllerDelegate, UIActionSheetDelegate>
 {
     UIImageView *tempImageView;
     int nameSymbolCount;
@@ -21,6 +21,7 @@
     BOOL alertIsVisible;
     BOOL alerting;
     BOOL hidining;
+    int orientation;
 }
 @property (weak, nonatomic) IBOutlet UIView *backView;
 

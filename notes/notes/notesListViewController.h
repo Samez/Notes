@@ -11,8 +11,9 @@
 #import "noteListCell.h"
 #import "CustomAlertView.h"
 #import "addNewNoteViewController.h"
+#import "SearchView.h"
 
-@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate>
+@interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, SearchViewDelegate>
 {
     NSIndexPath *iP;
     NSString *PSWD;
@@ -24,6 +25,10 @@
     CustomAlertView *customAlertView;
     UIColor *swipeColor;
     BOOL returnedFromOptions;
+    int orientation;
+    SearchView *searchView;
+    NSString *myPredicate;
+    BOOL searchingNow;
 }
 
 @property (strong, nonatomic) IBOutlet noteListCell *noteCell;

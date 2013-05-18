@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0414A462173E70E600E1901E /* locked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0414A460173E70E600E1901E /* locked@2x.png */; };
+		0414A463173E70E600E1901E /* unlocked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0414A461173E70E600E1901E /* unlocked@2x.png */; };
 		041A7D7616D492B400F91496 /* enterNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A7D7516D492B400F91496 /* enterNameCell.m */; };
 		041A7D7816D492C900F91496 /* enterNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D7716D492C900F91496 /* enterNameCell.xib */; };
 		041A7D7D16D4945B00F91496 /* enterTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041A7D7C16D4945B00F91496 /* enterTextCell.xib */; };
@@ -48,12 +50,13 @@
 		04D5399C170C686400CC268D /* unlocked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399A170C686400CC268D /* unlocked.png */; };
 		04D5399D170C686400CC268D /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D5399B170C686400CC268D /* locked.png */; };
 		04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A2170C7BF100CC268D /* woodenBackground.png */; };
-		04D539AA170C977600CC268D /* oneNoteBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D539A6170C977500CC268D /* oneNoteBackground.png */; };
-		04D53A11170C9E8100CC268D /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D53A10170C9E8100CC268D /* trash.png */; };
 		04D53A13170CA28900CC268D /* trash2.png in Resources */ = {isa = PBXBuildFile; fileRef = 04D53A12170CA28900CC268D /* trash2.png */; };
 		04D6D40216DCF7980053C4AF /* passwordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40116DCF7980053C4AF /* passwordViewController.m */; };
 		04D6D40C16DDCE620053C4AF /* passwordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6D40B16DDCE620053C4AF /* passwordCell.m */; };
 		04D6D40E16DDCE740053C4AF /* passwordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D6D40D16DDCE740053C4AF /* passwordCell.xib */; };
+		04EB13A217454D51004281E7 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 04EB13A017454D51004281E7 /* search.png */; };
+		04EB13A317454D51004281E7 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04EB13A117454D51004281E7 /* search@2x.png */; };
+		04EB13A717455D86004281E7 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EB13A617455D86004281E7 /* SearchView.m */; };
 		04EBB6A5172EF0AF00197C14 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A4172EF0AF00197C14 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		04EBB6A7172EF0C300197C14 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A6172EF0C300197C14 /* libsqlite3.dylib */; };
 		04EBB6A9172EF0CB00197C14 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A8172EF0CB00197C14 /* libz.dylib */; };
@@ -75,6 +78,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0414A460173E70E600E1901E /* locked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "locked@2x.png"; path = "Pics/locked@2x.png"; sourceTree = SOURCE_ROOT; };
+		0414A461173E70E600E1901E /* unlocked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "unlocked@2x.png"; path = "Pics/unlocked@2x.png"; sourceTree = SOURCE_ROOT; };
+		0414A466173E761400E1901E /* MyButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyButton.h; sourceTree = "<group>"; };
 		041A7D7416D492B400F91496 /* enterNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enterNameCell.h; sourceTree = "<group>"; };
 		041A7D7516D492B400F91496 /* enterNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = enterNameCell.m; sourceTree = "<group>"; };
 		041A7D7716D492C900F91496 /* enterNameCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = enterNameCell.xib; sourceTree = "<group>"; };
@@ -137,14 +143,16 @@
 		04D5399A170C686400CC268D /* unlocked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unlocked.png; path = Pics/unlocked.png; sourceTree = SOURCE_ROOT; };
 		04D5399B170C686400CC268D /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locked.png; path = Pics/locked.png; sourceTree = SOURCE_ROOT; };
 		04D539A2170C7BF100CC268D /* woodenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = woodenBackground.png; path = Pics/woodenBackground.png; sourceTree = SOURCE_ROOT; };
-		04D539A6170C977500CC268D /* oneNoteBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = oneNoteBackground.png; path = Pics/oneNoteBackground.png; sourceTree = SOURCE_ROOT; };
-		04D53A10170C9E8100CC268D /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trash.png; path = Pics/trash.png; sourceTree = SOURCE_ROOT; };
 		04D53A12170CA28900CC268D /* trash2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trash2.png; path = Pics/trash2.png; sourceTree = SOURCE_ROOT; };
 		04D6D40016DCF7980053C4AF /* passwordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordViewController.h; sourceTree = "<group>"; };
 		04D6D40116DCF7980053C4AF /* passwordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordViewController.m; sourceTree = "<group>"; };
 		04D6D40A16DDCE620053C4AF /* passwordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = passwordCell.h; sourceTree = "<group>"; };
 		04D6D40B16DDCE620053C4AF /* passwordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = passwordCell.m; sourceTree = "<group>"; };
 		04D6D40D16DDCE740053C4AF /* passwordCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = passwordCell.xib; sourceTree = "<group>"; };
+		04EB13A017454D51004281E7 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = search.png; path = Pics/search.png; sourceTree = SOURCE_ROOT; };
+		04EB13A117454D51004281E7 /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search@2x.png"; path = "Pics/search@2x.png"; sourceTree = SOURCE_ROOT; };
+		04EB13A517455D86004281E7 /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
+		04EB13A617455D86004281E7 /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		04EBB6A4172EF0AF00197C14 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		04EBB6A6172EF0C300197C14 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		04EBB6A8172EF0CB00197C14 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -331,6 +339,8 @@
 			children = (
 				044DE19E16D3AE54004CDE0A /* notesListViewController.h */,
 				044DE19F16D3AE54004CDE0A /* notesListViewController.m */,
+				0414A466173E761400E1901E /* MyButton.h */,
+				04EB13A417455D6E004281E7 /* Searching */,
 				041A7D8116D495ED00F91496 /* Note add */,
 				0425A939171D2D7F00977913 /* Custom alert View */,
 			);
@@ -379,13 +389,15 @@
 				04C233051726F5910059AF18 /* add@2x.png */,
 				04ECD1881732E4D5008F3CF7 /* whiteBoard.png */,
 				04C233061726F5910059AF18 /* add.png */,
-				04D539A6170C977500CC268D /* oneNoteBackground.png */,
 				04ECD2741735DA31008F3CF7 /* мистер жир */,
 				04D53A12170CA28900CC268D /* trash2.png */,
-				04D53A10170C9E8100CC268D /* trash.png */,
 				04ECD2851735E338008F3CF7 /* cancel@2x.png */,
 				04ECD2861735E338008F3CF7 /* cancel.png */,
 				04ECD2501735BBB6008F3CF7 /* list2.png */,
+				0414A460173E70E600E1901E /* locked@2x.png */,
+				0414A461173E70E600E1901E /* unlocked@2x.png */,
+				04EB13A017454D51004281E7 /* search.png */,
+				04EB13A117454D51004281E7 /* search@2x.png */,
 				047A62721737318A00128F7A /* list2@2x.png */,
 				042731D1172596D500B921E7 /* gear2@2x.png */,
 				042731D2172596D500B921E7 /* gear2.png */,
@@ -431,6 +443,15 @@
 				04D6D40D16DDCE740053C4AF /* passwordCell.xib */,
 			);
 			name = "Password cell";
+			sourceTree = "<group>";
+		};
+		04EB13A417455D6E004281E7 /* Searching */ = {
+			isa = PBXGroup;
+			children = (
+				04EB13A517455D86004281E7 /* SearchView.h */,
+				04EB13A617455D86004281E7 /* SearchView.m */,
+			);
+			name = Searching;
 			sourceTree = "<group>";
 		};
 		04ECD1911732F2C8008F3CF7 /* My text view */ = {
@@ -537,8 +558,6 @@
 				04D5399C170C686400CC268D /* unlocked.png in Resources */,
 				04D5399D170C686400CC268D /* locked.png in Resources */,
 				04D539A3170C7BF100CC268D /* woodenBackground.png in Resources */,
-				04D539AA170C977600CC268D /* oneNoteBackground.png in Resources */,
-				04D53A11170C9E8100CC268D /* trash.png in Resources */,
 				04D53A13170CA28900CC268D /* trash2.png in Resources */,
 				04CA1FCF1713591500F7488F /* Localizable.strings in Resources */,
 				042731D3172596D500B921E7 /* gear2@2x.png in Resources */,
@@ -560,6 +579,10 @@
 				04ECD2871735E338008F3CF7 /* cancel@2x.png in Resources */,
 				04ECD2881735E338008F3CF7 /* cancel.png in Resources */,
 				047A62731737318A00128F7A /* list2@2x.png in Resources */,
+				0414A462173E70E600E1901E /* locked@2x.png in Resources */,
+				0414A463173E70E600E1901E /* unlocked@2x.png in Resources */,
+				04EB13A217454D51004281E7 /* search.png in Resources */,
+				04EB13A317454D51004281E7 /* search@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +611,7 @@
 				046D1F5D172D8E4B006CAFC7 /* TimeIntervalViewController.m in Sources */,
 				04ECD1901732F0CF008F3CF7 /* MyTextView.m in Sources */,
 				04A50177173BE316009DA6C3 /* MyTextField.m in Sources */,
+				04EB13A717455D86004281E7 /* SearchView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
