@@ -310,7 +310,7 @@
     
     if ([swipedCells count] != 0)
         [self deselectSwipedCells];
-    
+
     return YES;
 }
 
@@ -743,12 +743,7 @@
             [[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] passwordField] setTag:666];
             
             [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] showPasswordField];
-            
-            [self.tableView beginUpdates];
-            
-            [self.tableView endUpdates];
-            
-            
+
             CGFloat height = 0.0;
             
             if ((orientation == 1) || (orientation == 2))
@@ -998,7 +993,7 @@
         
         if(myPredicate.length != 0)
         {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", myPredicate];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", myPredicate];
             [fetchRequest setPredicate:predicate];
         }
         
@@ -1030,6 +1025,11 @@
     if (![[self fetchedResultsController] performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+    
+    if ([[fetchedResultsController fetchedObjects] count] == 0)
+        [self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleNone)];
+    else
+        [self.tableView setSeparatorStyle:(UITableViewCellSeparatorStyleSingleLine)];
     
     [self.tableView reloadData];
 }

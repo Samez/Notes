@@ -25,7 +25,6 @@
 -(void)setN:(Note*)newNote;
 -(void)hidePasswordField;
 -(void)showPasswordField;
--(void)swipeLockAt:(CGFloat)pixels;
 -(void)alertShake;
 
 @end

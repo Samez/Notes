@@ -31,19 +31,6 @@
     return self;
 }
 
--(void)swipeLockAt:(CGFloat)pixels
-{
-
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{
-                             [img setFrame:CGRectMake(285 - pixels, img.frame.origin.y, img.frame.size.width, img.frame.size.height)];
-                     }
-                     completion:nil];
-    
-}
-
 -(void)alertShake
 {
     [passwordField becomeFirstResponder];

@@ -398,7 +398,7 @@
 - (void)clickTrashButton:(id)sender
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:@"Complete deletion"
+                                  initWithTitle:nil
                                   delegate:self
                                   cancelButtonTitle:@"Cancel"
                                   destructiveButtonTitle:@"Delete "

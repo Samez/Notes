@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SearchField.h"
 
 @protocol SearchViewDelegate;
 
 @interface SearchView : UIView <UITextFieldDelegate>
 {
-    UITextField *searchField;
+    SearchField *searchField;
     UIButton *searchButton;
     BOOL searchingNow;
     CGRect unsearchingButtonRect;

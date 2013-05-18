@@ -57,6 +57,7 @@
 		04EB13A217454D51004281E7 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 04EB13A017454D51004281E7 /* search.png */; };
 		04EB13A317454D51004281E7 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04EB13A117454D51004281E7 /* search@2x.png */; };
 		04EB13A717455D86004281E7 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EB13A617455D86004281E7 /* SearchView.m */; };
+		04EB13AB1747FD17004281E7 /* SearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EB13AA1747FD17004281E7 /* SearchField.m */; };
 		04EBB6A5172EF0AF00197C14 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A4172EF0AF00197C14 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		04EBB6A7172EF0C300197C14 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A6172EF0C300197C14 /* libsqlite3.dylib */; };
 		04EBB6A9172EF0CB00197C14 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBB6A8172EF0CB00197C14 /* libz.dylib */; };
@@ -153,6 +154,8 @@
 		04EB13A117454D51004281E7 /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search@2x.png"; path = "Pics/search@2x.png"; sourceTree = SOURCE_ROOT; };
 		04EB13A517455D86004281E7 /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
 		04EB13A617455D86004281E7 /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
+		04EB13A91747FD17004281E7 /* SearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchField.h; sourceTree = "<group>"; };
+		04EB13AA1747FD17004281E7 /* SearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchField.m; sourceTree = "<group>"; };
 		04EBB6A4172EF0AF00197C14 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		04EBB6A6172EF0C300197C14 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		04EBB6A8172EF0CB00197C14 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -450,8 +453,18 @@
 			children = (
 				04EB13A517455D86004281E7 /* SearchView.h */,
 				04EB13A617455D86004281E7 /* SearchView.m */,
+				04EB13A81747FCFF004281E7 /* searchField */,
 			);
 			name = Searching;
+			sourceTree = "<group>";
+		};
+		04EB13A81747FCFF004281E7 /* searchField */ = {
+			isa = PBXGroup;
+			children = (
+				04EB13A91747FD17004281E7 /* SearchField.h */,
+				04EB13AA1747FD17004281E7 /* SearchField.m */,
+			);
+			name = searchField;
 			sourceTree = "<group>";
 		};
 		04ECD1911732F2C8008F3CF7 /* My text view */ = {
@@ -612,6 +625,7 @@
 				04ECD1901732F0CF008F3CF7 /* MyTextView.m in Sources */,
 				04A50177173BE316009DA6C3 /* MyTextField.m in Sources */,
 				04EB13A717455D86004281E7 /* SearchView.m in Sources */,
+				04EB13AB1747FD17004281E7 /* SearchField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
