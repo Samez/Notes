@@ -16,7 +16,7 @@
 #import "OptionsViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MyButton.h"
-#import "SearchView.h"
+#import "SearchField.h"
 
 
 @interface notesListViewController ()
@@ -693,7 +693,7 @@
 
     if ([[[cell passwordField] text] isEqualToString:PSWD])
     {
-        [self changeTableViewHeightAt:UIEdgeInsetsZero];
+        [self changeTableViewHeightAt:UIEdgeInsetsZero withDuration:0.25];
         [self showNoteAtIndexPath:iP animated:YES];
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastTime"];
     }
@@ -703,12 +703,12 @@
     // !!
 }
 
--(void)changeTableViewHeightAt:(UIEdgeInsets)edgeInsets
+-(void)changeTableViewHeightAt:(UIEdgeInsets)edgeInsets withDuration:(CGFloat)duration
 {
     if (canTryToEnter)
     {
         canTryToEnter = NO;
-        [UIView animateWithDuration:0.25 delay:0 options: UIViewAnimationCurveEaseOut
+        [UIView animateWithDuration:duration delay:0 options: UIViewAnimationCurveEaseOut
                          animations:^{
                              [self.tableView setContentInset:edgeInsets];
                              [self.tableView setScrollIndicatorInsets:edgeInsets];
@@ -742,6 +742,7 @@
     {
         if (iP == nil)
         {
+            [[searchView searchField] resignFirstResponder];
             canSwipe = NO;
             iP = indexPath;
             
@@ -757,7 +758,7 @@
                 if ((orientation == 3) || (orientation == 4))
                     height = 162;
             
-            [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, height, 0)];
+            [self changeTableViewHeightAt:UIEdgeInsetsMake(0, 0, height, 0) withDuration:0.25];
         }
         else
         {
@@ -777,7 +778,7 @@
                 canSwipe = YES;
                 [self deselectPrivateRowAtIndexPath:iP];
 
-                [self changeTableViewHeightAt:UIEdgeInsetsZero];
+                [self changeTableViewHeightAt:UIEdgeInsetsZero withDuration:0.25];
  
                 iP = nil;
             }
@@ -1016,6 +1017,16 @@
 
 -(void)searchView:(SearchView *)sender changeTextTo:(NSString *)text
 {
+    if (iP!=nil)
+    {        
+        canSwipe = YES;
+        [self deselectPrivateRowAtIndexPath:iP];
+        
+        [self changeTableViewHeightAt:UIEdgeInsetsZero withDuration:0];
+        
+        iP = nil;
+    }
+    
     [self refetchWithPredicateString:text];
 }
 

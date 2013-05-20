@@ -35,7 +35,7 @@
 
     //Set the line offset from the baseline. (I'm sure there's a concrete way to calculate this.)
     
-    CGFloat baselineOffset = 22.0f; // 8 + font size ???
+    CGFloat baselineOffset = self.font.leading + 4;//22.0f;
 
     //iterate over numberOfLines and draw each line
     for (int x = 0; x < numberOfLines; x++) {

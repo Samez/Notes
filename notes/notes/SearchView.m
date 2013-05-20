@@ -30,7 +30,6 @@
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    //[self.delegate searchView:self changeTextTo:[NSString stringWithFormat:@"%@%@",[searchField text],string]];
     [self performSelector:@selector(getText) withObject:nil afterDelay:0.05];
     return YES;
 }
@@ -44,7 +43,7 @@
 {
     if (!searchingNow)
     {
-        //[searchField setCursorColor:[UIColor clearColor]];
+        [searchField setCurColor:[UIColor clearColor]];
         [searchField becomeFirstResponder];
         [self.delegate searchViewWillStartSearching:self];
         
@@ -63,7 +62,7 @@
                          completion:^(BOOL finished){
                              searchingNow = YES;
                              [[NSNotificationCenter defaultCenter] postNotificationName:@"searchingBegin" object:self];
-                             [searchField setCursorColor:[UIColor colorWithRed:81.0f/255.0f green:106.0f/255.0f blue:237.0f/255.0f alpha:1.0f]];
+                             [searchField setCurColor:[UIColor colorWithRed:81.0f/255.0f green:106.0f/255.0f blue:237.0f/255.0f alpha:1.0f]];
                          }];
 
     } else
@@ -94,7 +93,6 @@
 
 -(void)setUpWithFrame:(CGRect)frame
 {
-
     UIButton *button0 = [UIButton buttonWithType:UIButtonTypeCustom];
 
     unsearchingButtonRect = CGRectMake(frame.origin.x + frame.size.width/2 -15, frame.origin.y + frame.size.height/2 - 15, 34, 29);

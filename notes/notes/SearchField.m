@@ -8,11 +8,13 @@
 
 #import "SearchField.h"
 
-@interface SearchField (Private)
-- (void)setup:(CGRect)frame;
+@interface SearchField () 
+
 @end
 
 @implementation SearchField
+
+@synthesize curColor;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -30,7 +32,8 @@
     return self;
 }
 
-- (void) setCursorColor:(UIColor *)cursorColor {
+- (void) setCursorColor:(UIColor *)cursorColor
+{
     cursor_.backgroundColor = cursorColor;
 }
 

@@ -357,6 +357,7 @@
 {
     if ((orientation == 3)||(orientation == 4))
     {
+        
         [self.myTextView setContentInset:UIEdgeInsetsMake(0, 0, 158, 0)];
     } else
         {
@@ -417,6 +418,7 @@
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+
     NSUInteger oldLength = [[textField text] length];
     NSUInteger replacementLength = [string length];
     NSUInteger rangeLength = range.length;

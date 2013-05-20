@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchField : UITextField {
+@interface SearchField : UITextField 
+{
     UIView *cursor_;
 }
 
-@property (nonatomic, strong) UIColor *cursorColor;
+@property (nonatomic, strong) UIColor *curColor;
 
+- (void)setup:(CGRect)frame;
 @end
