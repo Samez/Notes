@@ -276,7 +276,7 @@
     else
         if ((orientation == 3) || (orientation == 4))
             height = 162;
-    
+        
     [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, height, 0)];
     [self.tableView setScrollIndicatorInsets:UIEdgeInsetsMake(0, 0, height, 0)];
 }
@@ -315,10 +315,15 @@
 }
 
 - (void)orientationChanged:(NSNotification *)notification
-{    
+{
     orientation = [[notification object] orientation];
     
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 -(BOOL)showPromptAlert

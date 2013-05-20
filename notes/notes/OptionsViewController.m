@@ -8,6 +8,7 @@
 
 #define _VISUAL_SECTION 0
     #define _SWIPED_CELLS_COLOR 0
+    #define _FONT 1
 
 #define _SORT_SECTION 1
     #define _UNSAFE_DELETION 0
@@ -274,6 +275,11 @@
                     
                     [[MYcell stateSwitcher] setOn:swipeColorIsRed];
                     
+                    break;
+                }
+                case _FONT:
+                {
+                    //TODO: FONT
                     break;
                 }
             }

@@ -58,7 +58,10 @@
     [self.navigationItem setRightBarButtonItem:saveButton animated:YES];
     
     if (forEditing)
+    {
         self.navigationItem.titleView = trashButton;
+        [self updateTimeText];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -78,7 +81,7 @@
 {
     [UIView animateWithDuration:duration delay:0 options:nil
                      animations:^{
-                         [self.myTextView setFrame:CGRectMake(11, 45, myTextView.frame.size.width, height)];
+                         [self.myTextView setFrame:CGRectMake(11, 50, myTextView.frame.size.width, height)];
                      } completion:^(BOOL finished) {
                      }];
 }
@@ -164,16 +167,14 @@
 {
     [super viewDidLoad];
 
-    [backView setBackgroundColor:[UIColor whiteColor]];
-    backView.layer.cornerRadius = 5;
-    backView.layer.masksToBounds = YES;
-    
-    backView.frame = CGRectMake(11, 11, self.view.frame.size.width - 22, self.myTextView.frame.origin.y+self.myTextView.frame.size.height);
-    
-    [[self view] addSubview:myTextView];
-    [[self view] addSubview:myNameField];
-    
     [self becomeFirstResponder];
+    
+    CGRect rect = myTextView.frame;
+    rect.size.height = 200;
+    myTextView.frame = rect;
+    
+    [myTextView addObserver:self forKeyPath:@"frame" options:0 context:nil];
+    [self observeValueForKeyPath:@"frame" ofObject:myTextView change:nil context:nil];
     
     myTextView.keyboardAppearance = UIKeyboardAppearanceAlert;
     myNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
@@ -208,18 +209,12 @@
     if (!forEditing)
     {
         [timeText setHidden:YES];
-        //[lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
+
 
     } else
     {
-        [timeText setHidden:YES];
         notesCount--;
-        /*
-        if ([[note isPrivate] boolValue])
-            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"locked.png"]]];
-        else
-            [lockButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"unlocked.png"]]];
-        */
+
         NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
         [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
         
@@ -230,13 +225,13 @@
         NSString * timeString = [date_format stringFromDate: [note date]];
         
         [timeText setText:timeString];
-        //[timeText setHidden:NO];
+        [timeText setHidden:NO];
         
         [myTextView setText:[note text]];
         
         [myNameField setText:[note name]];
     }
-    //[[self view] setBackgroundColor:[UIColor blackColor]];
+    
     [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"woodenBackground.png"]]];
     
     UIDevice *device = [UIDevice currentDevice];					
@@ -249,16 +244,25 @@
     
     orientation = device.orientation;
     
-    CGFloat height = 0.0;
+    
+    
+    [backView setBackgroundColor:[UIColor whiteColor]];
+    backView.layer.cornerRadius = 5;
+    backView.layer.masksToBounds = YES;
+    
+    [myTextView setBackgroundColor:[UIColor whiteColor]];
+    
+    
     
     if ((orientation == 3) || (orientation == 4))
-    {
-        height = self.view.frame.size.height - myTextView.frame.origin.y - 11;
-        backView.frame = CGRectMake(backView.frame.origin.x,backView.frame.origin.y ,backView.frame.size.width, height);
-        height = 212;
+    {        
+        myTextView.frame = CGRectMake(11, 50, self.view.frame.size.width - 22, 197);
     } else
+    {
+        CGFloat height = 0.0;
+        
         if ((orientation == 1) || (orientation == 2))
-        {
+        {   
             if(forEditing)
             {
                 height = myTextView.contentSize.height;
@@ -270,18 +274,27 @@
                         height = 200;
             } else
                 height = 200;
-            
+           
+            CGRect rect = myTextView.frame;
+            rect.size.height = height;
+            myTextView.frame = rect;
         }
-
-    myTextView.frame = CGRectMake(myTextView.frame.origin.x,myTextView.frame.origin.y ,myTextView.frame.size.width, height);
+    }
     
     self.myTextView.layer.cornerRadius = 5;
     self.myTextView.layer.masksToBounds=YES;
     
+
+    
+    [self updateTimeText];
+    [[self view] addSubview:backView];
+    [[self view] addSubview:myTextView];
+    [[self view] addSubview:myNameField];
+    [[self view] addSubview:alertLabel];
+    [[self view] addSubview:timeText];
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    [myTextView setNeedsDisplay];
     
     UIImage *firstImage;
     UIImage *secondImage;
@@ -309,7 +322,35 @@
     
     [[self view] addSubview:lockButton];
     
+    [myTextView setNeedsDisplay];
+    
     [self setupButtons];
+}
+
+-(void)updateTimeText
+{
+    CGRect rect = [[myTextView valueForKeyPath:@"frame"] CGRectValue];
+    CGRect rect2 = timeText.frame;
+    
+    rect2.origin.y = rect.origin.y + rect.size.height;
+    
+    timeText.frame = rect2;
+}
+
+-(void)updateBackView
+{
+    CGRect rect = [[myTextView valueForKeyPath:@"frame"] CGRectValue];
+    CGRect rect2 = backView.frame;
+    
+    rect2.size.height = rect.size.height;
+    
+    backView.frame = rect2;
+}
+
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    [self updateTimeText];
+    [self updateBackView];
 }
 
 -(void) keyboardWillShow:(NSNotification*) notification
@@ -355,23 +396,22 @@
     
     if ((orientation == 3)||(orientation == 4))
     {
-        myTextView.frame = CGRectMake(myTextView.frame.origin.x, myTextView.frame.origin.y, myTextView.frame.size.width, (self.view.frame.size.height - myTextView.frame.origin.y - 11));
-    }
-    
-    if ((orientation == 1)||(orientation == 2))
-    {
-        CGFloat height = myTextView.contentSize.height;
-        
-        if (height > 400)
-            height = 400;
-        else
-            if (height < 200)
-                height = 200;
-        
-        myTextView.frame = CGRectMake(myTextView.frame.origin.x, myTextView.frame.origin.y, myTextView.frame.size.width, height);
-        
-        backView.frame = CGRectMake(backView.frame.origin.x, backView.frame.origin.y, backView.frame.size.width, 200);
-    }
+        myTextView.frame = CGRectMake(myTextView.frame.origin.x, myTextView.frame.origin.y, myTextView.frame.size.width, (self.view.frame.size.height - myTextView.frame.origin.y - 21));
+    } else
+        if ((orientation == 1)||(orientation == 2))
+        {
+            CGFloat height = myTextView.contentSize.height;
+            
+            if (height > 400)
+                height = 400;
+            else
+                if (height < 200)
+                    height = 200;
+            
+            myTextView.frame = CGRectMake(myTextView.frame.origin.x, myTextView.frame.origin.y, myTextView.frame.size.width, height);
+            
+            backView.frame = CGRectMake(backView.frame.origin.x, backView.frame.origin.y, backView.frame.size.width, 200);
+        }
     
 }
 
@@ -400,12 +440,17 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:nil
                                   delegate:self
-                                  cancelButtonTitle:@"Cancel"
-                                  destructiveButtonTitle:@"Delete "
+                                  cancelButtonTitle:NSLocalizedString(@"CancelButton", nil)
+                                  destructiveButtonTitle:NSLocalizedString(@"DeleteButton", nil)
                                   otherButtonTitles:nil,nil];
     
     [actionSheet showInView:self.view];
 }
+- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation
+{
+    return ((interfaceOrientation == UIInterfaceOrientationPortrait) || (interfaceOrientation == UIInterfaceOrientationLandscapeRight));
+}
+
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
