@@ -87,7 +87,7 @@
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteNameFontSize"] == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setFloat:14.0 forKey:@"noteNameFontSize"];
+        [[NSUserDefaults standardUserDefaults] setFloat:15.0 forKey:@"noteNameFontSize"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteTextFontSize"] == nil)
@@ -97,12 +97,12 @@
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteNameFont"] == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setObject:@"aaa" forKey:@"noteNameFont"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"HelveticaNeue" forKey:@"noteNameFont"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteTextFont"] == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setObject:@"bbb" forKey:@"noteTextFont"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"HelveticaNeue" forKey:@"noteTextFont"];
     }
 }
 

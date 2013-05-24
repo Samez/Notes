@@ -32,13 +32,12 @@
  //Start a new Path
  CGContextBeginPath(context);
 
- CGContextMoveToPoint(context, self.bounds.origin.x+5, self.font.leading + 1.5f);
- CGContextAddLineToPoint(context, self.bounds.size.width-10, self.font.leading + 1.5f);
+ CGContextMoveToPoint(context, self.bounds.origin.x+5, self.font.leading + 1.5);
+ CGContextAddLineToPoint(context, self.bounds.size.width-10, self.font.leading + 1.5);
  
  //Close our Path and Stroke (draw) it
  CGContextClosePath(context);
  CGContextStrokePath(context);
 }
-
 
 @end

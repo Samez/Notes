@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "Note.h"
-#import "enterNameCell.h"
-#import "enterTextCell.h"
 #import "MyTextView.h"
 #import "MyTextField.h"
 

@@ -9,11 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Note.h"
 
-#import "enterNameCell.h"
-#import "enterTextCell.h"
-
-
-
 @interface addNewNoteViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, NSFetchedResultsControllerDelegate>
 {
     UIImageView *tempImageView;

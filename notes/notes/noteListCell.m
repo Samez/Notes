@@ -117,6 +117,7 @@
     
     [timeLabel setText:timeString];
 
+    [noteNameLabel setFont:[UIFont fontWithName:[[NSUserDefaults standardUserDefaults] objectForKey:@"noteNameFont"] size:17]];
 }
 
 @end

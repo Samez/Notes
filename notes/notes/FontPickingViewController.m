@@ -19,9 +19,9 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-        fontsArray = [[NSMutableArray alloc] initWithObjects:@"Helvetica",@"HelveticaNeue",@"Kailasa",@"Noteworthy-Light",@"OriyaSangamMN",@"Thonburi",@"Verdana",@"Papyrus",@"GillSans",@"Didot-Italic", nil];
+    if (self)
+    {
+        fontsArray = [[NSMutableArray alloc] initWithObjects:@"HelveticaNeue",@"Noteworthy-Light",@"Thonburi",@"Verdana",@"GillSans", nil];
     }
     return self;
 }

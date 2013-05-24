@@ -62,6 +62,10 @@
         self.navigationItem.titleView = trashButton;
         [self updateTimeText];
     }
+    
+    [myTextView setFont:[UIFont fontWithName:[[NSUserDefaults standardUserDefaults] objectForKey:@"noteTextFont"] size:[[NSUserDefaults standardUserDefaults] integerForKey:@"noteTextFontSize"]]];
+    
+    [myNameField setFont:[UIFont fontWithName:[[NSUserDefaults standardUserDefaults] objectForKey:@"noteNameFont"] size:[[NSUserDefaults standardUserDefaults] integerForKey:@"noteNameFontSize"]]];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -81,7 +85,7 @@
 {
     [UIView animateWithDuration:duration delay:0 options:nil
                      animations:^{
-                         [self.myTextView setFrame:CGRectMake(11, 50, myTextView.frame.size.width, height)];
+                         [self.myTextView setFrame:CGRectMake(11, 55, myTextView.frame.size.width, height)];
                      } completion:^(BOOL finished) {
                      }];
 }
@@ -256,7 +260,7 @@
     
     if ((orientation == 3) || (orientation == 4))
     {        
-        myTextView.frame = CGRectMake(11, 50, self.view.frame.size.width - 22, 197);
+        myTextView.frame = CGRectMake(11, 55, self.view.frame.size.width - 22, 197);
     } else
     {
         CGFloat height = 0.0;
@@ -289,9 +293,9 @@
     [self updateTimeText];
     [[self view] addSubview:backView];
     [[self view] addSubview:myTextView];
-    [[self view] addSubview:myNameField];
     [[self view] addSubview:alertLabel];
     [[self view] addSubview:timeText];
+    [[self view] addSubview:myNameField];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -418,7 +422,6 @@
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-
     NSUInteger oldLength = [[textField text] length];
     NSUInteger replacementLength = [string length];
     NSUInteger rangeLength = range.length;
