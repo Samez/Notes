@@ -25,6 +25,7 @@
 #import "Switchy.h"
 #import "LocalyticsSession.h"
 #import "notesListViewController.h"
+#import "FontTableViewController.h"
 
 @interface OptionsViewController ()
 
@@ -208,7 +209,7 @@
     switch (section)
     {
         case _VISUAL_SECTION:
-            count = 1;
+            count = 2;
             break;
         case _SECURITY_SECTION:
             count = 2;
@@ -263,7 +264,6 @@
                     CGContextRef context = UIGraphicsGetCurrentContext();
                     CGContextSetFillColorWithColor(context,
                                                    [[UIColor redColor] CGColor]);
-                    //  [[UIColor colorWithRed:222./255 green:227./255 blue: 229./255 alpha:1] CGColor]) ;
                     CGContextFillRect(context, rect);
                     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
                     UIGraphicsEndImageContext();
@@ -280,6 +280,12 @@
                 case _FONT:
                 {
                     //TODO: FONT
+                    
+                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                    
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+                    [[cell textLabel] setText:NSLocalizedString(@"FontLabel", nil)];
+                    return cell;
                     break;
                 }
             }
@@ -385,6 +391,18 @@
 
     switch ([indexPath section])
     {
+        case _VISUAL_SECTION:
+        {
+            switch(indexPath.row)
+            {
+                case _FONT:
+                {
+                    nextViewController = [[FontTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                    break;
+                }
+            }
+            break;
+        }
         case _SECURITY_SECTION:
         {
             switch (indexPath.row)

@@ -77,11 +77,33 @@
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastTime"] == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate dateWithTimeIntervalSince1970:0] forKey:@"lastTime"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate dateWithTimeIntervalSince1970:0]forKey:@"lastTime"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PasswordRequestInterval"] == nil)
+    {
         [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"PasswordRequestInterval"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteNameFontSize"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setFloat:14.0 forKey:@"noteNameFontSize"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteTextFontSize"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setFloat:14.0 forKey:@"noteTextFontSize"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteNameFont"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"aaa" forKey:@"noteNameFont"];
+    }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteTextFont"] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"bbb" forKey:@"noteTextFont"];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

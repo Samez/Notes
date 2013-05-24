@@ -742,7 +742,6 @@
     {
         if (iP == nil)
         {
-            [[searchView searchField] resignFirstResponder];
             canSwipe = NO;
             iP = indexPath;
             
@@ -802,6 +801,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if ([swipedCells count] != 0)
     {
         if (![swipedCells containsObject:indexPath])
@@ -1055,6 +1055,5 @@
     [self setNoteCell:nil];
     [super viewDidUnload];
 }
-
 
 @end

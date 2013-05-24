@@ -8,10 +8,6 @@
 
 #import "SearchField.h"
 
-@interface SearchField () 
-
-@end
-
 @implementation SearchField
 
 @synthesize curColor;

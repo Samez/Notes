@@ -42,3 +42,7 @@
 "RI5min" = "5 мин.";
 "RI10min" = "10 мин.";
 "RI30min" = "30 мин.";
+"FontLabel" = "Шрифты";
+"noteNameFontCellLabel" = "Для названия";
+"noteTextFontCellLabel" = "Для текста";
+"FontSizeCellLabel" = "Размер";

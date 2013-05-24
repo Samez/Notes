@@ -12,6 +12,7 @@
 #import "CustomAlertView.h"
 #import "addNewNoteViewController.h"
 #import "SearchView.h"
+#import "SearchField.h"
 
 @interface notesListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, SearchViewDelegate>
 {

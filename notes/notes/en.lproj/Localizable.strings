@@ -32,3 +32,7 @@
 "PasswordCheckAlertViewTitle" = "Сonfirm the deletion";
 "EnterPasswordToDeleteTitle" = "Enter password\n\n\n";
 "unsafeDetetionCell" = "Unsafe removal";
+"FontLabel" = "Fonts";
+"noteNameFontCellLabel" = "For name";
+"noteTextFontCellLabel" = "For text";
+"FontSizeCellLabel" = "Size";
