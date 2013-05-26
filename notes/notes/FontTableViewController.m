@@ -51,7 +51,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    int rows = 0;
+    switch(section)
+    {
+        case 0:
+        {
+            rows = 1;
+            break;
+        }
+        case 1:
+        {
+            rows = 2;
+            break;
+        }
+    }
+    return rows;
 }
 
 -(void)configureFontSizeCell:(FontSizeCell*)cell withidentificator:(NSString*)identificator
@@ -68,18 +82,7 @@
 
 -(void)fontSizeCell:(FontSizeCell *)cell didChangeFontSizeTo:(int)size
 {
-    int section = 0;
-    
-    NSString *identificator = [NSString stringWithString:[cell identificator]];
-    
-    NSString *newStr;
-    
-    newStr = [identificator substringToIndex:[identificator length]-4];
-    
-    if (![newStr isEqualToString:@"noteNameFont"])
-        section++;
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:1];
     
     [((FontCell*)[self.tableView cellForRowAtIndexPath:indexPath]) myDetailLabel].font = [[[((FontCell*)[self.tableView cellForRowAtIndexPath:indexPath]) myDetailLabel] font] fontWithSize:size];
 }
@@ -112,21 +115,8 @@
     {
         case 0:
         {
-            switch(indexPath.row)
-            {
-                case 0:
-                {
-                    [self configureFontPickCell:cell withidentificator:@"noteNameFont"];
-                    cellToReturn = cell;
-                    break;
-                }
-                case 1:
-                {
-                    [self configureFontSizeCell:fontC withidentificator:@"noteNameFontSize"];
-                    cellToReturn = fontC;
-                    break;
-                }
-            }
+            [self configureFontPickCell:cell withidentificator:@"noteNameFont"];
+            cellToReturn = cell;
             break;
         }
         case 1:

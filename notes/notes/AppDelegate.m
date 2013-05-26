@@ -87,7 +87,7 @@
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteNameFontSize"] == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setFloat:15.0 forKey:@"noteNameFontSize"];
+        [[NSUserDefaults standardUserDefaults] setFloat:18.0 forKey:@"noteNameFontSize"];
     }
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"noteTextFontSize"] == nil)

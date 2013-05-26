@@ -18,8 +18,10 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
+        intervalValueArray = [[NSMutableArray alloc] initWithObjects:@0,@(60*60*24*7),@60,@(60*5),@(60*10),@(60*30), nil];
+        intervalNameArray = [[NSMutableArray alloc] initWithObjects:@"RIEveryTime",@"RTForOneSession",@"RI1min",@"RI5min",@"RI10min",@"RI30min", nil];
     }
     return self;
 }
@@ -64,78 +66,14 @@
 {
     NSInteger index = 0;
     
-    switch([[NSUserDefaults standardUserDefaults] integerForKey:@"PasswordRequestInterval"])
-    {
-        case 0:
-        {
-            index = 0;
-            break;
-        }
-        case 60*60*24*7:
-        {
-            index = 1;
-            break;
-        }
-        case 60:
-        {
-            index = 2;
-            break;
-        }
-        case 60*5:
-        {
-            index = 3;
-            break;
-        }
-        case 60*10:
-        {
-            index = 4;
-            break;
-        }
-        case 60*30:
-        {
-            index = 5;
-            break;
-        }
-    }
+    index = [intervalValueArray indexOfObject:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"PasswordRequestInterval"]]];
     
     return index;
 }
 
 -(void)configureCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
 {
-    switch(indexPath.row)
-    {
-        case 0:
-        {
-            [[cell textLabel] setText:NSLocalizedString(@"RIEveryTime", nil)];
-            break;
-        }
-        case 1:
-        {
-            [[cell textLabel]setText:NSLocalizedString(@"RTForOneSession", nil)];
-            break;
-        }
-        case 2:
-        {
-            [[cell textLabel] setText:NSLocalizedString(@"RI1min", nil)];
-            break;
-        }
-        case 3:
-        {
-            [[cell textLabel] setText:NSLocalizedString(@"RI5min", nil)];
-            break;
-        }
-        case 4:
-        {
-            [[cell textLabel] setText:NSLocalizedString(@"RI10min", nil)];
-            break;
-        }
-        case 5:
-        {
-            [[cell textLabel] setText:NSLocalizedString(@"RI30min", nil)];
-            break;
-        }
-    }
+    [[cell textLabel] setText:NSLocalizedString(intervalNameArray[indexPath.row], nil)];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
     
@@ -177,39 +115,7 @@
     
     NSInteger interval = 0;
     
-    switch(indexPath.row)
-    {
-        case 0:
-        {
-            interval = 0;
-            break;
-        }
-        case 1:
-        {
-            interval = 60*60*24*7;
-            break;
-        }
-        case 2:
-        {
-            interval = 60;
-            break;
-        }
-        case 3:
-        {
-            interval = 60*5;
-            break;
-        }
-        case 4:
-        {
-            interval = 60*10;
-            break;
-        }
-        case 5:
-        {
-            interval = 60*30;
-            break;
-        }
-    }
+    interval = [intervalValueArray[indexPath.row] integerValue];
     
     [[NSUserDefaults standardUserDefaults] setInteger:interval forKey:@"PasswordRequestInterval"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate dateWithTimeIntervalSince1970:1] forKey:@"lastTime"];

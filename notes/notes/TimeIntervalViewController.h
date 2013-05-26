@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface TimeIntervalViewController : UITableViewController
+{
+    NSMutableArray *intervalValueArray;
+    NSMutableArray *intervalNameArray;
+}
 
 @end

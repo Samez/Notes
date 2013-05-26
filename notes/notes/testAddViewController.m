@@ -71,7 +71,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {    
     if (!forEditing)
-        [self.myTextView becomeFirstResponder];
+        [self.myNameField becomeFirstResponder];
     
     [[LocalyticsSession shared] tagScreen:@"New note / edit note"];
 }
@@ -255,8 +255,6 @@
     backView.layer.masksToBounds = YES;
     
     [myTextView setBackgroundColor:[UIColor whiteColor]];
-    
-    
     
     if ((orientation == 3) || (orientation == 4))
     {        
@@ -559,6 +557,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    [myTextView becomeFirstResponder];
     return NO;
 }
 
