@@ -193,8 +193,6 @@
     {
         forEditing = YES;
         isPrivate = [[note isPrivate] boolValue];
-        
-        [[self navigationItem] setTitle:NSLocalizedString(@"EditNote", nil)];
     }
     else
     {
@@ -206,15 +204,12 @@
     [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
 
     [myTextView setDelegate:self];
-    [myTextView setReturnKeyType:UIReturnKeyNext];
 
     [myNameField setDelegate:self];
     
     if (!forEditing)
     {
         [timeText setHidden:YES];
-
-
     } else
     {
         notesCount--;
@@ -286,14 +281,14 @@
     self.myTextView.layer.cornerRadius = 5;
     self.myTextView.layer.masksToBounds=YES;
     
-
-    
     [self updateTimeText];
     [[self view] addSubview:backView];
     [[self view] addSubview:myTextView];
     [[self view] addSubview:alertLabel];
     [[self view] addSubview:timeText];
     [[self view] addSubview:myNameField];
+    
+    [myTextView setNeedsDisplay];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -324,7 +319,7 @@
     
     [[self view] addSubview:lockButton];
     
-    [myTextView setNeedsDisplay];
+
     
     [self setupButtons];
 }

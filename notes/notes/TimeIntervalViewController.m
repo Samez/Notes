@@ -75,10 +75,13 @@
 {
     [[cell textLabel] setText:NSLocalizedString(intervalNameArray[indexPath.row], nil)];
     
-    [cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     if (indexPath.row == [self intervalIndex])
+    {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+        [[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -108,9 +111,15 @@
     {
         cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         if (i != indexPath.row)
+        {
             [cell setAccessoryType:UITableViewCellAccessoryNone];
+            [[cell textLabel] setTextColor:[UIColor blackColor]];
+        }
         else
+        {
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+            [[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
+        }
     }
     
     NSInteger interval = 0;
