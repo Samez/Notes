@@ -12,6 +12,8 @@
 {
     NSMutableArray *intervalValueArray;
     NSMutableArray *intervalNameArray;
+    UIColor *selectedColor;
+    UIColor *unselectedColor;
 }
 
 @end

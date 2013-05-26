@@ -11,6 +11,8 @@
 @interface FontPickingViewController : UITableViewController
 {
     NSMutableArray *fontsArray;
+    UIColor *selectedColor;
+    UIColor *unselectedColor;
 }
 @property NSString *identificator;
 

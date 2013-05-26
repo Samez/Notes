@@ -81,10 +81,10 @@
     {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
         //[[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
-        [[cell textLabel] setTextColor:[UIColor blackColor]];
+        [[cell textLabel] setTextColor:selectedColor];
     } else
     {
-        [[cell textLabel] setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+        [[cell textLabel] setTextColor:unselectedColor];
     }
 }
 
@@ -103,6 +103,19 @@
     return cell;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"selectedItemColor"];
+    UIColor *color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    selectedColor = color;
+    
+    colorData = [[NSUserDefaults standardUserDefaults] objectForKey:@"unselectedItemColor"];
+    color = [NSKeyedUnarchiver unarchiveObjectWithData:colorData];
+    unselectedColor = color;
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -117,27 +130,26 @@
         if (i != indexPath.row)
         {
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            //[[cell textLabel] setTextColor:[UIColor blackColor]];
+            
             //[[cell textLabel] setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
             
             [UIView transitionWithView:self.tableView
                               duration:0.4
                                options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowAnimatedContent
                             animations:^{
-                                [[cell textLabel] setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+                                [[cell textLabel] setTextColor:unselectedColor];
                             }
                             completion:nil];
         }
         else
         {
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-            //[[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
-            
+
             [UIView transitionWithView:self.tableView
                               duration:0.4
                                options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowAnimatedContent
                             animations:^{
-                                [[cell textLabel] setTextColor:[UIColor blackColor]];
+                                [[cell textLabel] setTextColor:selectedColor];
                             }
                             completion:nil];
         }

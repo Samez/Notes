@@ -104,6 +104,18 @@
     {
         [[NSUserDefaults standardUserDefaults] setObject:@"HelveticaNeue" forKey:@"noteTextFont"];
     }
+    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"selectedItemColor"] == nil)
+    {
+        NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:[UIColor blackColor]];
+        [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"selectedItemColor"];
+    }
+
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"unselectedItemColor"] == nil)
+    {
+        NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+        [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"unselectedItemColor"];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
