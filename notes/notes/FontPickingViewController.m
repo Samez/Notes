@@ -104,13 +104,30 @@
         {
             [cell setAccessoryType:UITableViewCellAccessoryNone];
             //[[cell textLabel] setTextColor:[UIColor blackColor]];
-            [[cell textLabel] setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+            //[[cell textLabel] setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+            
+            [UIView transitionWithView:self.tableView
+                              duration:0.4
+                               options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowAnimatedContent
+                            animations:^{
+                            [[cell textLabel] setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
+                            }
+                            completion:nil];
         }
         else
         {
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             //[[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
-            [[cell textLabel] setTextColor:[UIColor blackColor]];
+            
+            [UIView transitionWithView:self.tableView
+                              duration:0.4
+                               options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowAnimatedContent
+                            animations:^{
+                                [[cell textLabel] setTextColor:[UIColor blackColor]];
+                            }
+                            completion:nil];
+            
+
         }
     }
 }
