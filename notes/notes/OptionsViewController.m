@@ -42,8 +42,10 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
+        intervalValueArray = [[NSMutableArray alloc] initWithObjects:@0,@(60*60*24*7),@60,@(60*5),@(60*10),@(60*30), nil];
+        intervalNameArray = [[NSMutableArray alloc] initWithObjects:@"RIEveryTime",@"RTForOneSession",@"RI1min",@"RI5min",@"RI10min",@"RI30min", nil];
     }
     return self;
 }
@@ -179,13 +181,9 @@
     
     [[[self navigationController]navigationBar] setBarStyle:UIBarStyleBlack];
     
-//    [[self tableView] setBackgroundColor:[UIColor clearColor]];
-    
     UIImageView *backgroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"woodenBackground.png"]];
     
     [[self tableView] setBackgroundView:backgroundImageView];
-    
-//    [self.tableView setBackgroundColor:[UIColor blackColor]];
     
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
@@ -305,40 +303,11 @@
                     
                     [intervalCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
                     
-                    switch([[NSUserDefaults standardUserDefaults] integerForKey:@"PasswordRequestInterval"])
-                    {
-                        case 0:
-                        {
-                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RIEveryTime", nil)];
-                            break;
-                        }
-                        case 60*60*24*7:
-                        {
-                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RTForOneSession", nil)];
-                            break;
-                        }
-                        case 60:
-                        {
-                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RI1min", nil)];
-                            break;
-                        }
-                        case 60*5:
-                        {
-                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RI5min", nil)];
-                            break;
-                        }
-                        case 60*10:
-                        {
-                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RI10min", nil)];
-                            break;
-                        }
-                        case 60*30:
-                        {
-                            [[intervalCell detailTextLabel] setText:NSLocalizedString(@"RI30min", nil)];
-                            break;
-                        }
-                    }
+                    int index = [intervalValueArray indexOfObject:[NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"PasswordRequestInterval"]]];
                     
+                    [[intervalCell detailTextLabel] setText:NSLocalizedString(intervalNameArray[index], nil)];
+
+                    [[intervalCell detailTextLabel] setTextColor:[UIColor blackColor]];
                     return intervalCell;
                     break;
                 }

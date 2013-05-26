@@ -80,7 +80,11 @@
     if (indexPath.row == [self intervalIndex])
     {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-        [[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
+        //[[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
+        [[cell textLabel] setTextColor:[UIColor blackColor]];
+    } else
+    {
+        [[cell textLabel] setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
     }
 }
 
@@ -113,12 +117,14 @@
         if (i != indexPath.row)
         {
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            [[cell textLabel] setTextColor:[UIColor blackColor]];
+            //[[cell textLabel] setTextColor:[UIColor blackColor]];
+            [[cell textLabel] setTextColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]];
         }
         else
         {
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-            [[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
+            //[[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
+            [[cell textLabel] setTextColor:[UIColor blackColor]];
         }
     }
     

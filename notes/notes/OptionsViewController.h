@@ -14,6 +14,8 @@
 {
     BOOL unsafeDeletion;
     BOOL swipeColorIsRed;
+    NSMutableArray *intervalValueArray;
+    NSMutableArray *intervalNameArray;
 }
 
 @property (strong, nonatomic) IBOutlet CellWithSwitcher *mySwitchCell;
