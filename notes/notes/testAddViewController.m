@@ -31,7 +31,7 @@
 @synthesize timeText;
 @synthesize lockButton;
 @synthesize alertLabel;
-@synthesize notesCount;
+
 @synthesize trashButton;
 @synthesize cancelButton;
 @synthesize saveButton;
@@ -119,7 +119,6 @@
 
 -(void)hideAlertMessageWithDuration:(CGFloat)duration needReshow:(BOOL)need
 {
-
     if (!alerting)
     {
         alerting = YES;
@@ -165,133 +164,6 @@
     cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelButton",nil) style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
     
     saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveButton",nil) style:UIBarButtonItemStylePlain target:self action:@selector(save)];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    [self becomeFirstResponder];
-    
-    CGRect rect = myTextView.frame;
-    rect.size.height = 200;
-    myTextView.frame = rect;
-    
-    [myTextView addObserver:self forKeyPath:@"frame" options:0 context:nil];
-    [self observeValueForKeyPath:@"frame" ofObject:myTextView change:nil context:nil];
-    
-    myTextView.keyboardAppearance = UIKeyboardAppearanceAlert;
-    myNameField.keyboardAppearance = UIKeyboardAppearanceAlert;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    
-    [self.view addGestureRecognizer:tap];
-    
-    [alertLabel setAlpha:0.0];
-    
-    if (note != nil)
-    {
-        forEditing = YES;
-        isPrivate = [[note isPrivate] boolValue];
-    }
-    else
-    {
-        note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:[self managedObjectContext]];
-        
-        [[self navigationItem] setTitle:NSLocalizedString(@"NewNote", nil)];
-    }
-
-    [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
-
-    [myTextView setDelegate:self];
-
-    [myNameField setDelegate:self];
-    
-    if (!forEditing)
-    {
-        [timeText setHidden:YES];
-    } else
-    {
-        notesCount--;
-
-        NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
-        [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
-        
-        NSString *identifier = [[NSLocale currentLocale] localeIdentifier];
-        
-        [date_format setLocale:[[NSLocale alloc] initWithLocaleIdentifier:identifier]];
-        
-        NSString * timeString = [date_format stringFromDate: [note date]];
-        
-        [timeText setText:timeString];
-        [timeText setHidden:NO];
-        
-        [myTextView setText:[note text]];
-        
-        [myNameField setText:[note name]];
-    }
-    
-    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"woodenBackground.png"]]];
-    
-    UIDevice *device = [UIDevice currentDevice];					
-	[device beginGeneratingDeviceOrientationNotifications];			
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];	
-	[nc addObserver:self											
-		   selector:@selector(orientationChanged:)
-			   name:UIDeviceOrientationDidChangeNotification
-			 object:device];
-    
-    orientation = device.orientation;
-    
-    
-    
-    [backView setBackgroundColor:[UIColor whiteColor]];
-    backView.layer.cornerRadius = 5;
-    backView.layer.masksToBounds = YES;
-    
-    [myTextView setBackgroundColor:[UIColor whiteColor]];
-    
-    if ((orientation == 3) || (orientation == 4))
-    {        
-        myTextView.frame = CGRectMake(11, 55, self.view.frame.size.width - 22, 197);
-    } else
-    {
-        CGFloat height = 0.0;
-        
-        if ((orientation == 1) || (orientation == 2))
-        {   
-            if(forEditing)
-            {
-                height = myTextView.contentSize.height;
-                
-                if (height > 400)
-                    height = 400;
-                else
-                    if (height < 200)
-                        height = 200;
-            } else
-                height = 200;
-           
-            CGRect rect = myTextView.frame;
-            rect.size.height = height;
-            myTextView.frame = rect;
-        }
-    }
-    
-    self.myTextView.layer.cornerRadius = 5;
-    self.myTextView.layer.masksToBounds=YES;
-    
-    [self updateTimeText];
-    [[self view] addSubview:backView];
-    [[self view] addSubview:myTextView];
-    [[self view] addSubview:alertLabel];
-    [[self view] addSubview:timeText];
-    [[self view] addSubview:myNameField];
-    
-    [myTextView setNeedsDisplay];
-    
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     UIImage *firstImage;
     UIImage *secondImage;
@@ -318,10 +190,123 @@
     [lockButton addSubview:container];
     
     [[self view] addSubview:lockButton];
-    
+}
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     
+    [[self view] addGestureRecognizer:tap];
+    [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"woodenBackground.png"]]];
+    
+    if (note != nil)
+    {
+        forEditing = YES;
+        isPrivate = [[note isPrivate] boolValue];
+    }
+    else
+    {
+        note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:[self managedObjectContext]];
+        
+        [[self navigationItem] setTitle:NSLocalizedString(@"NewNote", nil)];
+    }
+
+    [[[self navigationController] navigationBar] setBarStyle:UIBarStyleBlack];
+
+    UIDevice *device = [UIDevice currentDevice];					
+	[device beginGeneratingDeviceOrientationNotifications];			
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];	
+	[nc addObserver:self											
+		   selector:@selector(orientationChanged:)
+			   name:UIDeviceOrientationDidChangeNotification
+			 object:device];
+    
+    orientation = device.orientation;
+
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [self setupFields];
     [self setupButtons];
+}
+
+-(void)setupFields
+{
+    [self presetTextView];
+    [self updateTimeText];
+    
+    [alertLabel setAlpha:0.0];
+    
+    [myNameField setDelegate:self];
+    
+    [backView setBackgroundColor:[UIColor whiteColor]];
+    [backView.layer setCornerRadius:5];
+    [backView.layer setMasksToBounds:YES];
+    
+    if (!forEditing)
+    {
+        [timeText setHidden:YES];
+    } else
+    {
+        NSDateFormatter * date_format = [[NSDateFormatter alloc] init];
+        [date_format setDateFormat: @"HH:mm MMMM d, YYYY"];
+        NSString *identifier = [[NSLocale currentLocale] localeIdentifier];
+        [date_format setLocale:[[NSLocale alloc] initWithLocaleIdentifier:identifier]];
+        NSString * timeString = [date_format stringFromDate: [note date]];
+        
+        [timeText setText:timeString];
+        [timeText setHidden:NO];
+        
+        [myNameField setText:[note name]];
+        [myTextView setText:[note text]];
+    }
+    
+    [[self view] addSubview:backView];
+    [[self view] addSubview:myTextView];
+    [[self view] addSubview:alertLabel];
+    [[self view] addSubview:timeText];
+    [[self view] addSubview:myNameField];
+}
+
+-(void)presetTextView
+{
+    [myTextView setBackgroundColor:[UIColor whiteColor]];
+    [myTextView addObserver:self forKeyPath:@"frame" options:0 context:nil];
+    [self observeValueForKeyPath:@"frame" ofObject:myTextView change:nil context:nil];
+    [myTextView setDelegate:self];
+
+    if ((orientation == 3) || (orientation == 4))
+    {
+        myTextView.frame = CGRectMake(11, 55, self.view.frame.size.width - 22, 197);
+    } else
+    {
+        CGFloat height = 0.0;
+        
+        if ((orientation == 1) || (orientation == 2))
+        {
+            if(forEditing)
+            {
+                height = myTextView.contentSize.height;
+                
+                if (height > 400)
+                    height = 400;
+                else
+                    if (height < 200)
+                        height = 200;
+            } else
+                height = 200;
+            
+            CGRect rect = myTextView.frame;
+            rect.size.height = height;
+            myTextView.frame = rect;
+        }
+    }
+    
+    [myTextView.layer setCornerRadius:5];
+    [myTextView.layer setMasksToBounds:YES];
+    [myTextView setNeedsDisplay];
 }
 
 -(void)updateTimeText

@@ -38,8 +38,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *lockButton;
 @property (weak, nonatomic) IBOutlet UILabel *alertLabel;
 
-@property int notesCount;
-
 - (IBAction)clickLockButton:(id)sender;
 - (void)clickTrashButton:(id)sender;
 

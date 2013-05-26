@@ -89,7 +89,7 @@ typedef void (^UIButtonFlipActionBlock)(id sender);
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [button1 setBackgroundImage:firstImage forState:UIControlStateNormal];
-    //[button1 setBackgroundImage:firstImage forState:UIControlStateHighlighted];
+    [button1 setBackgroundImage:firstImage forState:UIControlStateHighlighted];
     [button1 setBackgroundImage:firstImage forState:UIControlStateSelected];
     [button1 setBackgroundImage:firstImage forState:UIControlStateReserved];
     [button1 setBackgroundImage:firstImage forState:UIControlStateApplication];
