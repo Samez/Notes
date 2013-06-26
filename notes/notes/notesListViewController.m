@@ -92,6 +92,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     if([swipedCells containsObject:indexPath])
     {
         [((noteListCell*)cell).supportView setBackgroundColor:swipeColor];
@@ -103,6 +104,12 @@
         
         CGRect t=((noteListCell*)cell).supportView.frame ;
         t.origin.x=_SHIFT_CELL_LENGTH;
+        ((noteListCell*)cell).supportView.frame=t;
+    } else
+    {
+        [((noteListCell*)cell).supportView setBackgroundColor:[UIColor whiteColor]];
+        CGRect t=((noteListCell*)cell).supportView.frame ;
+        t.origin.x=0;
         ((noteListCell*)cell).supportView.frame=t;
     }
 }
@@ -171,7 +178,7 @@
 
     //self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
     
-    //self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
+    self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
     
     [[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
 }
@@ -183,7 +190,7 @@
 
 -(void)setButtons
 {
-    [[self navigationItem] setLeftBarButtonItem:self.optionsButton animated:YES];
+    //[[self navigationItem] setLeftBarButtonItem:self.optionsButton animated:YES];
     [[self navigationItem] setRightBarButtonItem:self.addButton animated:YES];
     CGFloat delay = 0.0;
     if (returnedFromOptions)
