@@ -786,7 +786,7 @@
                 [self deselectPrivateRowAtIndexPath:iP];
 
                 [self changeTableViewHeightAt:UIEdgeInsetsZero withDuration:0.25];
- 
+                
                 iP = nil;
             }
         }
@@ -804,6 +804,7 @@
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath];
     
     //[cell hidePasswordField];
+    [[cell passwordField] setAlpha:0.0];
     [[cell passwordField] resignFirstResponder];
     [[cell passwordField] setTag:nil];
 }
