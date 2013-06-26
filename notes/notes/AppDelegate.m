@@ -66,7 +66,7 @@
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"swipeColor"] == nil)
     {
-        NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:[UIColor sashaGray]];
+        NSData *colorData = [NSKeyedArchiver archivedDataWithRootObject:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.8]];
         [[NSUserDefaults standardUserDefaults] setObject:colorData forKey:@"swipeColor"];
     }
     

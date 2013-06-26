@@ -18,6 +18,7 @@
 @synthesize noteNameLabel;
 @synthesize passwordField;
 @synthesize swiped;
+@synthesize supportView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -67,8 +68,8 @@
     [passwordField setText:nil];
     [passwordField becomeFirstResponder];
     
-    [UIView animateWithDuration:0.6
-                          delay:0.2
+    [UIView animateWithDuration:0.0
+                          delay:0.0
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
                          [passwordField setAlpha:1.0];

@@ -21,7 +21,7 @@
     self = [super initWithStyle:style];
     if (self)
     {
-        fontsArray = [[NSMutableArray alloc] initWithObjects:@"HelveticaNeue",@"Noteworthy-Light",@"Thonburi",@"Verdana",@"GillSans", nil];
+        fontsArray = [[NSMutableArray alloc] initWithObjects:@"HelveticaNeue",@"Thonburi",@"Verdana",@"GillSans", nil];
     }
     return self;
 }
@@ -81,6 +81,7 @@
         //[[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
     } else
         [[cell textLabel] setTextColor:unselectedColor];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -130,7 +131,7 @@
             //[[cell textLabel] setTextColor:[UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0]];
             
             [UIView transitionWithView:self.tableView
-                              duration:0.4
+                              duration:0.2
                                options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowAnimatedContent
                             animations:^{
                                 [[cell textLabel] setTextColor:selectedColor];

@@ -71,7 +71,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {    
     if (!forEditing)
-        [self.myNameField becomeFirstResponder];
+        [self.myTextView becomeFirstResponder];
     
     [[LocalyticsSession shared] tagScreen:@"New note / edit note"];
 }
@@ -205,9 +205,19 @@
     {
         forEditing = YES;
         isPrivate = [[note isPrivate] boolValue];
+
+        CGRect rect = myNameField.frame;
+        
+        if (isPrivate)
+            rect.origin.y = 20;
+        else
+            rect.origin.y = -35;
+        
+        myNameField.frame = rect;
     }
+    
     else
-    {
+    {   
         note = (Note*)[NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:[self managedObjectContext]];
         
         [[self navigationItem] setTitle:NSLocalizedString(@"NewNote", nil)];
@@ -259,8 +269,15 @@
         [timeText setText:timeString];
         [timeText setHidden:NO];
         
-        [myNameField setText:[note name]];
-        [myTextView setText:[note text]];
+        if (isPrivate)
+        {
+            [myNameField setText:[note name]];
+            [myTextView setText:[note text]];
+        } else
+        {
+            [myTextView setText:[note name]];
+        }
+
     }
     
     [[self view] addSubview:backView];
@@ -414,6 +431,23 @@
 {
     isPrivate = !isPrivate;
     
+    CGRect rect = myNameField.frame;
+    
+    if (isPrivate)
+    {
+        rect.origin.y = 20.0;
+    } else
+    {
+        [myNameField resignFirstResponder];
+        rect.origin.y = -35.0;
+    }
+    
+    [UIView animateWithDuration:0.3 delay:0 options:nil
+                     animations:^{
+                         myNameField.frame = rect;
+                     } completion:^(BOOL finished) {
+                     }];
+    
     [self hideAlertMessageWithDuration:0.2 needReshow:NO];
 
 }
@@ -475,45 +509,38 @@
     [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
--(BOOL)checkFields
+-(void)save
 {
+    [myTextView resignFirstResponder];
+    [myNameField resignFirstResponder];
+    
     if (isPrivate)
     {
         if (([[myNameField text] length] == 0) || ([[myTextView text] length] == 0))
         {
             [alertLabel setText:NSLocalizedString(@"PrivateNoteRequirements", nil)];
             [self showAlertMessageWithDuration:0.3];
-            return NO;
+            return;
+        } else
+        {
+            [note setText:[myTextView text]];
+            [note setName:[myNameField text]];
         }
     } else
     {
-        if (([[myNameField text]length] == 0) && ([[myTextView text] length] == 0))
+        if ([[myTextView text] length] == 0)
         {
             [alertLabel setText:NSLocalizedString(@"PublicNoteRequirements", nil)];
             [self showAlertMessageWithDuration:0.3];
-            return NO;
+            return;
+        } else
+        {
+            [note setText:nil];
+            [note setName:[myTextView text]];
         }
     }
     
-    return YES;
-}
-
--(void)save
-{
-    [myTextView resignFirstResponder];
-    [myNameField resignFirstResponder];
-    
-    if (![self checkFields])
-        return;
-    
     [note setIsPrivate:[NSNumber numberWithBool:isPrivate]];
-    
-    [note setText:[myTextView text]];
-    
-    if([[myNameField text] length] != 0)
-        [note setName:[myNameField text]];
-    else
-        [note setName:nil];
 
     if(!forEditing || [[NSUserDefaults standardUserDefaults] boolForKey:@"needUpdateTime"])
         [note setDate:[NSDate date]];

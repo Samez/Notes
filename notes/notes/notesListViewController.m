@@ -93,18 +93,18 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([swipedCells containsObject:indexPath])
-        {
-            [cell setBackgroundColor:swipeColor];
-                
-            [[(noteListCell*)cell noteNameLabel] setTextColor:[UIColor blackColor]];
-            
-            if ([swipeColor isEqual:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.8]])
-                [[(noteListCell*)cell timeLabel] setTextColor:[UIColor whiteColor]];
-                
-            CGRect t=cell.frame ;
-            t.origin.x+=_SHIFT_CELL_LENGTH;
-            cell.frame=t;
-        }
+    {
+        [((noteListCell*)cell).supportView setBackgroundColor:swipeColor];
+        
+        [[(noteListCell*)cell noteNameLabel] setTextColor:[UIColor blackColor]];
+        
+        if ([swipeColor isEqual:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.8]])
+            [[(noteListCell*)cell timeLabel] setTextColor:[UIColor whiteColor]];
+        
+        CGRect t=((noteListCell*)cell).supportView.frame ;
+        t.origin.x=_SHIFT_CELL_LENGTH;
+        ((noteListCell*)cell).supportView.frame=t;
+    }
 }
 
 -(void)goToOptions
@@ -171,9 +171,9 @@
 
     //self.deselectButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(deselectSwipedCells)];
     
-    self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
+    //self.fillBDButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(fillBD)];
     
-    //[[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
+    [[self navigationItem] setLeftBarButtonItem:self.fillBDButton];
 }
 
 -(void)empty
@@ -264,6 +264,8 @@
                                              selector:@selector(searchingEnd)
                                                  name:@"searchingEnd"
                                                object:nil];
+    
+
     
 }
 
@@ -358,7 +360,6 @@
                               delay:0
                             options: UIViewAnimationCurveEaseOut
                          animations:^{
-                             
                              for (int i = 0; i < [swipedCells count]; ++i)
                              {
                                  [managedObjectContext deleteObject:[fetchedResultsController objectAtIndexPath:swipedCells[i]]];
@@ -573,15 +574,15 @@
 
 -(void)updateCellAtIndexPath:(NSIndexPath*)indexPath at:(CGFloat)xPixels withTargetColor:(UIColor*)color
 {
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    [cell setBackgroundColor:color];
+    noteListCell *cell = (noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    [cell.supportView setBackgroundColor:color];
     
     if ([color isEqual:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.8]])
         [[(noteListCell*)cell timeLabel] setTextColor:[UIColor whiteColor]];
     else if ([color isEqual:[UIColor whiteColor]])
         [[(noteListCell*)cell timeLabel] setTextColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
     
-    [cell setFrame:CGRectMake(cell.frame.origin.x + xPixels, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+    [cell.supportView setFrame:CGRectMake(cell.supportView.frame.origin.x + xPixels, cell.supportView.frame.origin.y, cell.supportView.frame.size.width, cell.supportView.frame.size.height)];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -795,7 +796,8 @@
 {
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath];
     
-    [cell hidePasswordField];
+    //[cell hidePasswordField];
+    [[cell passwordField] resignFirstResponder];
     [[cell passwordField] setTag:nil];
 }
 
@@ -850,7 +852,7 @@
 {
     if (iP != nil)
     {
-        [(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
+        //[(noteListCell*)[[self tableView] cellForRowAtIndexPath:iP] hidePasswordField];
         iP = nil;
     }
     

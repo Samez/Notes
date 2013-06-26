@@ -13,7 +13,7 @@
 "DeleteButton" = "Удалить";
 "SaveButton" = "Сохранить";
 "PrivateNoteRequirements" = "Введите название и текст";
-"PublicNoteRequirements" = "Введите название или текст";
+"PublicNoteRequirements" = "Заметка пуста!";
 "OptionsTitle" = "Опции";
 "ChangePasswordCell" = "Изменить пароль";
 "IncorrectOldPasswordWarning" = "Старый пароль введен неверно!";

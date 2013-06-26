@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *img;
 @property (weak, nonatomic) IBOutlet UILabel *noteNameLabel;
+@property (weak, nonatomic) IBOutlet UIView *supportView;
+
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 
 -(void)setN:(Note*)newNote;

@@ -7,8 +7,8 @@
 //
 
 #define _VISUAL_SECTION 0
-    #define _SWIPED_CELLS_COLOR 0
-    #define _FONT 1
+    //#define _SWIPED_CELLS_COLOR 0
+    #define _FONT 0
 
 #define _SORT_SECTION 1
     #define _UNSAFE_DELETION 0
@@ -58,7 +58,7 @@
 -(void)setupButtons
 {
     UIImage* image = [UIImage imageNamed:@"list2.png"];
-    CGRect frameimg = CGRectMake(0, 0, 24, 24);
+    CGRect frameimg = CGRectMake(12, 0, 23, 23);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton addTarget:self action:@selector(toNotes)
@@ -126,7 +126,7 @@
             swipeColorIsRed = YES;
     }
 }
-
+/*
 -(void)swipeColorWasChanged
 {
     CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_SWIPED_CELLS_COLOR inSection:_VISUAL_SECTION]];
@@ -145,7 +145,7 @@
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-
+*/
 -(void)unsafeDeletionWasChanged
 {
     CellWithSwitcher *cell = (CellWithSwitcher*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_UNSAFE_DELETION inSection:_SORT_SECTION]];
@@ -207,7 +207,7 @@
     switch (section)
     {
         case _VISUAL_SECTION:
-            count = 2;
+            count = 1;
             break;
         case _SECURITY_SECTION:
             count = 2;
@@ -250,6 +250,7 @@
         {
             switch (indexPath.row)
             {
+                    /*
                 case _SWIPED_CELLS_COLOR:
                 {
                     [[MYcell myTextLabel] setText:NSLocalizedString(@"CellsToDeleteColor", nil)];
@@ -275,6 +276,7 @@
                     
                     break;
                 }
+                     */
                 case _FONT:
                 {
                     //TODO: FONT
