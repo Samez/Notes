@@ -202,6 +202,7 @@
 					<int key="NSColorSpace">2</int>
 					<bytes key="NSRGB">MC45OTIxNTY5MjI4IDAuOTk2MDc4NDkxMiAwLjk5NjA3ODQ5MTIAA</bytes>
 				</object>
+				<bool key="IBUIClipsSubviews">YES</bool>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISelectionStyle">0</int>
 				<reference key="IBUIContentView" ref="84858619"/>

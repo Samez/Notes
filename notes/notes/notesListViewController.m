@@ -746,10 +746,22 @@
 
 -(void)didSelectPrivateNoteAtIndexPath:(NSIndexPath*)indexPath
 {
+    noteListCell* cell=(noteListCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    
     if (canTryToEnter)
     {
         if (iP == nil)
         {
+            
+            CGRect passFieldFrame=[cell.passwordField frame];
+            passFieldFrame.origin.y=57-35;
+            cell.passwordField.frame=passFieldFrame;
+            printf("open %d ----> ",cell.passwordField.autoresizingMask);
+            cell.passwordField.autoresizingMask&=(63-UIViewAutoresizingFlexibleBottomMargin);
+            cell.passwordField.autoresizingMask|=UIViewAutoresizingFlexibleTopMargin;
+             printf("%d\n",cell.passwordField.autoresizingMask);
+            
+            
             canSwipe = NO;
             iP = indexPath;
             
@@ -769,8 +781,32 @@
         }
         else
         {
+            
             if (![iP isEqual:indexPath])
             {
+                noteListCell* oldCell=(noteListCell*)[self.tableView cellForRowAtIndexPath:iP];
+                
+                if (iP.row>indexPath.row)
+                {
+                    CGRect passFieldFrame=[cell.passwordField frame];
+                    passFieldFrame.origin.y=57;
+                    cell.passwordField.frame=passFieldFrame;
+                    cell.passwordField.autoresizingMask&=(63-UIViewAutoresizingFlexibleTopMargin);
+                    cell.passwordField.autoresizingMask|=UIViewAutoresizingFlexibleBottomMargin;
+                    
+                    oldCell.passwordField.autoresizingMask&=(63-UIViewAutoresizingFlexibleBottomMargin);
+                    oldCell.passwordField.autoresizingMask|=UIViewAutoresizingFlexibleTopMargin;
+                }else{
+                    CGRect passFieldFrame=[cell.passwordField frame];
+                    passFieldFrame.origin.y=57-35;
+                    cell.passwordField.frame=passFieldFrame;
+                    cell.passwordField.autoresizingMask&=(63-UIViewAutoresizingFlexibleBottomMargin);
+                    cell.passwordField.autoresizingMask|=UIViewAutoresizingFlexibleTopMargin;
+                    
+                    oldCell.passwordField.autoresizingMask&=(63-UIViewAutoresizingFlexibleTopMargin);
+                    oldCell.passwordField.autoresizingMask|=UIViewAutoresizingFlexibleBottomMargin;
+                }
+                
                 canSwipe = NO;
                 [self deselectPrivateRowAtIndexPath:iP];
                 
@@ -782,6 +818,15 @@
                 
             } else
             {
+                CGRect passFieldFrame=[cell.passwordField frame];
+                //cellFrame.origin.y=57-35;
+                cell.passwordField.frame=passFieldFrame;
+                printf("close %d ----> ",cell.passwordField.autoresizingMask);
+                cell.passwordField.autoresizingMask&=(63-UIViewAutoresizingFlexibleBottomMargin);
+                cell.passwordField.autoresizingMask|=UIViewAutoresizingFlexibleTopMargin;
+                printf("%d \n",cell.passwordField.autoresizingMask);
+                
+                
                 canSwipe = YES;
                 [self deselectPrivateRowAtIndexPath:iP];
 
@@ -804,7 +849,7 @@
     noteListCell *cell = (noteListCell*)[[self tableView] cellForRowAtIndexPath:indexPath];
     
     //[cell hidePasswordField];
-    [[cell passwordField] setAlpha:0.0];
+    //[[cell passwordField] setAlpha:0.0];
     [[cell passwordField] resignFirstResponder];
     [[cell passwordField] setTag:nil];
 }
